@@ -1,0 +1,676 @@
+fileFormatVersion: 2
+guid: 8ad0c545a84bb7247aa467273bd9dddc
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -6991610550820122159
+    second: Factory_Terrain_ExtraTiles_0
+  - first:
+      213: -227559675470485861
+    second: Factory_Terrain_ExtraTiles_1
+  - first:
+      213: 2945098300598683833
+    second: Factory_Terrain_ExtraTiles_2
+  - first:
+      213: -2863347578214694885
+    second: Factory_Terrain_ExtraTiles_3
+  - first:
+      213: 4561493075243998168
+    second: Factory_Terrain_ExtraTiles_4
+  - first:
+      213: -8894038574246957244
+    second: Factory_Terrain_ExtraTiles_5
+  - first:
+      213: 5258393307176636953
+    second: Factory_Terrain_ExtraTiles_6
+  - first:
+      213: 4561443940253608887
+    second: Factory_Terrain_ExtraTiles_7
+  - first:
+      213: 3444893203014854348
+    second: Factory_Terrain_ExtraTiles_8
+  - first:
+      213: 2631874851228425229
+    second: Factory_Terrain_ExtraTiles_9
+  - first:
+      213: 7183862749958208441
+    second: Factory_Terrain_ExtraTiles_10
+  - first:
+      213: 8615196785900159794
+    second: Factory_Terrain_ExtraTiles_11
+  - first:
+      213: -7654144917906835422
+    second: Factory_Terrain_ExtraTiles_12
+  - first:
+      213: -6650023837572735095
+    second: Factory_Terrain_ExtraTiles_13
+  - first:
+      213: 1666637418419616201
+    second: Factory_Terrain_ExtraTiles_14
+  - first:
+      213: -1992401653108971367
+    second: Factory_Terrain_ExtraTiles_15
+  - first:
+      213: -5046140502270475792
+    second: Factory_Terrain_ExtraTiles_16
+  - first:
+      213: -4445493006199840827
+    second: Factory_Terrain_ExtraTiles_17
+  - first:
+      213: -1988906700229448125
+    second: Factory_Terrain_ExtraTiles_18
+  - first:
+      213: -5020511774675906970
+    second: Factory_Terrain_ExtraTiles_19
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: iOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Factory_Terrain_ExtraTiles_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 145
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1d15e764f3fc8fe90800000000000000
+      internalID: -6991610550820122159
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Factory_Terrain_ExtraTiles_1
+      rect:
+        serializedVersion: 2
+        x: 162
+        y: 34
+        width: 60
+        height: 60
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b96e06a4eab87dcf0800000000000000
+      internalID: -227559675470485861
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Factory_Terrain_ExtraTiles_2
+      rect:
+        serializedVersion: 2
+        x: 223
+        y: 34
+        width: 18
+        height: 60
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9b88ac3fc471fd820800000000000000
+      internalID: 2945098300598683833
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Factory_Terrain_ExtraTiles_3
+      rect:
+        serializedVersion: 2
+        x: 242
+        y: 50
+        width: 44
+        height: 44
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b10c90c5c885348d0800000000000000
+      internalID: -2863347578214694885
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Factory_Terrain_ExtraTiles_4
+      rect:
+        serializedVersion: 2
+        x: 287
+        y: 82
+        width: 34
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8db925bb8cdad4f30800000000000000
+      internalID: 4561493075243998168
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Factory_Terrain_ExtraTiles_5
+      rect:
+        serializedVersion: 2
+        x: 322
+        y: 47
+        width: 12
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 44f63631a07029480800000000000000
+      internalID: -8894038574246957244
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Factory_Terrain_ExtraTiles_6
+      rect:
+        serializedVersion: 2
+        x: 335
+        y: 63
+        width: 81
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9121e8b4ad099f840800000000000000
+      internalID: 5258393307176636953
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Factory_Terrain_ExtraTiles_7
+      rect:
+        serializedVersion: 2
+        x: 271
+        y: 15
+        width: 50
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7bbaca998118d4f30800000000000000
+      internalID: 4561443940253608887
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Factory_Terrain_ExtraTiles_8
+      rect:
+        serializedVersion: 2
+        x: 338
+        y: 50
+        width: 15
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cc6abd6cd18becf20800000000000000
+      internalID: 3444893203014854348
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Factory_Terrain_ExtraTiles_9
+      rect:
+        serializedVersion: 2
+        x: 354
+        y: 47
+        width: 12
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d0c11c0ab3c468420800000000000000
+      internalID: 2631874851228425229
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Factory_Terrain_ExtraTiles_10
+      rect:
+        serializedVersion: 2
+        x: 370
+        y: 34
+        width: 28
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9bb7b6efb1532b360800000000000000
+      internalID: 7183862749958208441
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Factory_Terrain_ExtraTiles_11
+      rect:
+        serializedVersion: 2
+        x: 242
+        y: 15
+        width: 28
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2338aadd4d35f8770800000000000000
+      internalID: 8615196785900159794
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Factory_Terrain_ExtraTiles_12
+      rect:
+        serializedVersion: 2
+        x: 338
+        y: 34
+        width: 12
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2283dc420c307c590800000000000000
+      internalID: -7654144917906835422
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Factory_Terrain_ExtraTiles_13
+      rect:
+        serializedVersion: 2
+        x: 351
+        y: 34
+        width: 15
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 98fd8959d8e56b3a0800000000000000
+      internalID: -6650023837572735095
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Factory_Terrain_ExtraTiles_14
+      rect:
+        serializedVersion: 2
+        x: 162
+        y: 15
+        width: 60
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9c9764ed6e5112710800000000000000
+      internalID: 1666637418419616201
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Factory_Terrain_ExtraTiles_15
+      rect:
+        serializedVersion: 2
+        x: 223
+        y: 15
+        width: 18
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 998e980b0419954e0800000000000000
+      internalID: -1992401653108971367
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Factory_Terrain_ExtraTiles_16
+      rect:
+        serializedVersion: 2
+        x: 335
+        y: 19
+        width: 18
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0f10573e2f188f9b0800000000000000
+      internalID: -5046140502270475792
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Factory_Terrain_ExtraTiles_17
+      rect:
+        serializedVersion: 2
+        x: 355
+        y: 15
+        width: 10
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5cf99f10aaf6e42c0800000000000000
+      internalID: -4445493006199840827
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Factory_Terrain_ExtraTiles_18
+      rect:
+        serializedVersion: 2
+        x: 367
+        y: 18
+        width: 18
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 34eed61d4ebf564e0800000000000000
+      internalID: -1988906700229448125
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Factory_Terrain_ExtraTiles_19
+      rect:
+        serializedVersion: 2
+        x: 386
+        y: 15
+        width: 12
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 66ec6c7042f835ab0800000000000000
+      internalID: -5020511774675906970
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Factory_Terrain_ExtraTiles_0: -6991610550820122159
+      Factory_Terrain_ExtraTiles_1: -227559675470485861
+      Factory_Terrain_ExtraTiles_10: 7183862749958208441
+      Factory_Terrain_ExtraTiles_11: 8615196785900159794
+      Factory_Terrain_ExtraTiles_12: -7654144917906835422
+      Factory_Terrain_ExtraTiles_13: -6650023837572735095
+      Factory_Terrain_ExtraTiles_14: 1666637418419616201
+      Factory_Terrain_ExtraTiles_15: -1992401653108971367
+      Factory_Terrain_ExtraTiles_16: -5046140502270475792
+      Factory_Terrain_ExtraTiles_17: -4445493006199840827
+      Factory_Terrain_ExtraTiles_18: -1988906700229448125
+      Factory_Terrain_ExtraTiles_19: -5020511774675906970
+      Factory_Terrain_ExtraTiles_2: 2945098300598683833
+      Factory_Terrain_ExtraTiles_3: -2863347578214694885
+      Factory_Terrain_ExtraTiles_4: 4561493075243998168
+      Factory_Terrain_ExtraTiles_5: -8894038574246957244
+      Factory_Terrain_ExtraTiles_6: 5258393307176636953
+      Factory_Terrain_ExtraTiles_7: 4561443940253608887
+      Factory_Terrain_ExtraTiles_8: 3444893203014854348
+      Factory_Terrain_ExtraTiles_9: 2631874851228425229
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
