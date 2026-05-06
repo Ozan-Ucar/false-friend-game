@@ -44,11 +44,19 @@ public class PlayerMovement : MonoBehaviour
     public float fallMultiplier = 7f;
     public float lowJumpMultiplier = 5f;
     
+    [Header("Poison Effect")]
+    public float poisonSpeedMultiplier = 0.5f;
+    private bool isInPoison = false;
+    
     Vector2 moveInput;
     bool isGrounded;
     public Transform groundCheck;
     public Vector2 groundCheckSize = new Vector2(0.5f, 0.1f);
     public LayerMask whatIsGround;
+
+    [Header("Animation")]
+    public Animator animator;
+    public SpriteRenderer spriteRenderer;
 
     bool SpaceIsActuallyHeld()
     {
@@ -176,7 +184,14 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        isGrounded = Physics2D.OverlapBox(groundCheck.position, groundCheckSize, 0f, whatIsGround);
+        // 1. BODEN-CHECK (Viel robuster)
+        bool groundOverlap = Physics2D.OverlapBox(groundCheck.position, groundCheckSize, 0f, whatIsGround);
+        
+        // Wir prüfen zusätzlich, ob wir IRGENDWAS berühren (auch Pilze oder Trigger)
+        bool touchingAnything = rb.IsTouchingLayers(Physics2D.AllLayers);
+        
+        isGrounded = groundOverlap || (touchingAnything && Mathf.Abs(rb.linearVelocity.y) < 0.1f);
+
         isTouchingLadder = rb.IsTouchingLayers(whatIsLadder);
 
         // === SANFTES SCHWINGEN ÜBER ZEIT ===
@@ -250,7 +265,10 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            float targetSpeed = moveInput.x * speed;
+            float currentSpeed = speed;
+            if (isInPoison) currentSpeed *= poisonSpeedMultiplier;
+
+            float targetSpeed = moveInput.x * currentSpeed;
             float speedDif = targetSpeed - rb.linearVelocity.x;
             float accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? acceleration : deceleration;
             float movement = speedDif * accelRate;
@@ -270,6 +288,42 @@ public class PlayerMovement : MonoBehaviour
                 rb.gravityScale = 1f;
             }
         }
+
+        UpdateAnimations();
+    }
+
+    void UpdateAnimations()
+    {
+        if (animator == null) return;
+
+        // 1. FLIPPEN (Blickrichtung)
+        if (moveInput.x > 0.01f && spriteRenderer != null)
+        {
+            spriteRenderer.flipX = false;
+        }
+        else if (moveInput.x < -0.01f && spriteRenderer != null)
+        {
+            spriteRenderer.flipX = true;
+        }
+
+        // 2. PARAMETER ÜBERGEBEN
+        // Sind wir in Bewegung?
+        bool isMoving = Mathf.Abs(moveInput.x) > 0.01f;
+        animator.SetBool("isWalking", isMoving);
+        
+        // Sind wir am Boden?
+        animator.SetBool("isGrounded", isGrounded);
+        
+        // Vertikale Geschwindigkeit (Positiv = Springen, Negativ = Fallen)
+        animator.SetFloat("yVelocity", rb.linearVelocity.y);
+        
+        // Klettern wir gerade? (Leiter oder Liane)
+        animator.SetBool("isClimbing", actuallyClimbing || isOnLiane);
+    }
+
+    public void SetInPoison(bool value)
+    {
+        isInPoison = value;
     }
 
     void OnDrawGizmosSelected()
