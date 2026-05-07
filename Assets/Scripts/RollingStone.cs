@@ -49,6 +49,10 @@ public class RollingStone : MonoBehaviour
             {
                 isRolling = true;
                 Debug.Log("Stein startet Rollen.");
+
+                // Highlight entfernen
+                ClickableHighlight highlight = GetComponent<ClickableHighlight>();
+                if (highlight != null) highlight.isTriggered = true;
             }
         }
     }

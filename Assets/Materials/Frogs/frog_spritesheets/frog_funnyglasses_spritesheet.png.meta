@@ -1,0 +1,676 @@
+fileFormatVersion: 2
+guid: 5da332f71aa6d1c41ae0ddab1a21451b
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -5778375142553838328
+    second: frog_funnyglasses_spritesheet_0
+  - first:
+      213: 8572311324031575521
+    second: frog_funnyglasses_spritesheet_1
+  - first:
+      213: -4830042953985545805
+    second: frog_funnyglasses_spritesheet_2
+  - first:
+      213: 4176529659370427944
+    second: frog_funnyglasses_spritesheet_3
+  - first:
+      213: 6468883131443526288
+    second: frog_funnyglasses_spritesheet_4
+  - first:
+      213: 7211942036518996900
+    second: frog_funnyglasses_spritesheet_5
+  - first:
+      213: 3923217618385377960
+    second: frog_funnyglasses_spritesheet_6
+  - first:
+      213: -2714723494474881772
+    second: frog_funnyglasses_spritesheet_7
+  - first:
+      213: 6801760845527488826
+    second: frog_funnyglasses_spritesheet_8
+  - first:
+      213: -6676404756287238718
+    second: frog_funnyglasses_spritesheet_9
+  - first:
+      213: 5174847841655705917
+    second: frog_funnyglasses_spritesheet_10
+  - first:
+      213: 9016184105414709187
+    second: frog_funnyglasses_spritesheet_11
+  - first:
+      213: 8247360519112583155
+    second: frog_funnyglasses_spritesheet_12
+  - first:
+      213: -9184161110871248851
+    second: frog_funnyglasses_spritesheet_13
+  - first:
+      213: -2597886375192226246
+    second: frog_funnyglasses_spritesheet_14
+  - first:
+      213: 673846906608914424
+    second: frog_funnyglasses_spritesheet_15
+  - first:
+      213: -5425444949648109013
+    second: frog_funnyglasses_spritesheet_16
+  - first:
+      213: -7089564243655852896
+    second: frog_funnyglasses_spritesheet_17
+  - first:
+      213: 7975275866421650388
+    second: frog_funnyglasses_spritesheet_18
+  - first:
+      213: -2944524375815621832
+    second: frog_funnyglasses_spritesheet_19
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: iOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: frog_funnyglasses_spritesheet_0
+      rect:
+        serializedVersion: 2
+        x: 7
+        y: 95
+        width: 20
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 80d91294c661fcfa0800000000000000
+      internalID: -5778375142553838328
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frog_funnyglasses_spritesheet_1
+      rect:
+        serializedVersion: 2
+        x: 39
+        y: 95
+        width: 20
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1e5e5fc2bb7f6f670800000000000000
+      internalID: 8572311324031575521
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frog_funnyglasses_spritesheet_2
+      rect:
+        serializedVersion: 2
+        x: 71
+        y: 95
+        width: 20
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3b920d5268d38fcb0800000000000000
+      internalID: -4830042953985545805
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frog_funnyglasses_spritesheet_3
+      rect:
+        serializedVersion: 2
+        x: 104
+        y: 95
+        width: 19
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 82658a4d89306f930800000000000000
+      internalID: 4176529659370427944
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frog_funnyglasses_spritesheet_4
+      rect:
+        serializedVersion: 2
+        x: 135
+        y: 95
+        width: 20
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 09a35373fe616c950800000000000000
+      internalID: 6468883131443526288
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frog_funnyglasses_spritesheet_5
+      rect:
+        serializedVersion: 2
+        x: 167
+        y: 95
+        width: 20
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4ab0c6b5217f51460800000000000000
+      internalID: 7211942036518996900
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frog_funnyglasses_spritesheet_6
+      rect:
+        serializedVersion: 2
+        x: 7
+        y: 63
+        width: 20
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8aa1a6843a1127630800000000000000
+      internalID: 3923217618385377960
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frog_funnyglasses_spritesheet_7
+      rect:
+        serializedVersion: 2
+        x: 39
+        y: 63
+        width: 20
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 415ea607d5d535ad0800000000000000
+      internalID: -2714723494474881772
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frog_funnyglasses_spritesheet_8
+      rect:
+        serializedVersion: 2
+        x: 71
+        y: 63
+        width: 20
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a3993d4a375b46e50800000000000000
+      internalID: 6801760845527488826
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frog_funnyglasses_spritesheet_9
+      rect:
+        serializedVersion: 2
+        x: 103
+        y: 67
+        width: 20
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2cd45cc4f35a853a0800000000000000
+      internalID: -6676404756287238718
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frog_funnyglasses_spritesheet_10
+      rect:
+        serializedVersion: 2
+        x: 135
+        y: 63
+        width: 20
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d31d598c1b0c0d740800000000000000
+      internalID: 5174847841655705917
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frog_funnyglasses_spritesheet_11
+      rect:
+        serializedVersion: 2
+        x: 8
+        y: 31
+        width: 19
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3cf44c09cabef1d70800000000000000
+      internalID: 9016184105414709187
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frog_funnyglasses_spritesheet_12
+      rect:
+        serializedVersion: 2
+        x: 39
+        y: 31
+        width: 20
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3f7694c12b2847270800000000000000
+      internalID: 8247360519112583155
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frog_funnyglasses_spritesheet_13
+      rect:
+        serializedVersion: 2
+        x: 70
+        y: 34
+        width: 20
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d20ff82212e4b8080800000000000000
+      internalID: -9184161110871248851
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frog_funnyglasses_spritesheet_14
+      rect:
+        serializedVersion: 2
+        x: 103
+        y: 31
+        width: 20
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a3617df1b1472fbd0800000000000000
+      internalID: -2597886375192226246
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frog_funnyglasses_spritesheet_15
+      rect:
+        serializedVersion: 2
+        x: 135
+        y: 31
+        width: 20
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8ff8b6df03cf95900800000000000000
+      internalID: 673846906608914424
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frog_funnyglasses_spritesheet_16
+      rect:
+        serializedVersion: 2
+        x: 38
+        y: 0
+        width: 21
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b2299c34092f4b4b0800000000000000
+      internalID: -5425444949648109013
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frog_funnyglasses_spritesheet_17
+      rect:
+        serializedVersion: 2
+        x: 70
+        y: 3
+        width: 21
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0acf49ce1eecc9d90800000000000000
+      internalID: -7089564243655852896
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frog_funnyglasses_spritesheet_18
+      rect:
+        serializedVersion: 2
+        x: 103
+        y: 0
+        width: 20
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4d3eecb452fddae60800000000000000
+      internalID: 7975275866421650388
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frog_funnyglasses_spritesheet_19
+      rect:
+        serializedVersion: 2
+        x: 135
+        y: 1
+        width: 20
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 833f7035ea2f227d0800000000000000
+      internalID: -2944524375815621832
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      frog_funnyglasses_spritesheet_0: -5778375142553838328
+      frog_funnyglasses_spritesheet_1: 8572311324031575521
+      frog_funnyglasses_spritesheet_10: 5174847841655705917
+      frog_funnyglasses_spritesheet_11: 9016184105414709187
+      frog_funnyglasses_spritesheet_12: 8247360519112583155
+      frog_funnyglasses_spritesheet_13: -9184161110871248851
+      frog_funnyglasses_spritesheet_14: -2597886375192226246
+      frog_funnyglasses_spritesheet_15: 673846906608914424
+      frog_funnyglasses_spritesheet_16: -5425444949648109013
+      frog_funnyglasses_spritesheet_17: -7089564243655852896
+      frog_funnyglasses_spritesheet_18: 7975275866421650388
+      frog_funnyglasses_spritesheet_19: -2944524375815621832
+      frog_funnyglasses_spritesheet_2: -4830042953985545805
+      frog_funnyglasses_spritesheet_3: 4176529659370427944
+      frog_funnyglasses_spritesheet_4: 6468883131443526288
+      frog_funnyglasses_spritesheet_5: 7211942036518996900
+      frog_funnyglasses_spritesheet_6: 3923217618385377960
+      frog_funnyglasses_spritesheet_7: -2714723494474881772
+      frog_funnyglasses_spritesheet_8: 6801760845527488826
+      frog_funnyglasses_spritesheet_9: -6676404756287238718
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

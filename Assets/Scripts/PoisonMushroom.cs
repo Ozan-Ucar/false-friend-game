@@ -15,6 +15,10 @@ public class PoisonMushroom : MonoBehaviour
     {
         if (!hasExploded)
         {
+            // Highlight entfernen
+            ClickableHighlight highlight = GetComponent<ClickableHighlight>();
+            if (highlight != null) highlight.isTriggered = true;
+
             StartCoroutine(Sequence_MushroomExplosion());
         }
     }

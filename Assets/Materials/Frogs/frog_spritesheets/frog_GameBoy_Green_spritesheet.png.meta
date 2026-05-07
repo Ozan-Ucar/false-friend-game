@@ -1,0 +1,676 @@
+fileFormatVersion: 2
+guid: b4c422226a9cf3141876f16cb8631ec2
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 1738049275925560537
+    second: frog_GameBoy_Green_spritesheet_0
+  - first:
+      213: -4288602174869940014
+    second: frog_GameBoy_Green_spritesheet_1
+  - first:
+      213: 342629619812225996
+    second: frog_GameBoy_Green_spritesheet_2
+  - first:
+      213: -5405874657538313656
+    second: frog_GameBoy_Green_spritesheet_3
+  - first:
+      213: -9148432501684910245
+    second: frog_GameBoy_Green_spritesheet_4
+  - first:
+      213: 6641795359618083633
+    second: frog_GameBoy_Green_spritesheet_5
+  - first:
+      213: 1902879172224908472
+    second: frog_GameBoy_Green_spritesheet_6
+  - first:
+      213: 1058174401115188603
+    second: frog_GameBoy_Green_spritesheet_7
+  - first:
+      213: -2846790704696926217
+    second: frog_GameBoy_Green_spritesheet_8
+  - first:
+      213: 3569654753979346544
+    second: frog_GameBoy_Green_spritesheet_9
+  - first:
+      213: 4422054646355410730
+    second: frog_GameBoy_Green_spritesheet_10
+  - first:
+      213: 5361642224405326408
+    second: frog_GameBoy_Green_spritesheet_11
+  - first:
+      213: 148548606609994640
+    second: frog_GameBoy_Green_spritesheet_12
+  - first:
+      213: 3268587038803547742
+    second: frog_GameBoy_Green_spritesheet_13
+  - first:
+      213: -3190391136637790737
+    second: frog_GameBoy_Green_spritesheet_14
+  - first:
+      213: 6670514141501046328
+    second: frog_GameBoy_Green_spritesheet_15
+  - first:
+      213: -6317240054010979676
+    second: frog_GameBoy_Green_spritesheet_16
+  - first:
+      213: -7377273459290574941
+    second: frog_GameBoy_Green_spritesheet_17
+  - first:
+      213: -8504838059356155246
+    second: frog_GameBoy_Green_spritesheet_18
+  - first:
+      213: 1070947457917622882
+    second: frog_GameBoy_Green_spritesheet_19
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: iOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: frog_GameBoy_Green_spritesheet_0
+      rect:
+        serializedVersion: 2
+        x: 8
+        y: 95
+        width: 19
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9dcfaad9b9ace1810800000000000000
+      internalID: 1738049275925560537
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frog_GameBoy_Green_spritesheet_1
+      rect:
+        serializedVersion: 2
+        x: 40
+        y: 95
+        width: 19
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2d8d8ef3b03db74c0800000000000000
+      internalID: -4288602174869940014
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frog_GameBoy_Green_spritesheet_2
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 95
+        width: 19
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cc35f6ae2d341c400800000000000000
+      internalID: 342629619812225996
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frog_GameBoy_Green_spritesheet_3
+      rect:
+        serializedVersion: 2
+        x: 104
+        y: 95
+        width: 19
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8427429f3a97af4b0800000000000000
+      internalID: -5405874657538313656
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frog_GameBoy_Green_spritesheet_4
+      rect:
+        serializedVersion: 2
+        x: 136
+        y: 95
+        width: 19
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b57ce653c1d3a0180800000000000000
+      internalID: -9148432501684910245
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frog_GameBoy_Green_spritesheet_5
+      rect:
+        serializedVersion: 2
+        x: 168
+        y: 95
+        width: 19
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 13bafd890b56c2c50800000000000000
+      internalID: 6641795359618083633
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frog_GameBoy_Green_spritesheet_6
+      rect:
+        serializedVersion: 2
+        x: 8
+        y: 63
+        width: 19
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8bc74f67682686a10800000000000000
+      internalID: 1902879172224908472
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frog_GameBoy_Green_spritesheet_7
+      rect:
+        serializedVersion: 2
+        x: 39
+        y: 63
+        width: 20
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b7de1e8e2046fae00800000000000000
+      internalID: 1058174401115188603
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frog_GameBoy_Green_spritesheet_8
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 63
+        width: 19
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7ffd7a0efea2e78d0800000000000000
+      internalID: -2846790704696926217
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frog_GameBoy_Green_spritesheet_9
+      rect:
+        serializedVersion: 2
+        x: 103
+        y: 67
+        width: 20
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 07e29bdf516f98130800000000000000
+      internalID: 3569654753979346544
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frog_GameBoy_Green_spritesheet_10
+      rect:
+        serializedVersion: 2
+        x: 136
+        y: 63
+        width: 19
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a2f3165954b4e5d30800000000000000
+      internalID: 4422054646355410730
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frog_GameBoy_Green_spritesheet_11
+      rect:
+        serializedVersion: 2
+        x: 8
+        y: 31
+        width: 19
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 84a2a662231686a40800000000000000
+      internalID: 5361642224405326408
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frog_GameBoy_Green_spritesheet_12
+      rect:
+        serializedVersion: 2
+        x: 39
+        y: 31
+        width: 20
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0933ed0bb20cf0200800000000000000
+      internalID: 148548606609994640
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frog_GameBoy_Green_spritesheet_13
+      rect:
+        serializedVersion: 2
+        x: 70
+        y: 34
+        width: 20
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e56d455189a5c5d20800000000000000
+      internalID: 3268587038803547742
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frog_GameBoy_Green_spritesheet_14
+      rect:
+        serializedVersion: 2
+        x: 104
+        y: 31
+        width: 19
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fe556262a2479b3d0800000000000000
+      internalID: -3190391136637790737
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frog_GameBoy_Green_spritesheet_15
+      rect:
+        serializedVersion: 2
+        x: 136
+        y: 31
+        width: 19
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 83eb361154d629c50800000000000000
+      internalID: 6670514141501046328
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frog_GameBoy_Green_spritesheet_16
+      rect:
+        serializedVersion: 2
+        x: 38
+        y: 0
+        width: 21
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4aa5ecb14a7a458a0800000000000000
+      internalID: -6317240054010979676
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frog_GameBoy_Green_spritesheet_17
+      rect:
+        serializedVersion: 2
+        x: 70
+        y: 3
+        width: 21
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3af611010e8ae9990800000000000000
+      internalID: -7377273459290574941
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frog_GameBoy_Green_spritesheet_18
+      rect:
+        serializedVersion: 2
+        x: 104
+        y: 0
+        width: 19
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2929ad778deb8f980800000000000000
+      internalID: -8504838059356155246
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frog_GameBoy_Green_spritesheet_19
+      rect:
+        serializedVersion: 2
+        x: 135
+        y: 1
+        width: 20
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 26a9942f905ccde00800000000000000
+      internalID: 1070947457917622882
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      frog_GameBoy_Green_spritesheet_0: 1738049275925560537
+      frog_GameBoy_Green_spritesheet_1: -4288602174869940014
+      frog_GameBoy_Green_spritesheet_10: 4422054646355410730
+      frog_GameBoy_Green_spritesheet_11: 5361642224405326408
+      frog_GameBoy_Green_spritesheet_12: 148548606609994640
+      frog_GameBoy_Green_spritesheet_13: 3268587038803547742
+      frog_GameBoy_Green_spritesheet_14: -3190391136637790737
+      frog_GameBoy_Green_spritesheet_15: 6670514141501046328
+      frog_GameBoy_Green_spritesheet_16: -6317240054010979676
+      frog_GameBoy_Green_spritesheet_17: -7377273459290574941
+      frog_GameBoy_Green_spritesheet_18: -8504838059356155246
+      frog_GameBoy_Green_spritesheet_19: 1070947457917622882
+      frog_GameBoy_Green_spritesheet_2: 342629619812225996
+      frog_GameBoy_Green_spritesheet_3: -5405874657538313656
+      frog_GameBoy_Green_spritesheet_4: -9148432501684910245
+      frog_GameBoy_Green_spritesheet_5: 6641795359618083633
+      frog_GameBoy_Green_spritesheet_6: 1902879172224908472
+      frog_GameBoy_Green_spritesheet_7: 1058174401115188603
+      frog_GameBoy_Green_spritesheet_8: -2846790704696926217
+      frog_GameBoy_Green_spritesheet_9: 3569654753979346544
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

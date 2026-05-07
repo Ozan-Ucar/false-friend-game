@@ -1,0 +1,676 @@
+fileFormatVersion: 2
+guid: 7c573308c0b897748885f3954e206788
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 7272595109442154646
+    second: frog_cowboy_spritesheet_0
+  - first:
+      213: -1342561843974090105
+    second: frog_cowboy_spritesheet_1
+  - first:
+      213: -602526805907944175
+    second: frog_cowboy_spritesheet_2
+  - first:
+      213: -6552027678107674098
+    second: frog_cowboy_spritesheet_3
+  - first:
+      213: 7503471752758686528
+    second: frog_cowboy_spritesheet_4
+  - first:
+      213: 4194586302785461770
+    second: frog_cowboy_spritesheet_5
+  - first:
+      213: -8921479439412364291
+    second: frog_cowboy_spritesheet_6
+  - first:
+      213: 1283257633921506122
+    second: frog_cowboy_spritesheet_7
+  - first:
+      213: -8281461710633709930
+    second: frog_cowboy_spritesheet_8
+  - first:
+      213: 2842534080912959980
+    second: frog_cowboy_spritesheet_9
+  - first:
+      213: -3370367901664589971
+    second: frog_cowboy_spritesheet_10
+  - first:
+      213: -7042288730131890797
+    second: frog_cowboy_spritesheet_11
+  - first:
+      213: -8063183156361935176
+    second: frog_cowboy_spritesheet_12
+  - first:
+      213: 3879811675861330871
+    second: frog_cowboy_spritesheet_13
+  - first:
+      213: -5442993458348856895
+    second: frog_cowboy_spritesheet_14
+  - first:
+      213: -2966826810169511182
+    second: frog_cowboy_spritesheet_15
+  - first:
+      213: 3558289480299872476
+    second: frog_cowboy_spritesheet_16
+  - first:
+      213: -6306824657369789285
+    second: frog_cowboy_spritesheet_17
+  - first:
+      213: -4767455222786942198
+    second: frog_cowboy_spritesheet_18
+  - first:
+      213: -389326475942128361
+    second: frog_cowboy_spritesheet_19
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: iOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: frog_cowboy_spritesheet_0
+      rect:
+        serializedVersion: 2
+        x: 5
+        y: 95
+        width: 22
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 690fa8d58b27de460800000000000000
+      internalID: 7272595109442154646
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frog_cowboy_spritesheet_1
+      rect:
+        serializedVersion: 2
+        x: 37
+        y: 95
+        width: 22
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7825ee8bd134e5de0800000000000000
+      internalID: -1342561843974090105
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frog_cowboy_spritesheet_2
+      rect:
+        serializedVersion: 2
+        x: 69
+        y: 95
+        width: 22
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 11dc436ff0563a7f0800000000000000
+      internalID: -602526805907944175
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frog_cowboy_spritesheet_3
+      rect:
+        serializedVersion: 2
+        x: 102
+        y: 95
+        width: 21
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e0a5dd77a858215a0800000000000000
+      internalID: -6552027678107674098
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frog_cowboy_spritesheet_4
+      rect:
+        serializedVersion: 2
+        x: 133
+        y: 95
+        width: 22
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 043fb55ddcfa12860800000000000000
+      internalID: 7503471752758686528
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frog_cowboy_spritesheet_5
+      rect:
+        serializedVersion: 2
+        x: 165
+        y: 95
+        width: 22
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a0e1f3db40a263a30800000000000000
+      internalID: 4194586302785461770
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frog_cowboy_spritesheet_6
+      rect:
+        serializedVersion: 2
+        x: 5
+        y: 63
+        width: 22
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dfbffd6c7b9803480800000000000000
+      internalID: -8921479439412364291
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frog_cowboy_spritesheet_7
+      rect:
+        serializedVersion: 2
+        x: 37
+        y: 63
+        width: 22
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a4b1331e40c0fc110800000000000000
+      internalID: 1283257633921506122
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frog_cowboy_spritesheet_8
+      rect:
+        serializedVersion: 2
+        x: 69
+        y: 63
+        width: 22
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 69ecda48376521d80800000000000000
+      internalID: -8281461710633709930
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frog_cowboy_spritesheet_9
+      rect:
+        serializedVersion: 2
+        x: 103
+        y: 67
+        width: 21
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ce922caafa5b27720800000000000000
+      internalID: 2842534080912959980
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frog_cowboy_spritesheet_10
+      rect:
+        serializedVersion: 2
+        x: 133
+        y: 63
+        width: 22
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d6747ea104c0a31d0800000000000000
+      internalID: -3370367901664589971
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frog_cowboy_spritesheet_11
+      rect:
+        serializedVersion: 2
+        x: 6
+        y: 31
+        width: 21
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 39d70ca26b3c44e90800000000000000
+      internalID: -7042288730131890797
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frog_cowboy_spritesheet_12
+      rect:
+        serializedVersion: 2
+        x: 38
+        y: 31
+        width: 21
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8b6422ec3a1d91090800000000000000
+      internalID: -8063183156361935176
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frog_cowboy_spritesheet_13
+      rect:
+        serializedVersion: 2
+        x: 69
+        y: 34
+        width: 21
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7bba02fb92cd7d530800000000000000
+      internalID: 3879811675861330871
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frog_cowboy_spritesheet_14
+      rect:
+        serializedVersion: 2
+        x: 101
+        y: 31
+        width: 22
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1c96750b94a9674b0800000000000000
+      internalID: -5442993458348856895
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frog_cowboy_spritesheet_15
+      rect:
+        serializedVersion: 2
+        x: 133
+        y: 31
+        width: 22
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2f2bdbd2cb6b3d6d0800000000000000
+      internalID: -2966826810169511182
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frog_cowboy_spritesheet_16
+      rect:
+        serializedVersion: 2
+        x: 38
+        y: 0
+        width: 21
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cd088410e65916130800000000000000
+      internalID: 3558289480299872476
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frog_cowboy_spritesheet_17
+      rect:
+        serializedVersion: 2
+        x: 69
+        y: 3
+        width: 22
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b9c8ccc9368a978a0800000000000000
+      internalID: -6306824657369789285
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frog_cowboy_spritesheet_18
+      rect:
+        serializedVersion: 2
+        x: 101
+        y: 0
+        width: 22
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a0b1433ebb896ddb0800000000000000
+      internalID: -4767455222786942198
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frog_cowboy_spritesheet_19
+      rect:
+        serializedVersion: 2
+        x: 133
+        y: 1
+        width: 22
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 71590d302a5d89af0800000000000000
+      internalID: -389326475942128361
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      frog_cowboy_spritesheet_0: 7272595109442154646
+      frog_cowboy_spritesheet_1: -1342561843974090105
+      frog_cowboy_spritesheet_10: -3370367901664589971
+      frog_cowboy_spritesheet_11: -7042288730131890797
+      frog_cowboy_spritesheet_12: -8063183156361935176
+      frog_cowboy_spritesheet_13: 3879811675861330871
+      frog_cowboy_spritesheet_14: -5442993458348856895
+      frog_cowboy_spritesheet_15: -2966826810169511182
+      frog_cowboy_spritesheet_16: 3558289480299872476
+      frog_cowboy_spritesheet_17: -6306824657369789285
+      frog_cowboy_spritesheet_18: -4767455222786942198
+      frog_cowboy_spritesheet_19: -389326475942128361
+      frog_cowboy_spritesheet_2: -602526805907944175
+      frog_cowboy_spritesheet_3: -6552027678107674098
+      frog_cowboy_spritesheet_4: 7503471752758686528
+      frog_cowboy_spritesheet_5: 4194586302785461770
+      frog_cowboy_spritesheet_6: -8921479439412364291
+      frog_cowboy_spritesheet_7: 1283257633921506122
+      frog_cowboy_spritesheet_8: -8281461710633709930
+      frog_cowboy_spritesheet_9: 2842534080912959980
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

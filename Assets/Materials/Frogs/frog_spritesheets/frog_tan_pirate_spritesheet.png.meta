@@ -1,0 +1,676 @@
+fileFormatVersion: 2
+guid: 85776f6d0416c824fba7f2c07f29196e
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 5995391302926090273
+    second: frog_tan_pirate_spritesheet_0
+  - first:
+      213: 6280664361426441740
+    second: frog_tan_pirate_spritesheet_1
+  - first:
+      213: 6167443377238045142
+    second: frog_tan_pirate_spritesheet_2
+  - first:
+      213: 3797820196966011498
+    second: frog_tan_pirate_spritesheet_3
+  - first:
+      213: -8923886224889302774
+    second: frog_tan_pirate_spritesheet_4
+  - first:
+      213: -3397581842780586117
+    second: frog_tan_pirate_spritesheet_5
+  - first:
+      213: -8549314491378617344
+    second: frog_tan_pirate_spritesheet_6
+  - first:
+      213: -1339840591348190670
+    second: frog_tan_pirate_spritesheet_7
+  - first:
+      213: -2860763483645355453
+    second: frog_tan_pirate_spritesheet_8
+  - first:
+      213: 8785205271262691499
+    second: frog_tan_pirate_spritesheet_9
+  - first:
+      213: -7459597654847273656
+    second: frog_tan_pirate_spritesheet_10
+  - first:
+      213: 1775187641515573450
+    second: frog_tan_pirate_spritesheet_11
+  - first:
+      213: -5448240076990373368
+    second: frog_tan_pirate_spritesheet_12
+  - first:
+      213: 8909231864797129959
+    second: frog_tan_pirate_spritesheet_13
+  - first:
+      213: 7284008911444469445
+    second: frog_tan_pirate_spritesheet_14
+  - first:
+      213: -2406551617341122454
+    second: frog_tan_pirate_spritesheet_15
+  - first:
+      213: -7920361997445306531
+    second: frog_tan_pirate_spritesheet_16
+  - first:
+      213: -4889185406084048718
+    second: frog_tan_pirate_spritesheet_17
+  - first:
+      213: 1392612789267860915
+    second: frog_tan_pirate_spritesheet_18
+  - first:
+      213: 7712356616186538453
+    second: frog_tan_pirate_spritesheet_19
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: iOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: frog_tan_pirate_spritesheet_0
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 95
+        width: 23
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 120406400a8e33350800000000000000
+      internalID: 5995391302926090273
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frog_tan_pirate_spritesheet_1
+      rect:
+        serializedVersion: 2
+        x: 36
+        y: 95
+        width: 23
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c065748d5f6692750800000000000000
+      internalID: 6280664361426441740
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frog_tan_pirate_spritesheet_2
+      rect:
+        serializedVersion: 2
+        x: 68
+        y: 95
+        width: 23
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6d1fb983319279550800000000000000
+      internalID: 6167443377238045142
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frog_tan_pirate_spritesheet_3
+      rect:
+        serializedVersion: 2
+        x: 101
+        y: 95
+        width: 22
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a6296f0f85194b430800000000000000
+      internalID: 3797820196966011498
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frog_tan_pirate_spritesheet_4
+      rect:
+        serializedVersion: 2
+        x: 132
+        y: 95
+        width: 23
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a01b87d52ccf72480800000000000000
+      internalID: -8923886224889302774
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frog_tan_pirate_spritesheet_5
+      rect:
+        serializedVersion: 2
+        x: 164
+        y: 95
+        width: 23
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b7ffebda05d59d0d0800000000000000
+      internalID: -3397581842780586117
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frog_tan_pirate_spritesheet_6
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 63
+        width: 23
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 004374c24cbba5980800000000000000
+      internalID: -8549314491378617344
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frog_tan_pirate_spritesheet_7
+      rect:
+        serializedVersion: 2
+        x: 36
+        y: 63
+        width: 23
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 232ba09b41ee76de0800000000000000
+      internalID: -1339840591348190670
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frog_tan_pirate_spritesheet_8
+      rect:
+        serializedVersion: 2
+        x: 68
+        y: 63
+        width: 23
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 34ad8e2c4c68c48d0800000000000000
+      internalID: -2860763483645355453
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frog_tan_pirate_spritesheet_9
+      rect:
+        serializedVersion: 2
+        x: 102
+        y: 67
+        width: 22
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ba08080f5a15be970800000000000000
+      internalID: 8785205271262691499
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frog_tan_pirate_spritesheet_10
+      rect:
+        serializedVersion: 2
+        x: 132
+        y: 63
+        width: 23
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 845cd7f947f2a7890800000000000000
+      internalID: -7459597654847273656
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frog_tan_pirate_spritesheet_11
+      rect:
+        serializedVersion: 2
+        x: 5
+        y: 31
+        width: 22
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ac0033e21cbb2a810800000000000000
+      internalID: 1775187641515573450
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frog_tan_pirate_spritesheet_12
+      rect:
+        serializedVersion: 2
+        x: 37
+        y: 31
+        width: 22
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 80221f71486f364b0800000000000000
+      internalID: -5448240076990373368
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frog_tan_pirate_spritesheet_13
+      rect:
+        serializedVersion: 2
+        x: 68
+        y: 34
+        width: 22
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7ece2da8d23f3ab70800000000000000
+      internalID: 8909231864797129959
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frog_tan_pirate_spritesheet_14
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 31
+        width: 23
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5c66d6b338ff51560800000000000000
+      internalID: 7284008911444469445
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frog_tan_pirate_spritesheet_15
+      rect:
+        serializedVersion: 2
+        x: 132
+        y: 31
+        width: 23
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a689db2fd063a9ed0800000000000000
+      internalID: -2406551617341122454
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frog_tan_pirate_spritesheet_16
+      rect:
+        serializedVersion: 2
+        x: 37
+        y: 0
+        width: 22
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d57e4c92ab8351290800000000000000
+      internalID: -7920361997445306531
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frog_tan_pirate_spritesheet_17
+      rect:
+        serializedVersion: 2
+        x: 68
+        y: 3
+        width: 23
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2b81655f6cf162cb0800000000000000
+      internalID: -4889185406084048718
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frog_tan_pirate_spritesheet_18
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 0
+        width: 23
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3bd0af514fd835310800000000000000
+      internalID: 1392612789267860915
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: frog_tan_pirate_spritesheet_19
+      rect:
+        serializedVersion: 2
+        x: 132
+        y: 1
+        width: 23
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5d9aee80b7bc70b60800000000000000
+      internalID: 7712356616186538453
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      frog_tan_pirate_spritesheet_0: 5995391302926090273
+      frog_tan_pirate_spritesheet_1: 6280664361426441740
+      frog_tan_pirate_spritesheet_10: -7459597654847273656
+      frog_tan_pirate_spritesheet_11: 1775187641515573450
+      frog_tan_pirate_spritesheet_12: -5448240076990373368
+      frog_tan_pirate_spritesheet_13: 8909231864797129959
+      frog_tan_pirate_spritesheet_14: 7284008911444469445
+      frog_tan_pirate_spritesheet_15: -2406551617341122454
+      frog_tan_pirate_spritesheet_16: -7920361997445306531
+      frog_tan_pirate_spritesheet_17: -4889185406084048718
+      frog_tan_pirate_spritesheet_18: 1392612789267860915
+      frog_tan_pirate_spritesheet_19: 7712356616186538453
+      frog_tan_pirate_spritesheet_2: 6167443377238045142
+      frog_tan_pirate_spritesheet_3: 3797820196966011498
+      frog_tan_pirate_spritesheet_4: -8923886224889302774
+      frog_tan_pirate_spritesheet_5: -3397581842780586117
+      frog_tan_pirate_spritesheet_6: -8549314491378617344
+      frog_tan_pirate_spritesheet_7: -1339840591348190670
+      frog_tan_pirate_spritesheet_8: -2860763483645355453
+      frog_tan_pirate_spritesheet_9: 8785205271262691499
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
