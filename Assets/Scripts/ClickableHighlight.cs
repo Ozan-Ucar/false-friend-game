@@ -48,7 +48,8 @@ public class ClickableHighlight : MonoBehaviour
         float target;
         float targetPulse;
 
-        if (isTriggered)
+        bool isJuicy = JuiceManager.Instance == null || JuiceManager.Instance.isJuicy;
+        if (isTriggered || !isJuicy)
         {
             target = 0;
             targetPulse = 0;

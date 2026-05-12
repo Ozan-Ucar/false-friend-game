@@ -43,6 +43,9 @@ public class ArrowTrap : MonoBehaviour
 
     private void Update()
     {
+        bool isJuicy = JuiceManager.Instance == null || JuiceManager.Instance.isJuicy;
+        if (anim != null) anim.enabled = isJuicy;
+
         if (!isFiring && Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
         {
             Vector2 mousePos = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
@@ -56,20 +59,23 @@ public class ArrowTrap : MonoBehaviour
     private IEnumerator FireSequence()
     {
         isFiring = true;
+        bool isJuicy = JuiceManager.Instance == null || JuiceManager.Instance.isJuicy;
 
-        // 0. Kurze Pause nach dem Klick
-        yield return new WaitForSeconds(preFireDelay);
+        if (isJuicy)
+        {
+            // 0. Kurze Pause nach dem Klick
+            yield return new WaitForSeconds(preFireDelay);
+        }
 
         ClickableHighlight highlight = GetComponent<ClickableHighlight>();
         if (highlight != null) highlight.isTriggered = true;
 
-        if (anim != null)
+        if (isJuicy && anim != null && anim.enabled)
         {
             anim.speed = 1;
             anim.Play(animationName, 0, 0f);
+            yield return new WaitForSeconds(spawnDelay);
         }
-
-        yield return new WaitForSeconds(spawnDelay);
         
         if (arrowPrefab != null)
         {
@@ -86,14 +92,14 @@ public class ArrowTrap : MonoBehaviour
             }
         }
 
-        yield return new WaitForEndOfFrame();
-        float duration = anim.GetCurrentAnimatorStateInfo(0).length;
-        float remainingTime = Mathf.Max(0, duration - spawnDelay);
-        
-        yield return new WaitForSeconds(remainingTime);
-
-        if (anim != null)
+        if (isJuicy && anim != null && anim.enabled)
         {
+            yield return new WaitForEndOfFrame();
+            float duration = anim.GetCurrentAnimatorStateInfo(0).length;
+            float remainingTime = Mathf.Max(0, duration - spawnDelay);
+            
+            yield return new WaitForSeconds(remainingTime);
+
             anim.speed = 0;
             anim.Play(animationName, 0, 0f);
         }

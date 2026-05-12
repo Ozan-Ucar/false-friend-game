@@ -37,6 +37,13 @@ public class PlayerParallax : MonoBehaviour
     {
         if (player == null) return;
 
+        bool isJuicy = JuiceManager.Instance == null || JuiceManager.Instance.isJuicy;
+        if (!isJuicy)
+        {
+            transform.position = startPos;
+            return;
+        }
+
         // Berechne, wie weit sich der Spieler seit dem Start bewegt hat
         Vector3 playerDiff = player.position - playerStartPos;
 

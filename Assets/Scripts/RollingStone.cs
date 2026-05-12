@@ -59,11 +59,23 @@ public class RollingStone : MonoBehaviour
 
     void FixedUpdate()
     {
+        bool isJuicy = JuiceManager.Instance == null || JuiceManager.Instance.isJuicy;
+
+        // Blockiere die Rotation auf der Z-Achse, wenn nicht Juicy
+        if (rb != null)
+        {
+            rb.freezeRotation = !isJuicy;
+        }
+
         if (isRolling && !isBreaking)
         {
             currentTargetSpeed = Mathf.MoveTowards(currentTargetSpeed, maxSpeed, acceleration * Time.fixedDeltaTime);
             rb.linearVelocity = new Vector2(currentDirection * currentTargetSpeed, rb.linearVelocity.y);
-            rb.angularVelocity = -currentDirection * currentTargetSpeed * 50f;
+            
+            if (isJuicy)
+            {
+                rb.angularVelocity = -currentDirection * currentTargetSpeed * 50f;
+            }
         }
     }
 
@@ -98,7 +110,9 @@ public class RollingStone : MonoBehaviour
         HealthSystem health = player.GetComponent<HealthSystem>();
         if (health != null) health.TakeDamage(2);
 
-        if (shardPrefab != null)
+        bool isJuicy = JuiceManager.Instance == null || JuiceManager.Instance.isJuicy;
+
+        if (isJuicy && shardPrefab != null)
         {
             for (int i = 0; i < shardCount; i++)
             {
@@ -117,7 +131,7 @@ public class RollingStone : MonoBehaviour
         if (myCollider != null) myCollider.enabled = false;
 
         // FADE LOGIK
-        if (spriteRenderer != null)
+        if (isJuicy && spriteRenderer != null)
         {
             float elapsed = 0f;
             Color startColor = spriteRenderer.color;

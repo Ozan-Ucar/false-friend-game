@@ -26,25 +26,29 @@ public class PoisonMushroom : MonoBehaviour
     private IEnumerator Sequence_MushroomExplosion()
     {
         hasExploded = true;
+        bool isJuicy = JuiceManager.Instance == null || JuiceManager.Instance.isJuicy;
 
-        // 1. ZITTERN (Hintereinander ausführen)
-        Vector3 originalPos = transform.position;
-        float elapsed = 0;
-        while (elapsed < shakeTime)
+        if (isJuicy)
         {
-            transform.position = originalPos + (Vector3)Random.insideUnitCircle * 0.1f;
-            elapsed += Time.deltaTime;
-            yield return null;
-        }
-        transform.position = originalPos;
+            // 1. ZITTERN (Hintereinander ausführen)
+            Vector3 originalPos = transform.position;
+            float elapsed = 0;
+            while (elapsed < shakeTime)
+            {
+                transform.position = originalPos + (Vector3)Random.insideUnitCircle * 0.1f;
+                elapsed += Time.deltaTime;
+                yield return null;
+            }
+            transform.position = originalPos;
 
-        // 2. PLATZEN (Kurzer visueller Effekt durch Skalierung)
-        transform.localScale *= explosionScale;
+            // 2. PLATZEN (Kurzer visueller Effekt durch Skalierung)
+            transform.localScale *= explosionScale;
 
-        // NEU: Kamera wackeln lassen
-        if (CameraShake.Instance != null)
-        {
-            CameraShake.Instance.ShakeCustom(0.2f, 0.3f);
+            // NEU: Kamera wackeln lassen
+            if (CameraShake.Instance != null)
+            {
+                CameraShake.Instance.ShakeCustom(0.2f, 0.3f);
+            }
         }
 
         // 3. WOLKE SPAWNEN
@@ -54,7 +58,10 @@ public class PoisonMushroom : MonoBehaviour
         }
 
         // 4. PILZ VERSCHWINDET (Hintereinander abgeschlossen)
-        yield return new WaitForSeconds(0.1f);
+        if (isJuicy)
+        {
+            yield return new WaitForSeconds(0.1f);
+        }
         gameObject.SetActive(false);
     }
 }

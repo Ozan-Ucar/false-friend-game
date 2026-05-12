@@ -37,12 +37,18 @@ public class CameraShake : MonoBehaviour
 
     public void ShakeHit()
     {
+        bool isJuicy = JuiceManager.Instance == null || JuiceManager.Instance.isJuicy;
+        if (!isJuicy) return;
+
         StopAllCoroutines(); // Alten Shake abbrechen
         StartCoroutine(DoShake(defaultDuration, defaultMagnitude));
     }
 
     public void ShakeCustom(float duration, float magnitude)
     {
+        bool isJuicy = JuiceManager.Instance == null || JuiceManager.Instance.isJuicy;
+        if (!isJuicy) return;
+
         StartCoroutine(DoShake(duration, magnitude));
     }
 

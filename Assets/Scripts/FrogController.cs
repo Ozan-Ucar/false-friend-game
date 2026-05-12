@@ -39,6 +39,9 @@ public class FrogController : MonoBehaviour
 
     private void Update()
     {
+        bool isJuicy = JuiceManager.Instance == null || JuiceManager.Instance.isJuicy;
+        if (anim != null) anim.enabled = isJuicy;
+
         HandleInput();
 
         if (isControlled)
@@ -48,7 +51,7 @@ public class FrogController : MonoBehaviour
         else
         {
             // NUR wenn nicht gesteuert, geht er in den Idle-Zustand
-            if (!anim.GetCurrentAnimatorStateInfo(0).IsName("IdleFrogAnim"))
+            if (anim != null && anim.enabled && !anim.GetCurrentAnimatorStateInfo(0).IsName("IdleFrogAnim"))
             {
                 anim.Play("IdleFrogAnim");
             }
@@ -106,7 +109,7 @@ public class FrogController : MonoBehaviour
         if (Mouse.current == null) yield break;
 
         // Jump Animation von VORNE starten (Frame 0 erzwingen)
-        anim.Play("JumpFrogAnim", 0, 0f);
+        if (anim != null && anim.enabled) anim.Play("JumpFrogAnim", 0, 0f);
 
         yield return new WaitForSeconds(jumpDelay);
 

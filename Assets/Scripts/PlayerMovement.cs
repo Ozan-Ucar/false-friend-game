@@ -296,6 +296,9 @@ public class PlayerMovement : MonoBehaviour
     {
         if (animator == null) return;
 
+        bool isJuicy = JuiceManager.Instance == null || JuiceManager.Instance.isJuicy;
+        animator.enabled = isJuicy;
+
         // 1. FLIPPEN (Blickrichtung)
         if (moveInput.x > 0.01f && spriteRenderer != null)
         {
@@ -305,6 +308,8 @@ public class PlayerMovement : MonoBehaviour
         {
             spriteRenderer.flipX = true;
         }
+
+        if (!isJuicy) return;
 
         // 2. PARAMETER ÜBERGEBEN
         // Sind wir in Bewegung?

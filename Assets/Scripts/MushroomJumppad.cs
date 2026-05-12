@@ -7,6 +7,12 @@ public class MushroomJumppad : MonoBehaviour
     public string bounceParam = "bounce";
     public Animator animator;
 
+    private void Update()
+    {
+        bool isJuicy = JuiceManager.Instance == null || JuiceManager.Instance.isJuicy;
+        if (animator != null) animator.enabled = isJuicy;
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
@@ -17,8 +23,9 @@ public class MushroomJumppad : MonoBehaviour
                 // launch player
                 rb.linearVelocity = new Vector2(rb.linearVelocity.x, bounceForce);
                 
+                bool isJuicy = JuiceManager.Instance == null || JuiceManager.Instance.isJuicy;
                 // play animation
-                if (animator != null)
+                if (isJuicy && animator != null)
                 {
                     animator.SetTrigger(bounceParam);
                 }
