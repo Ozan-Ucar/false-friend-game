@@ -26,6 +26,10 @@ public class CloudSettings
     public float floatFrequency = 0.8f;
     public float minScale = 0.8f;
     public float maxScale = 1.3f;
+
+    [Header("Layer (Sortierung)")]
+    [Tooltip("Order in Layer für diese Wolken-Sorte. Höher = weiter vorne.")]
+    public int sortingOrder = 10;
 }
 
 public class CloudController : MonoBehaviour
@@ -35,6 +39,18 @@ public class CloudController : MonoBehaviour
     public float despawnX = -20f;
     [Tooltip("Bei welchem X-Wert taucht die Wolke rechts wieder auf?")]
     public float spawnX = 20f;
+
+    [Header("Richtung")]
+    [Tooltip("An = Wolken ziehen von links nach rechts. Aus = von rechts nach links (Standard).")]
+    public bool moveLeftToRight = false;
+
+    [Header("Globale Höhe")]
+    [Tooltip("Verschiebt ALLE Wolken gemeinsam nach oben (+) oder unten (-).")]
+    public float heightOffset = 0f;
+
+    private float LeftEdge  => Mathf.Min(spawnX, despawnX);
+    private float RightEdge => Mathf.Max(spawnX, despawnX);
+    private float EntryX    => moveLeftToRight ? LeftEdge : RightEdge;
     
     [Header("Deine Wolken")]
     [Tooltip("Füge hier deine 3 Wolkenarten hinzu!")]
@@ -64,11 +80,15 @@ public class CloudController : MonoBehaviour
             {
                 // Spawne die Wolken beim Spielstart zufällig verteilt!
                 float startX = Random.Range(despawnX, spawnX);
-                float startY = Random.Range(settings.minY, settings.maxY);
+                float startY = Random.Range(settings.minY, settings.maxY) + heightOffset;
                 
                 // Wir bauen das GameObject dynamisch aus dem Bild!
                 GameObject cloudObj = Instantiate(settings.cloudPrefab, new Vector3(startX, startY, 0), Quaternion.identity, transform);
                 cloudObj.name = "Cloud_" + settings.cloudName;
+
+                // apply this sort's layer order to the cloud's renderer(s)
+                foreach (var sr in cloudObj.GetComponentsInChildren<SpriteRenderer>())
+                    sr.sortingOrder = settings.sortingOrder;
                 
                 // Wolke in unsere interne Liste aufnehmen
                 ActiveCloud ac = new ActiveCloud();
@@ -88,8 +108,8 @@ public class CloudController : MonoBehaviour
         
         if (isRespawning)
         {
-            ac.startY = Random.Range(ac.settings.minY, ac.settings.maxY);
-            ac.transform.position = new Vector3(spawnX, ac.startY, ac.transform.position.z);
+            ac.startY = Random.Range(ac.settings.minY, ac.settings.maxY) + heightOffset;
+            ac.transform.position = new Vector3(EntryX, ac.startY, ac.transform.position.z);
         }
         else
         {
@@ -114,8 +134,9 @@ public class CloudController : MonoBehaviour
         {
             if (ac.transform == null) continue;
 
-            // 1. Nach links schieben
-            ac.transform.position += Vector3.left * ac.currentSpeed * Time.deltaTime;
+            // 1. In Richtung schieben (links→rechts oder rechts→links)
+            Vector3 dir = moveLeftToRight ? Vector3.right : Vector3.left;
+            ac.transform.position += dir * ac.currentSpeed * Time.deltaTime;
 
             // 2. Schweben auf der Y-Achse
             if (ac.settings.floatAmplitude > 0f)
@@ -126,7 +147,10 @@ public class CloudController : MonoBehaviour
             }
 
             // 3. Respawn, wenn sie aus dem Bild fliegen
-            if (ac.transform.position.x <= despawnX)
+            bool gone = moveLeftToRight
+                ? ac.transform.position.x >= RightEdge
+                : ac.transform.position.x <= LeftEdge;
+            if (gone)
             {
                 SetupCloud(ac, true);
             }
