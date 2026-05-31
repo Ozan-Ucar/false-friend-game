@@ -4890,7 +4890,7 @@ ParticleSystemRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 5
+  m_SortingOrder: 50
   m_MaskInteraction: 0
   m_RenderMode: 0
   m_MeshDistribution: 0
@@ -4946,7 +4946,7 @@ MonoBehaviour:
   noiseStrength: 0.15
   noiseFrequency: 0.5
   cloudSprite: {fileID: -2413806693520163455, guid: f7f687e24d96b994c9a6371115f29d39, type: 3}
-  sortingOrder: 5
+  sortingOrder: 50
   replayEffect: 0
 --- !u!58 &7342516255468531239
 CircleCollider2D:

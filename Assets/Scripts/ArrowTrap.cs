@@ -14,6 +14,7 @@ public class ArrowTrap : MonoBehaviour
     [Header("Timing")]
     public float preFireDelay = 0f;
     public float spawnDelay = 0.2f; 
+    public float cooldown = 1.0f;
     
     [Header("Movement")]
     public Vector2 shootDirection = Vector2.right;
@@ -97,6 +98,9 @@ public class ArrowTrap : MonoBehaviour
             anim.speed = 0;
             anim.Play(animationName, 0, 0f);
         }
+
+        // Cooldown abwarten, bevor die Falle wieder passiv (klickbar und gehighlightet) wird
+        if (cooldown > 0) yield return new WaitForSeconds(cooldown);
 
         isFiring = false;
         if (highlight != null) highlight.isTriggered = false;
