@@ -16,6 +16,8 @@ public class ClickableHighlight : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private MaterialPropertyBlock propBlock;
     private bool isHovering = false;
+    private float currentWidth;
+    private float currentPulse;
 
     private void OnEnable()
     {
@@ -44,26 +46,37 @@ public class ClickableHighlight : MonoBehaviour
 
         spriteRenderer.GetPropertyBlock(propBlock);
 
-        // Wenn ausgelöst, Breite auf 0 setzen
-        float target;
-        float targetPulse;
+        float targetWidth;
+        float targetPulseAmount;
 
         if (isTriggered)
         {
-            target = 0;
-            targetPulse = 0;
+            targetWidth = 0;
+            targetPulseAmount = 0;
         }
         else
         {
             bool activeHover = isHovering && Application.isPlaying;
-            target = activeHover ? hoverWidth : normalWidth;
-            targetPulse = activeHover ? 0.0f : 1.0f;
+            targetWidth = activeHover ? hoverWidth : normalWidth;
+            targetPulseAmount = activeHover ? 0.0f : 1.0f;
         }
         
-        propBlock.SetFloat("_OutlineWidth", target);
+        if (Application.isPlaying)
+        {
+            // Weicher Übergang (Lerp), damit es beim Loslassen sanft abschwillt
+            currentWidth = Mathf.Lerp(currentWidth, targetWidth, Time.deltaTime * 10f);
+            currentPulse = Mathf.Lerp(currentPulse, targetPulseAmount, Time.deltaTime * 10f);
+        }
+        else
+        {
+            currentWidth = targetWidth;
+            currentPulse = targetPulseAmount;
+        }
+
+        propBlock.SetFloat("_OutlineWidth", currentWidth);
         propBlock.SetColor("_HighlightColor", highlightColor);
         propBlock.SetFloat("_PulseSpeed", pulseSpeed);
-        propBlock.SetFloat("_PulseAmount", targetPulse);
+        propBlock.SetFloat("_PulseAmount", currentPulse);
 
         spriteRenderer.SetPropertyBlock(propBlock);
     }
