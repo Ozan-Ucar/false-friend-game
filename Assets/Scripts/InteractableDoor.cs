@@ -17,6 +17,10 @@ public class InteractableDoor : MonoBehaviour
     public AnimationCurve transitionCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
     [Tooltip("Die Farbe der Pixel beim Szenenwechsel.")]
     public Color transitionColor = Color.black;
+    
+    [Header("Ziel")]
+    [Tooltip("Der Name der Szene, in die diese Tür führt (exakte Schreibweise beachten!). Bleibt es leer, wird die aktuelle Szene neu geladen.")]
+    public string targetSceneName = "";
 
     private bool isOpen = false;
     private bool isPlayerNear = false;
@@ -163,6 +167,13 @@ public class InteractableDoor : MonoBehaviour
         }
 
         // In der exakt selben Millisekunde, in der der Bildschirm 100% schwarz ist, wechseln wir die Szene!
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        if (!string.IsNullOrEmpty(targetSceneName))
+        {
+            SceneManager.LoadScene(targetSceneName);
+        }
+        else
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
     }
 }

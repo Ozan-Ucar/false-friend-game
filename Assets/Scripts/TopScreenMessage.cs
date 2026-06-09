@@ -51,7 +51,7 @@ public class TopScreenMessage : MonoBehaviour
         rect.sizeDelta = new Vector2(0, 100f);
     }
 
-    public static void Show(string message)
+    public static void Show(string message, TMP_FontAsset customFont, float customFontSize, Color customColor, float displayDuration, float outlineWidth, Color outlineColor)
     {
         if (Instance == null)
         {
@@ -59,13 +59,37 @@ public class TopScreenMessage : MonoBehaviour
             go.AddComponent<TopScreenMessage>();
         }
         
+        // Schriftart, Größe und Farbe anwenden
+        if (customFont != null)
+        {
+            Instance.textMesh.font = customFont;
+        }
+        Instance.textMesh.fontSize = customFontSize;
+        Instance.textMesh.color = customColor;
+
+        // Outline anpassen
+        if (Instance.textMesh.fontMaterial != null)
+        {
+            if (outlineWidth > 0f)
+            {
+                Instance.textMesh.fontMaterial.EnableKeyword("OUTLINE_ON");
+                Instance.textMesh.outlineWidth = outlineWidth;
+                Instance.textMesh.outlineColor = outlineColor;
+            }
+            else
+            {
+                Instance.textMesh.fontMaterial.DisableKeyword("OUTLINE_ON");
+                Instance.textMesh.outlineWidth = 0f;
+            }
+        }
+
         if (Instance.currentCoroutine != null)
             Instance.StopCoroutine(Instance.currentCoroutine);
             
-        Instance.currentCoroutine = Instance.StartCoroutine(Instance.TypeMessage(message));
+        Instance.currentCoroutine = Instance.StartCoroutine(Instance.TypeMessage(message, displayDuration));
     }
 
-    private IEnumerator TypeMessage(string message)
+    private IEnumerator TypeMessage(string message, float displayDuration)
     {
         textMesh.text = "";
         canvasGroup.alpha = 1f;
@@ -77,9 +101,8 @@ public class TopScreenMessage : MonoBehaviour
             yield return new WaitForSeconds(0.05f); // Tipp-Geschwindigkeit
         }
 
-        // Warten, damit man es in Ruhe lesen kann (dynamisch je nach Textlänge)
-        float waitTime = Mathf.Max(2f, message.Length * 0.08f);
-        yield return new WaitForSeconds(waitTime);
+        // Warten (angepasste Dauer vom Trigger)
+        yield return new WaitForSeconds(displayDuration);
 
         // Sanft ausblenden
         while (canvasGroup.alpha > 0)
