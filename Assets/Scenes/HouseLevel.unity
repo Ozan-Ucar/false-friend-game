@@ -7328,13 +7328,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d4a7b02abc26e44babdbdf19836390b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SimpleTextTrigger
-  messageText: Hallo Welt!
-  useTopScreen: 1
+  messageText: Du Hund komm
+  useTopScreen: 0
   playOnce: 0
   triggerCooldown: 2
   topScreenFont: {fileID: 11400000, guid: 8443052532d5cea43957f83b08505cb5, type: 2}
-  topScreenFontSize: 40
-  topScreenColor: {r: 0.56948024, g: 0.8113208, b: 0.4554112, a: 1}
+  topScreenFontSize: 130
+  topScreenColor: {r: 0.5254902, g: 0.7490196, b: 0.42352945, a: 1}
   topScreenOutlineColor: {r: 0, g: 0, b: 0, a: 1}
   topScreenOutlineWidth: 0.2
   displayDuration: 3
@@ -7827,7 +7827,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.872926, g: 0.9433962, b: 0.84104663, a: 1}
+  m_Color: {r: 0.74492705, g: 0.8490566, b: 0.6928622, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

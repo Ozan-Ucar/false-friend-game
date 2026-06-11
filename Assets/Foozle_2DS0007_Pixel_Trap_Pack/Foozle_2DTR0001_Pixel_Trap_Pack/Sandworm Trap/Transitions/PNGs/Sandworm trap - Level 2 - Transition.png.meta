@@ -73,7 +73,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -111,7 +111,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -178,12 +178,12 @@ TextureImporter:
       name: Sandworm trap - Level 2 - Transition_0
       rect:
         serializedVersion: 2
-        x: 152
+        x: 96
         y: 0
-        width: 28
-        height: 6
+        width: 96
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -200,12 +200,12 @@ TextureImporter:
       name: Sandworm trap - Level 2 - Transition_1
       rect:
         serializedVersion: 2
-        x: 248
+        x: 192
         y: 0
-        width: 14
-        height: 6
+        width: 96
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -222,12 +222,12 @@ TextureImporter:
       name: Sandworm trap - Level 2 - Transition_2
       rect:
         serializedVersion: 2
-        x: 257
+        x: 288
         y: 0
-        width: 20
-        height: 8
+        width: 96
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -244,12 +244,12 @@ TextureImporter:
       name: Sandworm trap - Level 2 - Transition_3
       rect:
         serializedVersion: 2
-        x: 342
+        x: 384
         y: 0
-        width: 20
-        height: 6
+        width: 96
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -266,12 +266,12 @@ TextureImporter:
       name: Sandworm trap - Level 2 - Transition_4
       rect:
         serializedVersion: 2
-        x: 351
-        y: 2
-        width: 6
-        height: 6
+        x: 480
+        y: 0
+        width: 96
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -288,12 +288,12 @@ TextureImporter:
       name: Sandworm trap - Level 2 - Transition_5
       rect:
         serializedVersion: 2
-        x: 361
+        x: 576
         y: 0
-        width: 9
-        height: 7
+        width: 96
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -310,12 +310,12 @@ TextureImporter:
       name: Sandworm trap - Level 2 - Transition_6
       rect:
         serializedVersion: 2
-        x: 368
+        x: 672
         y: 0
-        width: 6
-        height: 6
+        width: 96
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -332,12 +332,12 @@ TextureImporter:
       name: Sandworm trap - Level 2 - Transition_7
       rect:
         serializedVersion: 2
-        x: 437
+        x: 768
         y: 0
-        width: 34
-        height: 6
+        width: 96
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -354,12 +354,12 @@ TextureImporter:
       name: Sandworm trap - Level 2 - Transition_8
       rect:
         serializedVersion: 2
-        x: 533
+        x: 864
         y: 0
-        width: 34
-        height: 5
+        width: 96
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -372,99 +372,11 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
-    - serializedVersion: 2
-      name: Sandworm trap - Level 2 - Transition_9
-      rect:
-        serializedVersion: 2
-        x: 629
-        y: 0
-        width: 32
-        height: 5
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: a4fd15f39b4232870800000000000000
-      internalID: 8656803286786105162
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Sandworm trap - Level 2 - Transition_10
-      rect:
-        serializedVersion: 2
-        x: 725
-        y: 0
-        width: 32
-        height: 5
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: a625afe9719206770800000000000000
-      internalID: 8601920469705839210
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Sandworm trap - Level 2 - Transition_11
-      rect:
-        serializedVersion: 2
-        x: 821
-        y: 0
-        width: 32
-        height: 5
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: ffde89c511a829d80800000000000000
-      internalID: -8245376160589353473
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Sandworm trap - Level 2 - Transition_12
-      rect:
-        serializedVersion: 2
-        x: 917
-        y: 0
-        width: 32
-        height: 5
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 5af52207727cd8820800000000000000
-      internalID: 2922210705432272805
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 9bce7e946e3c1f34aa72cb59e8c0277f
     internalID: 0
     vertices: []
     indices: 
@@ -472,13 +384,12 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":10.0,"y":1.0},"gridSpriteSize":{"x":96.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
       Sandworm trap - Level 2 - Transition_0: -2691439847045746616
       Sandworm trap - Level 2 - Transition_1: 505403693408002759
-      Sandworm trap - Level 2 - Transition_10: 8601920469705839210
-      Sandworm trap - Level 2 - Transition_11: -8245376160589353473
-      Sandworm trap - Level 2 - Transition_12: 2922210705432272805
       Sandworm trap - Level 2 - Transition_2: -4524254334256303023
       Sandworm trap - Level 2 - Transition_3: -8791570796784847734
       Sandworm trap - Level 2 - Transition_4: -5781743314326413498
@@ -486,7 +397,6 @@ TextureImporter:
       Sandworm trap - Level 2 - Transition_6: 5380320325627700860
       Sandworm trap - Level 2 - Transition_7: -5880287779435807315
       Sandworm trap - Level 2 - Transition_8: 7815415051602578289
-      Sandworm trap - Level 2 - Transition_9: 8656803286786105162
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -103,7 +103,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -141,7 +141,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -208,12 +208,12 @@ TextureImporter:
       name: Ceiling Trap - Level 2_0
       rect:
         serializedVersion: 2
-        x: 9
-        y: 18
-        width: 35
-        height: 14
+        x: 0
+        y: 0
+        width: 96
+        height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -230,12 +230,12 @@ TextureImporter:
       name: Ceiling Trap - Level 2_1
       rect:
         serializedVersion: 2
-        x: 52
-        y: 18
-        width: 35
-        height: 14
+        x: 96
+        y: 0
+        width: 96
+        height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -252,12 +252,12 @@ TextureImporter:
       name: Ceiling Trap - Level 2_2
       rect:
         serializedVersion: 2
-        x: 105
-        y: 18
-        width: 35
-        height: 14
+        x: 192
+        y: 0
+        width: 96
+        height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -274,12 +274,12 @@ TextureImporter:
       name: Ceiling Trap - Level 2_3
       rect:
         serializedVersion: 2
-        x: 148
-        y: 18
-        width: 35
-        height: 14
+        x: 288
+        y: 0
+        width: 96
+        height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -296,12 +296,12 @@ TextureImporter:
       name: Ceiling Trap - Level 2_4
       rect:
         serializedVersion: 2
-        x: 201
-        y: 18
-        width: 35
-        height: 14
+        x: 384
+        y: 0
+        width: 96
+        height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -318,12 +318,12 @@ TextureImporter:
       name: Ceiling Trap - Level 2_5
       rect:
         serializedVersion: 2
-        x: 244
-        y: 18
-        width: 35
-        height: 14
+        x: 480
+        y: 0
+        width: 96
+        height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -340,12 +340,12 @@ TextureImporter:
       name: Ceiling Trap - Level 2_6
       rect:
         serializedVersion: 2
-        x: 297
-        y: 18
-        width: 35
-        height: 14
+        x: 576
+        y: 0
+        width: 96
+        height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -362,12 +362,12 @@ TextureImporter:
       name: Ceiling Trap - Level 2_7
       rect:
         serializedVersion: 2
-        x: 340
-        y: 18
-        width: 35
-        height: 14
+        x: 672
+        y: 0
+        width: 96
+        height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -384,12 +384,12 @@ TextureImporter:
       name: Ceiling Trap - Level 2_8
       rect:
         serializedVersion: 2
-        x: 395
+        x: 768
         y: 0
-        width: 74
+        width: 96
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -406,12 +406,12 @@ TextureImporter:
       name: Ceiling Trap - Level 2_9
       rect:
         serializedVersion: 2
-        x: 505
+        x: 864
         y: 0
-        width: 46
+        width: 96
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -428,12 +428,12 @@ TextureImporter:
       name: Ceiling Trap - Level 2_10
       rect:
         serializedVersion: 2
-        x: 611
+        x: 960
         y: 0
-        width: 26
+        width: 96
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -450,12 +450,12 @@ TextureImporter:
       name: Ceiling Trap - Level 2_11
       rect:
         serializedVersion: 2
-        x: 707
+        x: 1056
         y: 0
-        width: 27
+        width: 96
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -472,12 +472,12 @@ TextureImporter:
       name: Ceiling Trap - Level 2_12
       rect:
         serializedVersion: 2
-        x: 803
+        x: 1152
         y: 0
-        width: 28
+        width: 96
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -494,12 +494,12 @@ TextureImporter:
       name: Ceiling Trap - Level 2_13
       rect:
         serializedVersion: 2
-        x: 899
+        x: 1248
         y: 0
-        width: 28
+        width: 96
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -516,12 +516,12 @@ TextureImporter:
       name: Ceiling Trap - Level 2_14
       rect:
         serializedVersion: 2
-        x: 995
+        x: 1344
         y: 0
-        width: 26
+        width: 96
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -534,187 +534,11 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
-    - serializedVersion: 2
-      name: Ceiling Trap - Level 2_15
-      rect:
-        serializedVersion: 2
-        x: 1080
-        y: 2
-        width: 22
-        height: 30
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 0fc6255eb3c0e9ca0800000000000000
-      internalID: -6008351401475674896
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Ceiling Trap - Level 2_16
-      rect:
-        serializedVersion: 2
-        x: 1106
-        y: 2
-        width: 22
-        height: 30
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 1fcc95015c102b220800000000000000
-      internalID: 2500062689038552305
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Ceiling Trap - Level 2_17
-      rect:
-        serializedVersion: 2
-        x: 1169
-        y: 4
-        width: 28
-        height: 28
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 4f2c16af0f5e5b620800000000000000
-      internalID: 2789388367381512948
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Ceiling Trap - Level 2_18
-      rect:
-        serializedVersion: 2
-        x: 1203
-        y: 4
-        width: 28
-        height: 28
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 8342fed62b0bcf560800000000000000
-      internalID: 7348942972356863032
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Ceiling Trap - Level 2_19
-      rect:
-        serializedVersion: 2
-        x: 1261
-        y: 9
-        width: 32
-        height: 23
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: b9e3455c607327bc0800000000000000
-      internalID: -3786903834445201765
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Ceiling Trap - Level 2_20
-      rect:
-        serializedVersion: 2
-        x: 1299
-        y: 9
-        width: 32
-        height: 23
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: a6cdd3895e2e8db90800000000000000
-      internalID: -7216768927131640726
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Ceiling Trap - Level 2_21
-      rect:
-        serializedVersion: 2
-        x: 1353
-        y: 18
-        width: 35
-        height: 14
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 02126f82dec745120800000000000000
-      internalID: 2401681859331629344
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Ceiling Trap - Level 2_22
-      rect:
-        serializedVersion: 2
-        x: 1396
-        y: 18
-        width: 35
-        height: 14
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 80d82938280941020800000000000000
-      internalID: 2311631398975474952
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: c87bcfb2b968c954aa2847e39d3558f6
     internalID: 0
     vertices: []
     indices: 
@@ -722,7 +546,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":15.0,"y":1.0},"gridSpriteSize":{"x":96.0,"y":32.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
       Ceiling Trap - Level 2_0: -3955287861650052505
       Ceiling Trap - Level 2_1: 8401605131354494185
@@ -731,15 +557,7 @@ TextureImporter:
       Ceiling Trap - Level 2_12: -7228115254629975061
       Ceiling Trap - Level 2_13: -6187079519799243200
       Ceiling Trap - Level 2_14: -3154227201239288672
-      Ceiling Trap - Level 2_15: -6008351401475674896
-      Ceiling Trap - Level 2_16: 2500062689038552305
-      Ceiling Trap - Level 2_17: 2789388367381512948
-      Ceiling Trap - Level 2_18: 7348942972356863032
-      Ceiling Trap - Level 2_19: -3786903834445201765
       Ceiling Trap - Level 2_2: 396801416661050795
-      Ceiling Trap - Level 2_20: -7216768927131640726
-      Ceiling Trap - Level 2_21: 2401681859331629344
-      Ceiling Trap - Level 2_22: 2311631398975474952
       Ceiling Trap - Level 2_3: 3611829248200238546
       Ceiling Trap - Level 2_4: 8260617227189348434
       Ceiling Trap - Level 2_5: 6854127608676942948

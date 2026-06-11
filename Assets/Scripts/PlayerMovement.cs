@@ -53,6 +53,9 @@ public class PlayerMovement : MonoBehaviour
     public Transform groundCheck;
     public Vector2 groundCheckSize = new Vector2(0.5f, 0.1f);
     public LayerMask whatIsGround;
+    [Tooltip("Puffer-Zeit (Sekunden), um nerviges Animations-Flackern auf unebenen Tilemaps zu ignorieren")]
+    public float groundGracePeriod = 0.1f;
+    private float groundGraceTimer;
 
     [Header("Animation")]
     public Animator animator;
@@ -184,13 +187,25 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        // 1. BODEN-CHECK (Viel robuster)
+        // 1. BODEN-CHECK (Mit Anti-Flacker-Puffer für Tilemaps)
         bool groundOverlap = Physics2D.OverlapBox(groundCheck.position, groundCheckSize, 0f, whatIsGround);
         
         // Wir prüfen zusätzlich, ob wir IRGENDWAS berühren (auch Pilze oder Trigger)
         bool touchingAnything = rb.IsTouchingLayers(Physics2D.AllLayers);
         
-        isGrounded = groundOverlap || (touchingAnything && Mathf.Abs(rb.linearVelocity.y) < 0.1f);
+        bool actualGround = groundOverlap || (touchingAnything && Mathf.Abs(rb.linearVelocity.y) < 0.1f);
+
+        // Puffer-Timer: Verhindert, dass der Player bei einem 1-Frame-Hüpfer sofort die Jump-Animation startet
+        if (actualGround)
+        {
+            groundGraceTimer = groundGracePeriod;
+        }
+        else
+        {
+            groundGraceTimer -= Time.fixedDeltaTime;
+        }
+
+        isGrounded = groundGraceTimer > 0f;
 
         isTouchingLadder = rb.IsTouchingLayers(whatIsLadder);
 
