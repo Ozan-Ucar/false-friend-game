@@ -14,6 +14,18 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/HouseLevel.unity
     guid: 9a6dd53a433e2ac46b60a22f5116e832
+  - enabled: 1
+    path: Assets/Scenes/DesertLevel.unity
+    guid: 8e65f12aff7982a4cae876fd78200992
+  - enabled: 1
+    path: Assets/Scenes/WaterLevelScene.unity
+    guid: 11ef9b0ce0deb3146ac7ea057c5c551a
+  - enabled: 1
+    path: Assets/Scenes/OksanaScene.unity
+    guid: 118b37e4532a32548a7f4e24b16a661e
+  - enabled: 1
+    path: Assets/Scenes/DungeonLevel.unity
+    guid: 3caf882f022bba64abf005cf3a9df6e6
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 8ea4cbec53f899e42beb603a64cae3b6, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}

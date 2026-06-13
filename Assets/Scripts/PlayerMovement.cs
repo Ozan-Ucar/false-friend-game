@@ -39,6 +39,23 @@ public class PlayerMovement : MonoBehaviour
     float swingDirection; // -1 oder +1
     Rigidbody2D swingTargetRb;
 
+    [Header("Water")]
+    public float waterSwimSpeed = 8f;
+    public float bobbingAmplitude = 0.2f;
+    public float bobbingFrequency = 2f;
+    [Tooltip("Verschiebt den Spieler hoch oder runter, damit er exakt auf der Wasserlinie schwimmt (z.B. -0.5 oder 0.2)")]
+    public float waterSurfaceOffset = -0.5f;
+    
+    [Header("Water Animation")]
+    [Tooltip("Sprite, das angezeigt wird, wenn der Spieler im Wasser schwimmt, aber sich NICHT bewegt (Idle).")]
+    public Sprite waterIdleSprite;
+    [Tooltip("Animations-Geschwindigkeit für die Walk-Animation, während der Spieler im Wasser schwimmt.")]
+    public float waterWalkAnimSpeed = 0.6f;
+
+    bool isInWater;
+    float waterTimer;
+    float waterSurfaceY;
+
     [Header("Physics")]
     public Rigidbody2D rb;
     public float fallMultiplier = 7f;
@@ -163,7 +180,7 @@ public class PlayerMovement : MonoBehaviour
 
     void OnSpacePressed()
     {
-        if (isOnLiane) return;
+        if (isOnLiane || isInWater) return;
 
         if (actuallyClimbing)
         {
@@ -223,10 +240,12 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
-        // Liane check per Tag
+        // Liane & Water check per Tag
         isTouchingLiane = false;
+        isInWater = false;
         currentLiane = null;
         currentLianeRb = null;
+        
         ContactFilter2D filter = new ContactFilter2D();
         filter.useTriggers = true;
         filter.SetLayerMask(Physics2D.AllLayers);
@@ -234,16 +253,45 @@ public class PlayerMovement : MonoBehaviour
         int count = Physics2D.OverlapCircle(transform.position, lianeDetectionRadius, filter, hits);
         for (int i = 0; i < count; i++)
         {
-            if (hits[i] != null && hits[i].CompareTag("Liane"))
+            if (hits[i] != null)
             {
-                isTouchingLiane = true;
-                currentLiane = hits[i].transform;
-                currentLianeRb = hits[i].GetComponent<Rigidbody2D>();
-                break;
+                if (hits[i].CompareTag("Liane"))
+                {
+                    isTouchingLiane = true;
+                    currentLiane = hits[i].transform;
+                    currentLianeRb = hits[i].GetComponent<Rigidbody2D>();
+                }
+                else if (hits[i].CompareTag("Water"))
+                {
+                    isInWater = true;
+                    // Die oberste Kante des Water-Triggers ist unsere Wasseroberfläche
+                    waterSurfaceY = hits[i].bounds.max.y;
+                }
             }
         }
 
-        if (actuallyClimbing)
+        if (isInWater)
+        {
+            rb.gravityScale = 0f;
+            
+            // X Movement (Schwimmen)
+            float currentSpeed = waterSwimSpeed;
+            if (isInPoison) currentSpeed *= poisonSpeedMultiplier;
+            rb.linearVelocity = new Vector2(moveInput.x * currentSpeed, 0f);
+
+            // Y Movement (Bobbing & Auftauchen)
+            waterTimer += Time.fixedDeltaTime;
+            
+            // Spieler treibt sanft nach oben zur Wasseroberfläche und wippt dort
+            // Das Offset bestimmt, ob der Körper tief oder flach im Wasser hängt.
+            float targetY = waterSurfaceY + waterSurfaceOffset + Mathf.Sin(waterTimer * bobbingFrequency) * bobbingAmplitude;
+            
+            // Sanftes Auftauchen (Lerp)
+            float newY = Mathf.Lerp(transform.position.y, targetY, Time.fixedDeltaTime * 5f);
+            
+            transform.position = new Vector3(transform.position.x, newY, transform.position.z);
+        }
+        else if (actuallyClimbing)
         {
             rb.gravityScale = 0f;
             rb.linearVelocity = new Vector2(moveInput.x * speed, moveInput.y * climbSpeed);
@@ -322,18 +370,42 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // 2. PARAMETER ÜBERGEBEN
-        // Sind wir in Bewegung?
         bool isMoving = Mathf.Abs(moveInput.x) > 0.01f;
-        animator.SetBool("isWalking", isMoving);
-        
-        // Sind wir am Boden?
-        animator.SetBool("isGrounded", isGrounded);
-        
-        // Vertikale Geschwindigkeit (Positiv = Springen, Negativ = Fallen)
-        animator.SetFloat("yVelocity", rb.linearVelocity.y);
-        
-        // Klettern wir gerade? (Leiter oder Liane)
-        animator.SetBool("isClimbing", actuallyClimbing || isOnLiane);
+
+        if (isInWater)
+        {
+            if (isMoving)
+            {
+                // Wenn wir im Wasser schwimmen: Normale Walk-Animation, aber angepasste Geschwindigkeit!
+                animator.enabled = true;
+                animator.speed = waterWalkAnimSpeed;
+                
+                animator.SetBool("isWalking", true);
+                animator.SetBool("isGrounded", true); // Fake "Grounded", damit Walk abspielt
+                animator.SetFloat("yVelocity", 0f);
+                animator.SetBool("isClimbing", false);
+            }
+            else
+            {
+                // Wenn wir im Wasser stillstehen (Idle): Animator komplett ausschalten und statisches Sprite setzen!
+                animator.enabled = false;
+                if (waterIdleSprite != null && spriteRenderer != null)
+                {
+                    spriteRenderer.sprite = waterIdleSprite;
+                }
+            }
+        }
+        else
+        {
+            // --- Normales Verhalten (Land) ---
+            animator.enabled = true;
+            animator.speed = 1f; // Zurücksetzen auf Normal-Geschwindigkeit
+
+            animator.SetBool("isWalking", isMoving);
+            animator.SetBool("isGrounded", isGrounded);
+            animator.SetFloat("yVelocity", rb.linearVelocity.y);
+            animator.SetBool("isClimbing", actuallyClimbing || isOnLiane);
+        }
     }
 
     public void SetInPoison(bool value)

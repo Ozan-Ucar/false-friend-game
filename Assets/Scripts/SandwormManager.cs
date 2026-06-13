@@ -10,8 +10,34 @@ public class SandwormManager : MonoBehaviour
     [Tooltip("Mindestabstand zu anderen Würmern, damit sie nicht ineinander spawnen")]
     public float minDistanceBetweenWorms = 1.0f;
     
-    [Tooltip("Welcher Layer ist der Boden? (Damit der Raycast weiß, wo er einrasten soll)")]
-    public LayerMask groundLayer;
+    [Tooltip("Die Durchsichtigkeit des Geists (Vorschau), wenn er platziert werden darf (0 = unsichtbar, 1 = voll sichtbar)")]
+    [Range(0f, 1f)]
+    public float ghostValidAlpha = 0.5f;
+
+    [Tooltip("Die Durchsichtigkeit des Geists, wenn er ROT ist und NICHT platziert werden darf")]
+    [Range(0f, 1f)]
+    public float ghostInvalidAlpha = 0.5f;
+
+    [Tooltip("Breite des Wurms (Für den Treppen/Klippen-Check - wie weit links und rechts wird gemessen?)")]
+    public float wormWidth = 2.0f;
+
+    [Tooltip("Maximaler erlaubter Höhenunterschied links und rechts (damit er nicht auf Treppen/Schrägen baut)")]
+    public float maxSlopeTolerance = 0.1f;
+
+    [Header("Cinematic")]
+    [Tooltip("Sprite für den Vogelkäfig, der auf den Spieler fällt")]
+    public Sprite birdCageSprite;
+    
+    [Tooltip("Größe des Käfigs (z.B. X: 2, Y: 2, wenn er zu klein ist)")]
+    public Vector2 birdCageScale = Vector2.one;
+
+    [Tooltip("Verschiebt den Landepunkt nach oben oder unten (z.B. -0.5)")]
+    public float birdCageDropYOffset = 0f;
+
+    [Tooltip("Wie lange dauert es, bis der Käfig den Boden erreicht? (in Sekunden)")]
+    public float birdCageDropDuration = 0.8f;
+    
+    private GameObject activeBirdCage;
 
     private int placedCount = 0;
     private PlayerMovement playerMovement;
@@ -22,19 +48,77 @@ public class SandwormManager : MonoBehaviour
 
     void Start()
     {
-        if (groundLayer.value == 0)
+        // Statt sofort loszulegen, starten wir die Intro-Sequenz mit dem Käfig!
+        StartCoroutine(IntroSequence());
+    }
+
+    private System.Collections.IEnumerator IntroSequence()
+    {
+        // 0. WARTEN: Wir lassen den Spieler erst gemütlich in die Szene reinlaufen
+        PortalTransition portalTrans = FindFirstObjectByType<PortalTransition>();
+        if (portalTrans != null)
         {
-            Debug.LogWarning("ACHTUNG: Ground Layer im SandwormManager ist auf 'Nothing' gestellt! Der Raycast wird nichts treffen.");
+            // Warte einen Frame, um sicherzugehen, dass PortalTransition Start() ausgeführt hat
+            yield return null; 
+            
+            while (portalTrans.IsInTransition())
+            {
+                yield return null; // Warten, bis der Spieler am Ziel steht
+            }
+        }
+        else
+        {
+            // Falls es keine Tür gibt, warten wir zumindest, bis der schwarze Ladebildschirm weg ist
+            yield return new WaitForSeconds(1.2f);
         }
 
         // 1. Finde den Spieler und friere ihn ein
         playerMovement = FindFirstObjectByType<PlayerMovement>();
+        Vector3 playerPos = Vector3.zero;
+
         if (playerMovement != null)
         {
             playerMovement.enabled = false;
+            playerPos = playerMovement.transform.position;
         }
 
-        // 2. Erstelle den ersten "Geist"
+        // 2. Vogelkäfig animieren
+        if (birdCageSprite != null)
+        {
+            activeBirdCage = new GameObject("BirdCage");
+            SpriteRenderer sr = activeBirdCage.AddComponent<SpriteRenderer>();
+            sr.sprite = birdCageSprite;
+            sr.sortingOrder = 50; // Damit er vor dem Spieler gezeichnet wird
+            
+            // Setze die Größe
+            activeBirdCage.transform.localScale = new Vector3(birdCageScale.x, birdCageScale.y, 1f);
+
+            // Der perfekte Landepunkt auf dem Spieler (inklusive Höhen-Korrektur)
+            Vector3 targetPos = playerPos + new Vector3(0, birdCageDropYOffset, 0);
+
+            // Käfig startet 15 Units über dem Landepunkt
+            Vector3 startPos = targetPos + new Vector3(0, 15f, 0);
+            activeBirdCage.transform.position = startPos;
+
+            // Lass ihn runterfallen
+            float t = 0f;
+            while (t < birdCageDropDuration)
+            {
+                t += Time.deltaTime;
+                float progress = t / birdCageDropDuration;
+                
+                // Ein kleines "Easing" (schneller werdend), damit es Wucht hat
+                float easeIn = progress * progress * progress; 
+                activeBirdCage.transform.position = Vector3.Lerp(startPos, targetPos, easeIn);
+                yield return null;
+            }
+            activeBirdCage.transform.position = targetPos; // Exakt am Ziel ankommen
+            
+            // Kurzer Moment der Stille, um den Aufprall wirken zu lassen
+            yield return new WaitForSeconds(0.4f);
+        }
+
+        // 3. Erstelle den ersten "Geist" zum Bauen
         CreateGhost();
     }
 
@@ -69,7 +153,7 @@ public class SandwormManager : MonoBehaviour
         foreach (SpriteRenderer sr in ghostRenderers)
         {
             Color c = sr.color;
-            c.a = 0.5f; // 50% durchsichtig
+            c.a = ghostValidAlpha; 
             sr.color = c;
         }
     }
@@ -98,25 +182,28 @@ public class SandwormManager : MonoBehaviour
             // 1. Maus-Position in der Welt finden
             Vector2 mousePos = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
 
-            // 2. Wir suchen den Beden! Schieße von weit oben nach ganz unten durch ALLES hindurch.
-            RaycastHit2D[] hits = Physics2D.RaycastAll(mousePos + Vector2.up * 20f, Vector2.down, 200f);
-            
-            RaycastHit2D validHit = new RaycastHit2D();
-            bool foundGround = false;
-
-            foreach (RaycastHit2D h in hits)
+            // Prüfen, ob die Maus BEREITS IM BODEN steckt (um zu verhindern, dass man Würmer im Boden platziert)
+            bool isMouseInsideGround = false;
+            Collider2D[] colsAtMouse = Physics2D.OverlapPointAll(mousePos);
+            foreach (Collider2D c in colsAtMouse)
             {
-                // Wir ignorieren den Spieler und wir ignorieren reine Trigger-Zonen.
-                // Alles andere (wie die Tilemap) ist unser Boden!
-                if (h.collider != null && !h.collider.CompareTag("Player") && !h.collider.isTrigger)
+                if (!c.CompareTag("Player") && !c.isTrigger && c.GetComponent<SandwormGrave>() == null && c.GetComponent<SandwormAttack>() == null)
                 {
-                    validHit = h;
-                    foundGround = true;
+                    isMouseInsideGround = true;
                     break;
                 }
             }
 
-            if (foundGround)
+            RaycastHit2D validHit = new RaycastHit2D();
+            
+            if (!isMouseInsideGround)
+            {
+                // 2. Wir suchen den Boden. Der Strahl startet EXAKT an der Maus (minimal darüber) 
+                // und geht nur 3 Meter nach unten. Man muss also auf den Boden zielen!
+                validHit = GetValidGroundHit(mousePos + Vector2.up * 0.1f, 3f);
+            }
+
+            if (validHit.collider != null)
             {
                 // PERFEKT! Wir setzen den Geist auf den gefundenen Boden + das individuelle Offset des jeweiligen Wurms
                 Vector2 finalPos = validHit.point;
@@ -129,16 +216,42 @@ public class SandwormManager : MonoBehaviour
 
                 ghostWorm.transform.position = finalPos;
 
-                // Prüfen, ob der Platz frei ist (ohne Collider vorauszusetzen, über pure Distanz!)
                 bool canPlace = true;
-                
-                SandwormGrave[] allGraves = FindObjectsOfType<SandwormGrave>();
-                foreach (SandwormGrave g in allGraves)
+
+                // --- 1. SCHRITT: Flacher Boden-Check (Treppen/Schrägen blockieren) ---
+                float halfWidth = wormWidth / 2f;
+                // Wir schießen links und rechts vom Mittelpunkt leicht von oben nach unten
+                Vector2 leftStart = validHit.point + new Vector2(-halfWidth, 1.0f);
+                Vector2 rightStart = validHit.point + new Vector2(halfWidth, 1.0f);
+
+                RaycastHit2D hitLeft = GetValidGroundHit(leftStart, 3f);
+                RaycastHit2D hitRight = GetValidGroundHit(rightStart, 3f);
+
+                if (hitLeft.collider != null && hitRight.collider != null)
                 {
-                    if (g.gameObject != ghostWorm && Vector2.Distance(finalPos, g.transform.position) < minDistanceBetweenWorms)
+                    // Wenn der Höhenunterschied zwischen dem linken und rechten Punkt zu groß ist = Treppe/Schräge!
+                    if (Mathf.Abs(hitLeft.point.y - hitRight.point.y) > maxSlopeTolerance)
                     {
                         canPlace = false;
-                        break;
+                    }
+                }
+                else
+                {
+                    // Wenn ein Raycast keinen Boden gefunden hat, schwebt eine Hälfte in der Luft (Klippe!)
+                    canPlace = false;
+                }
+
+                // --- 2. SCHRITT: Prüfen, ob der Platz frei ist (Abstand zu anderen Würmern) ---
+                if (canPlace)
+                {
+                    SandwormGrave[] allGraves = FindObjectsOfType<SandwormGrave>();
+                    foreach (SandwormGrave g in allGraves)
+                    {
+                        if (g.gameObject != ghostWorm && Vector2.Distance(finalPos, g.transform.position) < minDistanceBetweenWorms)
+                        {
+                            canPlace = false;
+                            break;
+                        }
                     }
                 }
 
@@ -160,7 +273,7 @@ public class SandwormManager : MonoBehaviour
                     foreach (SpriteRenderer sr in ghostRenderers)
                     {
                         Color c = sr.color;
-                        c.r = 1f; c.g = 1f; c.b = 1f; c.a = 0.5f; // Weiß transparent
+                        c.r = 1f; c.g = 1f; c.b = 1f; c.a = ghostValidAlpha; // Weiß transparent
                         sr.color = c;
                     }
 
@@ -174,7 +287,7 @@ public class SandwormManager : MonoBehaviour
                     foreach (SpriteRenderer sr in ghostRenderers)
                     {
                         Color c = sr.color;
-                        c.r = 1f; c.g = 0f; c.b = 0f; c.a = 0.5f; // Rot transparent (blockiert)
+                        c.r = 1f; c.g = 0f; c.b = 0f; c.a = ghostInvalidAlpha; // Rot transparent (blockiert)
                         sr.color = c;
                     }
                 }
@@ -186,7 +299,7 @@ public class SandwormManager : MonoBehaviour
                 foreach (SpriteRenderer sr in ghostRenderers)
                 {
                     sr.enabled = true;
-                    sr.color = new Color(1f, 0f, 0f, 0.6f); // Rot
+                    sr.color = new Color(1f, 0f, 0f, ghostInvalidAlpha); // Rot
                 }
             }
         }
@@ -233,10 +346,53 @@ public class SandwormManager : MonoBehaviour
     {
         Debug.Log("Alle Würmer platziert! Action-Phase beginnt!");
         
-        // Spieler auftauen
+        StartCoroutine(OutroSequence());
+    }
+
+    private System.Collections.IEnumerator OutroSequence()
+    {
+        // Käfig ausfaden lassen
+        if (activeBirdCage != null)
+        {
+            SpriteRenderer sr = activeBirdCage.GetComponent<SpriteRenderer>();
+            float fadeDuration = 1.0f;
+            float t = 0f;
+            Color startColor = sr.color;
+
+            while (t < fadeDuration)
+            {
+                t += Time.deltaTime;
+                float progress = t / fadeDuration;
+                startColor.a = Mathf.Lerp(1f, 0f, progress);
+                sr.color = startColor;
+                yield return null;
+            }
+
+            Destroy(activeBirdCage);
+        }
+
+        // Spieler wieder auftauen
         if (playerMovement != null)
         {
             playerMovement.enabled = true;
         }
+    }
+
+    // Hilfsmethode, um den perfekten Boden zu finden (ignoriert Spieler, Trigger und andere Würmer!)
+    private RaycastHit2D GetValidGroundHit(Vector2 startPos, float distance)
+    {
+        RaycastHit2D[] hits = Physics2D.RaycastAll(startPos, Vector2.down, distance);
+        foreach (RaycastHit2D h in hits)
+        {
+            if (h.collider != null && !h.collider.CompareTag("Player") && !h.collider.isTrigger)
+            {
+                // Ignoriere platzierte Würmer
+                if (h.collider.GetComponent<SandwormGrave>() == null && h.collider.GetComponent<SandwormAttack>() == null)
+                {
+                    return h;
+                }
+            }
+        }
+        return new RaycastHit2D(); // Nichts gefunden
     }
 }
