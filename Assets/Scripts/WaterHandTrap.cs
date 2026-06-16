@@ -220,8 +220,18 @@ public class WaterHandTrap : MonoBehaviour
                     
                     if (health != null)
                     {
-                        // Player bekommt Schaden
-                        health.TakeDamage(damage);
+                        // Spezifisches Verhalten für die Hand-Falle: Insta-Kill, 1 Sekunde Restart, fetter Shake statt Zoom!
+                        health.useDeathZoom = false;
+                        health.deathRestartDelay = 1.0f;
+                        
+                        // Player bekommt unendlich Schaden (Insta-Kill)
+                        health.TakeDamage(999);
+
+                        // Heftiger Kamera-Shake passend zum Runterziehen!
+                        if (CameraShake.Instance != null)
+                        {
+                            CameraShake.Instance.ShakeCustom(1f, 0.5f);
+                        }
                         
                         // Wenn der coole Zieh-Effekt an ist, fixieren wir ihn für Phase 4
                         if (pullPlayerDown)

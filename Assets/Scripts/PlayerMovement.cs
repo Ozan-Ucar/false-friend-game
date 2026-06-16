@@ -12,6 +12,10 @@ public class PlayerMovement : MonoBehaviour
     public float jumpForce = 18f;
     public float coyoteTime = 0.15f;
     float coyoteCounter;
+    
+    public float jumpBufferTime = 0.15f;
+    float jumpBufferCounter;
+    
     bool jumpButtonHeld;
 
     [Header("Climbing")]
@@ -61,6 +65,16 @@ public class PlayerMovement : MonoBehaviour
     public float fallMultiplier = 7f;
     public float lowJumpMultiplier = 5f;
     
+    [Header("One-Way Platforms")]
+    [Tooltip("Der genaue Name des Layers in Unity für die Plattformen (z.B. 'OneWayPlatform')")]
+    public string oneWayLayerName = "OneWayPlatform";
+    public float fallThroughDuration = 0.05f; // Noch kleiner, damit er direkt wieder fest wird
+    private bool wasPushingDown = false;
+
+    [Header("Audio")]
+    public float stepInterval = 0.35f; // Wie viele Sekunden zwischen jedem Schritt?
+    private float stepTimer = 0f;
+
     [Header("Poison Effect")]
     public float poisonSpeedMultiplier = 0.5f;
     private bool isInPoison = false;
@@ -87,11 +101,32 @@ public class PlayerMovement : MonoBehaviour
     {
         bool prevJumpHeld = jumpButtonHeld;
         jumpButtonHeld = SpaceIsActuallyHeld();
+        
+        bool isPushingDown = moveInput.y < -0.5f;
 
+        // === ONE-WAY PLATFORM DROP (NUR S DRÜCKEN) ===
+        if (isPushingDown && !wasPushingDown && isGrounded && !isOnLiane && !actuallyClimbing && !isInWater)
+        {
+            DropThroughPlatform();
+        }
+        wasPushingDown = isPushingDown;
+
+        // === JUMP BUFFERING (Taste kurz vor dem Landen drücken) ===
         if (jumpButtonHeld && !prevJumpHeld)
         {
+            jumpBufferCounter = jumpBufferTime;
+        }
+        else
+        {
+            jumpBufferCounter -= Time.deltaTime;
+        }
+
+        if (jumpBufferCounter > 0f)
+        {
+            // Wenn man den Jump-Buffer hat, versuche zu springen (OnSpacePressed ist jetzt sicher)
             OnSpacePressed();
         }
+
         if (!jumpButtonHeld && prevJumpHeld)
         {
             OnSpaceReleased();
@@ -154,6 +189,46 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    void DropThroughPlatform()
+    {
+        int oneWayLayer = LayerMask.NameToLayer(oneWayLayerName);
+        if (oneWayLayer == -1) return;
+
+        Collider2D[] grounds = Physics2D.OverlapBoxAll(groundCheck.position, groundCheckSize, 0f);
+        Collider2D[] myCols = GetComponents<Collider2D>();
+        
+        bool dropped = false;
+        foreach (Collider2D groundCol in grounds)
+        {
+            if (groundCol.gameObject.layer == oneWayLayer)
+            {
+                foreach (Collider2D myCol in myCols)
+                {
+                    StartCoroutine(IgnorePlatformTemporarily(myCol, groundCol));
+                }
+                dropped = true;
+            }
+        }
+
+        if (dropped)
+        {
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, -2f);
+        }
+    }
+
+    private System.Collections.IEnumerator IgnorePlatformTemporarily(Collider2D playerCol, Collider2D platformCol)
+    {
+        Physics2D.IgnoreCollision(playerCol, platformCol, true);
+        
+        // Wartet exakt den eingestellten Wert (im Inspector änderbar!)
+        yield return new WaitForSeconds(fallThroughDuration);
+        
+        if (playerCol != null && platformCol != null)
+        {
+            Physics2D.IgnoreCollision(playerCol, platformCol, false);
+        }
+    }
+
     void ExitLiane(Vector2 playerVelocity, bool applyPush)
     {
         if (applyPush && currentLianeRb != null && playerVelocity.magnitude > 1f)
@@ -186,11 +261,13 @@ public class PlayerMovement : MonoBehaviour
         {
             actuallyClimbing = false;
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+            jumpBufferCounter = 0f; // Buffer leeren, da gesprungen
         }
         else if (coyoteCounter > 0f)
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
             coyoteCounter = 0f;
+            jumpBufferCounter = 0f; // Buffer leeren
         }
     }
 
@@ -337,6 +414,25 @@ public class PlayerMovement : MonoBehaviour
             float movement = speedDif * accelRate;
 
             rb.AddForce(movement * Vector2.right, ForceMode2D.Force);
+
+            // --- NEU: Footstep Sounds abspielen ---
+            if (isGrounded && Mathf.Abs(moveInput.x) > 0.01f)
+            {
+                stepTimer += Time.fixedDeltaTime;
+                if (stepTimer >= stepInterval)
+                {
+                    stepTimer = 0f;
+                    if (SceneSoundManager.Instance != null)
+                    {
+                        SceneSoundManager.Instance.PlayFootstep();
+                    }
+                }
+            }
+            else
+            {
+                // Timer sofort füllen, damit der allererste Schritt beim Anlaufen sofort hörbar ist!
+                stepTimer = stepInterval;
+            }
 
             if (rb.linearVelocity.y < 0)
             {

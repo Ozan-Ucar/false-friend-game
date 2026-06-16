@@ -166,7 +166,14 @@ public class PortalTransition : MonoBehaviour
         // 6. Animation stoppen
         if (anim != null) anim.SetBool("isWalking", false);
 
-        // 7. Optional: Nächste Szene laden
+        // 7. Stars anzeigen
+        if (StarManager.Instance != null)
+        {
+            StarManager.Instance.ShowEndScreen();
+            yield return new WaitForSeconds(3f);
+        }
+
+        // 8. Nächste Szene laden
         if (!string.IsNullOrEmpty(nextSceneName))
         {
             if (sceneLoadDelay > 0) yield return new WaitForSeconds(sceneLoadDelay);

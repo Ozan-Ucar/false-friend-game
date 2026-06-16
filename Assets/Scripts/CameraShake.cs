@@ -23,7 +23,6 @@ public class CameraShake : MonoBehaviour
     [Range(0.01f, 1f)]
     public float deathSlowMoScale = 0.2f;
 
-    private Vector3 originalPos;
     private Camera cam;
     private float originalOrthoSize;
 
@@ -34,7 +33,6 @@ public class CameraShake : MonoBehaviour
 
     void Start()
     {
-        originalPos = transform.localPosition;
         cam = GetComponent<Camera>();
         if (cam == null) cam = Camera.main;
         if (cam != null) originalOrthoSize = cam.orthographicSize;
@@ -63,26 +61,39 @@ public class CameraShake : MonoBehaviour
     private IEnumerator DoShake(float duration, float magnitude)
     {
         float elapsed = 0.0f;
+        
+        // Position merken, wo die Kamera war, als der Shake losging!
+        Vector3 basePos = transform.localPosition;
+        
+        // Den Shake an die Kamera-Größe (Zoom) anpassen!
+        // 5f ist ein guter Standardwert für 2D-Spiele. 
+        // Wenn die Kamera viel größer ist (rausgezoomt), muss der Wackler stärker sein, um gleich auszusehen.
+        float zoomMultiplier = 1f;
+        if (cam != null && cam.orthographic)
+        {
+            zoomMultiplier = cam.orthographicSize / 5f;
+        }
 
         while (elapsed < duration)
         {
-            float currentMagnitude = magnitude;
+            float currentMagnitude = magnitude * zoomMultiplier;
             
             if (useDecay)
             {
-                currentMagnitude = Mathf.Lerp(magnitude, 0, elapsed / duration);
+                currentMagnitude = Mathf.Lerp(magnitude * zoomMultiplier, 0, elapsed / duration);
             }
 
             float x = Random.Range(-1f, 1f) * currentMagnitude;
             float y = Random.Range(-1f, 1f) * currentMagnitude;
 
-            transform.localPosition = new Vector3(x, y, originalPos.z);
+            // WICHTIG: Die x und y Offsets müssen ZUR basePos addiert werden!
+            transform.localPosition = new Vector3(basePos.x + x, basePos.y + y, basePos.z);
             elapsed += Time.deltaTime;
 
             yield return null;
         }
 
-        transform.localPosition = originalPos;
+        transform.localPosition = basePos;
     }
 
     public void DoDeathZoom(Transform targetTransform)

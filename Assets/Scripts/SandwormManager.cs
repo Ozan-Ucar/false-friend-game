@@ -40,6 +40,10 @@ public class SandwormManager : MonoBehaviour
     private GameObject activeBirdCage;
 
     private int placedCount = 0;
+    
+    // Gibt an, ob die Bauphase beendet ist
+    public bool AllWormsPlaced => wormPrefabs == null || placedCount >= wormPrefabs.Length;
+
     private PlayerMovement playerMovement;
     
     // Ghost (Vorschau)
@@ -100,6 +104,13 @@ public class SandwormManager : MonoBehaviour
             Vector3 startPos = targetPos + new Vector3(0, 15f, 0);
             activeBirdCage.transform.position = startPos;
 
+            // Wir sagen dem SoundManager SCHON JETZT Bescheid, dass der Käfig fällt und wie lange es dauert.
+            // Er wartet dann im Hintergrund genau diese Zeit (plus dein manuelles Offset), um den Sound abzuspielen!
+            if (SceneSoundManager.Instance != null)
+            {
+                SceneSoundManager.Instance.PlayCageDrop(birdCageDropDuration);
+            }
+
             // Lass ihn runterfallen
             float t = 0f;
             while (t < birdCageDropDuration)
@@ -113,7 +124,7 @@ public class SandwormManager : MonoBehaviour
                 yield return null;
             }
             activeBirdCage.transform.position = targetPos; // Exakt am Ziel ankommen
-            
+
             // Kurzer Moment der Stille, um den Aufprall wirken zu lassen
             yield return new WaitForSeconds(0.4f);
         }
@@ -328,6 +339,12 @@ public class SandwormManager : MonoBehaviour
             trapScript.isPlaced = true;
         }
 
+        // --- NEU: Soundeffekt für das Platzieren abspielen ---
+        if (SceneSoundManager.Instance != null)
+        {
+            SceneSoundManager.Instance.PlayPlaceWorm();
+        }
+
         ghostWorm = null;
         placedCount++;
 
@@ -354,6 +371,12 @@ public class SandwormManager : MonoBehaviour
         // Käfig ausfaden lassen
         if (activeBirdCage != null)
         {
+            // --- NEU: Fade Sound abspielen ---
+            if (SceneSoundManager.Instance != null)
+            {
+                SceneSoundManager.Instance.PlayCageFade();
+            }
+
             SpriteRenderer sr = activeBirdCage.GetComponent<SpriteRenderer>();
             float fadeDuration = 1.0f;
             float t = 0f;

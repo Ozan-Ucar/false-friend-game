@@ -5,7 +5,7 @@ Shader "Custom/SpriteHighlight"
         [PerRendererData] _MainTex ("Sprite Texture", 2D) = "white" {}
         _Color ("Tint", Color) = (1,1,1,1)
         _HighlightColor ("Highlight Color", Color) = (1,1,0,1)
-        _OutlineWidth ("Outline Width", Range(0, 20)) = 2
+        _OutlineWidth ("Outline Width", Range(0, 100)) = 2
         _PulseSpeed ("Pulse Speed", Float) = 2.0
         _PulseAmount ("Pulse Amount", Range(0, 1)) = 1.0 // 1 = Volles Pulsieren, 0 = Statisch
     }
@@ -72,12 +72,33 @@ Shader "Custom/SpriteHighlight"
                 alpha = max(alpha, tex2D(_MainTex, input.uv + float2(texelSize.x, -texelSize.y) * 0.707).a);
                 alpha = max(alpha, tex2D(_MainTex, input.uv + float2(-texelSize.x, -texelSize.y) * 0.707).a);
 
+                // Basis Sinus-Welle (0.0 bis 1.0)
+                float rawSin = sin(_Time.y * _PulseSpeed) * 0.5 + 0.5;
+
+                // Outline-Logik: pulsiert sanft zwischen 40% und 100% (verschwindet nie ganz!)
+                float outlineWave = lerp(0.4, 1.0, rawSin);
+                float finalOutlinePulse = lerp(1.0, outlineWave, _PulseAmount);
+
+                // Innere Füllung Logik: Bleibt fast immer 0 und "blinkt" nur ganz kurz auf
+                // Durch pow(..., 8.0) werden nur die absoluten Spitzenwerte der Welle sichtbar
+                float innerWave = pow(rawSin, 8.0);
+                float finalInnerPulse = lerp(1.0, innerWave, _PulseAmount);
+
                 if (c.a < 0.1 && alpha > 0.1)
                 {
-                    // Puls-Logik: 1 = Puls, 0 = Statisch (100% Helligkeit)
-                    float sinPulse = sin(_Time.y * _PulseSpeed) * 0.5 + 0.5;
-                    float finalPulse = lerp(1.0, sinPulse, _PulseAmount);
-                    return _HighlightColor * finalPulse;
+                    // Outline zeichnen
+                    return _HighlightColor * finalOutlinePulse;
+                }
+                else if (c.a >= 0.1)
+                {
+                    // Inneres des Sprites einfärben
+                    float overlayFade = saturate(_OutlineWidth);
+                    
+                    // 35% maximale Deckkraft, multipliziert mit dem kurzen Blink-Impuls
+                    float overlayIntensity = 0.35 * overlayFade * finalInnerPulse; 
+                    
+                    c.rgb = lerp(c.rgb, _HighlightColor.rgb, overlayIntensity);
+                    return c;
                 }
 
                 return c;

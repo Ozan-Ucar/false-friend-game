@@ -42,7 +42,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _EnableExternalAlpha: 0
-    - _OutlineWidth: 1.6
+    - _OutlineWidth: 3.4
     - _PulseAmount: 0.7
     - _PulseSpeed: 3.14
     - _ZWrite: 0

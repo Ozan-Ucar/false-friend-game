@@ -19,6 +19,9 @@ public class PixelSceneReveal : MonoBehaviour
 
     static void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        // Wenn gerade ein Neustart nach dem Tod stattfindet, überlassen wir dem TransitionShowcase die Arbeit!
+        if (TransitionShowcase.lastTransitionIndex != -1) return;
+
         // Spawnt das Skript in der neuen Szene
         GameObject go = new GameObject("AutoPixelSceneReveal");
         go.AddComponent<PixelSceneReveal>();

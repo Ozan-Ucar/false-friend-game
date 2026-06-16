@@ -24,6 +24,7 @@ public class InteractableDoor : MonoBehaviour
 
     private bool isOpen = false;
     private bool isPlayerNear = false;
+    private bool hasTransitionStarted = false;
 
     void Awake()
     {
@@ -32,13 +33,36 @@ public class InteractableDoor : MonoBehaviour
 
     void Update()
     {
-        if (isOpen) return;
+        if (hasTransitionStarted) return;
 
-        // 1. Öffnen mit Taste 'E' (Geht nur, wenn Spieler in der Nähe ist)
+        // Wenn die Tür offen ist...
+        if (isOpen)
+        {
+            // ...und Anni (Player) in der Nähe ist -> Level wechseln!
+            if (isPlayerNear)
+            {
+                StartTransition();
+                return;
+            }
+
+            // ...und Anni nicht da ist, checken wir ob Kappa noch wartet
+            PetFollow kappa = FindAnyObjectByType<PetFollow>();
+            if (kappa != null && kappa.currentState != PetFollow.PetState.WaitingAtTarget)
+            {
+                // Kappa ist nicht mehr im Warte-Modus (z.B. zurückgerufen) -> Tür zu!
+                if (kappa.mySpeechBubble != null) kappa.mySpeechBubble.HideText();
+                CloseDoor();
+            }
+
+            return; // Wir warten
+        }
+
+        // 1. Öffnen mit Taste 'E' (Falls man als Anni manuell öffnet)
         if (isPlayerNear && Keyboard.current != null && Keyboard.current.eKey.wasPressedThisFrame)
         {
             Debug.Log("Tür per Taste E geöffnet!");
-            OpenDoor();
+            OpenDoorVisualsOnly();
+            StartTransition();
         }
 
         // 2. Öffnen per Mausklick (Egal wo der Spieler steht!)
@@ -52,18 +76,86 @@ public class InteractableDoor : MonoBehaviour
             if (myCollider != null && myCollider.OverlapPoint(mouseWorldPos))
             {
                 Debug.Log("Tür wurde erfolgreich mit der Maus angeklickt!");
-                OpenDoor();
+                
+                // Sucht Kappa (das Pet) in der Szene
+                PetFollow kappa = FindAnyObjectByType<PetFollow>();
+                if (kappa != null)
+                {
+                    // Kappa geht zur Tür
+                    kappa.WalkTo(transform.position.x, () => {
+                        StartCoroutine(OpenDoorAndSpeak(kappa));
+                    });
+                }
+                else
+                {
+                    // Falls kein Spieler gefunden, direkt öffnen und wechseln
+                    OpenDoorVisualsOnly();
+                    StartTransition();
+                }
             }
         }
     }
 
-    private void OpenDoor()
+    private System.Collections.IEnumerator OpenDoorAndSpeak(PetFollow kappa)
     {
-        isOpen = true;
-        UpdateDoorVisuals();
-        
-        // Starte den coolen 8-Bit Level-Wechsel!
-        StartCoroutine(TransitionAndChangeScene());
+        // Tür geht optisch auf!
+        OpenDoorVisualsOnly();
+
+        // 1 Sekunde warten
+        yield return new WaitForSeconds(1f);
+
+        // Wenn er angekommen ist, spreche:
+        SpeechBubble bubble = kappa.mySpeechBubble;
+        if (bubble == null) bubble = kappa.GetComponentInChildren<SpeechBubble>(true);
+
+        if (bubble != null)
+        {
+            bubble.ShowText("Anni komm,\nich warte auf dich!", true);
+        }
+        else
+        {
+            Debug.LogWarning("Kappa hat keine SpeechBubble-Komponente! Bitte ziehe das SpeechBubble-Skript direkt in das 'My Speech Bubble' Feld von PetFollow.");
+        }
+    }
+
+    private void OpenDoorVisualsOnly()
+    {
+        if (!isOpen)
+        {
+            isOpen = true;
+            UpdateDoorVisuals();
+        }
+    }
+
+    private void CloseDoor()
+    {
+        if (isOpen)
+        {
+            isOpen = false;
+            UpdateDoorVisuals();
+        }
+    }
+
+    private void StartTransition()
+    {
+        if (hasTransitionStarted) return;
+        hasTransitionStarted = true;
+        StartCoroutine(ShowStarsThenTransition());
+    }
+
+    private System.Collections.IEnumerator ShowStarsThenTransition()
+    {
+        // Stars anzeigen
+        if (StarManager.Instance != null)
+        {
+            StarManager.Instance.ShowEndScreen();
+            
+            // 3 Sekunden warten, damit der Spieler die Sterne sehen kann
+            yield return new WaitForSeconds(3f);
+        }
+
+        // Dann den Level-Wechsel starten
+        yield return StartCoroutine(TransitionAndChangeScene());
     }
 
     private void UpdateDoorVisuals()

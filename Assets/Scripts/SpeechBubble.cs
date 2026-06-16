@@ -47,7 +47,6 @@ public class SpeechBubble : MonoBehaviour
 
             originalScale = bubbleGraphic.transform.localScale;
             bubbleGraphic.transform.localScale = Vector3.zero;
-            bubbleGraphic.SetActive(false);
 
             // Wir suchen uns automatisch das übergeordnete Canvas
             bubbleCanvas = bubbleGraphic.transform.parent;
@@ -79,7 +78,7 @@ public class SpeechBubble : MonoBehaviour
         }
     }
 
-    public void ShowText(string text)
+    public void ShowText(string text, bool keepOpen = false)
     {
         if (bubbleGraphic == null || bubbleText == null)
         {
@@ -90,14 +89,21 @@ public class SpeechBubble : MonoBehaviour
         if (currentRoutine != null)
             StopCoroutine(currentRoutine);
             
-        currentRoutine = StartCoroutine(ShowRoutine(text));
+        currentRoutine = StartCoroutine(ShowRoutine(text, keepOpen));
     }
 
-    private IEnumerator ShowRoutine(string text)
+    public void HideText()
+    {
+        if (currentRoutine != null)
+            StopCoroutine(currentRoutine);
+            
+        currentRoutine = StartCoroutine(HideRoutine());
+    }
+
+    private IEnumerator ShowRoutine(string text, bool keepOpen)
     {
         bubbleText.gameObject.SetActive(true);
         bubbleText.text = text;
-        bubbleGraphic.SetActive(true);
 
         // 1. Aufpoppen (Scale 0 -> 1)
         float progress = 0f;
@@ -110,11 +116,19 @@ public class SpeechBubble : MonoBehaviour
         }
         bubbleGraphic.transform.localScale = originalScale;
 
+        // Wenn sie für immer bleiben soll (bis sie manuell versteckt wird)
+        if (keepOpen) yield break;
+
         // 2. Warten, bis der Text gelesen wurde
         yield return new WaitForSeconds(displayTime);
 
         // 3. Zupoppen (Scale 1 -> 0)
-        progress = 0f;
+        yield return HideRoutine();
+    }
+
+    private IEnumerator HideRoutine()
+    {
+        float progress = 0f;
         while (progress < 1f)
         {
             progress += Time.deltaTime * animationSpeed;
@@ -125,7 +139,6 @@ public class SpeechBubble : MonoBehaviour
         }
 
         bubbleGraphic.transform.localScale = Vector3.zero;
-        bubbleGraphic.SetActive(false);
         bubbleText.text = "";
         bubbleText.gameObject.SetActive(false);
     }

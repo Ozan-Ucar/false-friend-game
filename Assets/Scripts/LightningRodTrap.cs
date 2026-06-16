@@ -21,12 +21,27 @@ public class LightningRodTrap : MonoBehaviour
     [Tooltip("Breite des Blitzes.")]
     public float lightningWidth = 0.3f;
 
+    [Header("Orb Settings")]
+    [Tooltip("Wenn aktiv, fällt die Falle nicht runter, sondern schwebt wie ein Orb in der Luft.")]
+    public bool isFloatingOrb = true;
+    [Tooltip("Reibung: Bestimmt, wie schnell der Orb nach dem Werfen in der Luft abbremst (0.95 = bremst schnell, 0.99 = bremst langsam).")]
+    public float orbFriction = 0.98f;
+
+    [Header("Slingshot Settings")]
+    [Tooltip("Maximale Länge, die man ziehen kann.")]
+    public float maxPullDistance = 3f;
+    [Tooltip("Multiplikator für die Wurfstärke.")]
+    public float throwPowerMultiplier = 15f;
+    public Color aimColorWeak = Color.green;
+    public Color aimColorStrong = Color.red;
+
     private Rigidbody2D rb;
     private float currentTimer;
     private LineRenderer lr;
     private Material chargeMaterial;
     private Collider2D myCollider;
     private bool isDragging = false;
+    private LineRenderer aimLine;
 
     void Awake()
     {
@@ -34,8 +49,8 @@ public class LightningRodTrap : MonoBehaviour
         myCollider = GetComponent<Collider2D>();
         currentTimer = timeToStrike;
 
-        // Shader zuweisen
-        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+        // Shader zuweisen (sucht auch in Child-Objekten!)
+        SpriteRenderer sr = GetComponentInChildren<SpriteRenderer>();
         if (sr != null)
         {
             Shader chargeShader = Shader.Find("Custom/LightningRodCharge");
@@ -56,6 +71,33 @@ public class LightningRodTrap : MonoBehaviour
         lr.startColor = lightningColor;
         lr.endColor = Color.white;
         lr.sortingOrder = 50; // Weit vorne zeichnen
+
+        // LineRenderer für die Ziel-Linie (Slingshot)
+        GameObject aimObj = new GameObject("AimLine");
+        aimObj.transform.SetParent(this.transform);
+        aimLine = aimObj.AddComponent<LineRenderer>();
+        aimLine.positionCount = 2;
+        aimLine.startWidth = 0.1f;
+        aimLine.endWidth = 0.02f; // Wird nach vorne hin spitzer (Pfeil-Gefühl)
+        aimLine.material = new Material(Shader.Find("Sprites/Default"));
+        aimLine.enabled = false;
+        aimLine.sortingOrder = 49;
+
+        if (isFloatingOrb && rb != null)
+        {
+            rb.gravityScale = 0f; // Schwerelosigkeit aktivieren!
+        }
+    }
+
+    void FixedUpdate()
+    {
+        if (rb == null) return;
+
+        if (!isDragging && isFloatingOrb)
+        {
+            // Orb-Reibung anwenden, damit er nach dem Werfen in der Luft stehen bleibt
+            rb.linearVelocity = rb.linearVelocity * orbFriction;
+        }
     }
 
     void Update()
@@ -70,47 +112,71 @@ public class LightningRodTrap : MonoBehaviour
                 if (myCollider != null && myCollider.OverlapPoint(mousePos))
                 {
                     isDragging = true;
-                    if (rb != null)
-                    {
-                        rb.linearVelocity = Vector2.zero;
-                        rb.isKinematic = true; // Verhindert, dass es während dem Ziehen runterfällt
-                    }
+                    // Ball in der Luft einfrieren beim Zielen
+                    if (rb != null) rb.linearVelocity = Vector2.zero;
+                    if (aimLine != null) aimLine.enabled = true;
                 }
             }
 
             if (Mouse.current.leftButton.wasReleasedThisFrame)
             {
-                isDragging = false;
-                if (rb != null)
+                if (isDragging)
                 {
-                    rb.isKinematic = false; // Wieder Physik aktivieren
+                    isDragging = false;
+                    if (aimLine != null) aimLine.enabled = false;
+                    
+                    if (rb != null)
+                    {
+                        // Zieh-Vektor berechnen (von Maus ZUM Ball -> Richtung in die er fliegt)
+                        Vector2 pullVector = (Vector2)transform.position - mousePos;
+                        
+                        // Maximale Stärke kappen
+                        if (pullVector.magnitude > maxPullDistance)
+                        {
+                            pullVector = pullVector.normalized * maxPullDistance;
+                        }
+                        
+                        // Kraft anwenden!
+                        rb.linearVelocity = pullVector * throwPowerMultiplier;
+                    }
                 }
             }
 
             if (isDragging)
             {
-                transform.position = mousePos;
                 currentTimer = timeToStrike; // Timer beim Ziehen zurücksetzen
+                
+                Vector2 pullVector = (Vector2)transform.position - mousePos;
+                if (pullVector.magnitude > maxPullDistance)
+                {
+                    pullVector = pullVector.normalized * maxPullDistance;
+                }
+                
+                // Ziellinie zeichnen (vom Ball wegzeigend)
+                if (aimLine != null)
+                {
+                    aimLine.SetPosition(0, transform.position);
+                    aimLine.SetPosition(1, (Vector2)transform.position + pullVector);
+                    
+                    // Farbe je nach Spannung (Grün -> Rot)
+                    float strength = pullVector.magnitude / maxPullDistance;
+                    Color lerpedColor = Color.Lerp(aimColorWeak, aimColorStrong, strength);
+                    aimLine.startColor = lerpedColor;
+                    aimLine.endColor = lerpedColor;
+                }
             }
         }
 
         // 2. Timer & Physik-Logik (nur wenn nicht gezogen wird)
         if (!isDragging && rb != null)
         {
-            // Prüfen, ob der Blitzleiter vom Spieler geschoben wird (Physik)
-            if (rb.linearVelocity.magnitude > movementThreshold)
-            {
-                currentTimer = timeToStrike;
-            }
-            else
-            {
-                currentTimer -= Time.deltaTime;
+            // Lädt immer auf, solange es nicht mit der Maus festgehalten wird!
+            currentTimer -= Time.deltaTime;
 
-                if (currentTimer <= 0f)
-                {
-                    Strike();
-                    currentTimer = timeToStrike; // Wieder von vorne beginnen
-                }
+            if (currentTimer <= 0f)
+            {
+                Strike();
+                currentTimer = timeToStrike; // Wieder von vorne beginnen
             }
         }
 

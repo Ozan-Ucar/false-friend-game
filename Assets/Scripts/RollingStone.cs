@@ -23,6 +23,9 @@ public class RollingStone : MonoBehaviour
     private float currentTargetSpeed = 0f;
     private Collider2D myCollider;
     private SpriteRenderer spriteRenderer;
+    private AudioSource rollingAudioSource;
+    private ClickableHighlight highlight;
+    private SandwormManager swManager;
 
     void Start()
     {
@@ -36,11 +39,27 @@ public class RollingStone : MonoBehaviour
         {
             spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, 1f);
         }
+
+        highlight = GetComponent<ClickableHighlight>();
+        swManager = FindFirstObjectByType<SandwormManager>();
     }
 
     void Update()
     {
         if (isBreaking) return;
+
+        // --- NEU: Sperre in der Wüste (SandwormManager), bis alle Würmer platziert sind! ---
+        if (swManager != null && !swManager.AllWormsPlaced)
+        {
+            // Verhindert das Aufleuchten (Highlight) der Falle
+            if (highlight != null) highlight.enabled = false;
+            return; // Beendet Update hier, Klick wird ignoriert
+        }
+        else
+        {
+            // Highlight wieder anschalten, sobald die Bauphase vorbei ist (oder gar keine Wüste da ist)
+            if (highlight != null) highlight.enabled = true;
+        }
 
         if (!isRolling && Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
         {
@@ -51,8 +70,18 @@ public class RollingStone : MonoBehaviour
                 Debug.Log("Stein startet Rollen.");
 
                 // Highlight entfernen
-                ClickableHighlight highlight = GetComponent<ClickableHighlight>();
                 if (highlight != null) highlight.isTriggered = true;
+
+                // --- NEU: Rolling Sound (Loop) starten ---
+                if (SceneSoundManager.Instance != null && SceneSoundManager.Instance.stoneRollSound != null)
+                {
+                    rollingAudioSource = gameObject.AddComponent<AudioSource>();
+                    rollingAudioSource.clip = SceneSoundManager.Instance.stoneRollSound;
+                    rollingAudioSource.volume = SceneSoundManager.Instance.stoneRollVolume;
+                    rollingAudioSource.loop = true;
+                    rollingAudioSource.pitch = 0.5f; // Fängt tief/langsam an
+                    rollingAudioSource.Play();
+                }
             }
         }
     }
@@ -64,6 +93,12 @@ public class RollingStone : MonoBehaviour
             currentTargetSpeed = Mathf.MoveTowards(currentTargetSpeed, maxSpeed, acceleration * Time.fixedDeltaTime);
             rb.linearVelocity = new Vector2(currentDirection * currentTargetSpeed, rb.linearVelocity.y);
             rb.angularVelocity = -currentDirection * currentTargetSpeed * 50f;
+
+            // --- NEU: Pitch an die Roll-Geschwindigkeit anpassen ---
+            if (rollingAudioSource != null)
+            {
+                rollingAudioSource.pitch = Mathf.Lerp(0.5f, 1.5f, currentTargetSpeed / maxSpeed);
+            }
         }
     }
 
@@ -74,7 +109,7 @@ public class RollingStone : MonoBehaviour
         // PRÜFUNG: Wer wurde getroffen?
         if (collision.gameObject.CompareTag("Player"))
         {
-            Debug.Log("Stein fadet jetzt, weil ich den PLAYER (" + collision.gameObject.name + ") getroffen habe!");
+            if (SceneSoundManager.Instance != null) SceneSoundManager.Instance.PlayStoneHit();
             StartCoroutine(BreakSequence(collision.gameObject));
         }
         else
@@ -84,6 +119,7 @@ public class RollingStone : MonoBehaviour
             {
                 if (Mathf.Abs(contact.normal.x) > 0.5f)
                 {
+                    if (SceneSoundManager.Instance != null) SceneSoundManager.Instance.PlayStoneHit();
                     ReverseDirection();
                     break;
                 }
@@ -95,6 +131,12 @@ public class RollingStone : MonoBehaviour
     {
         isBreaking = true;
         
+        // --- NEU: Rollen Sound stoppen ---
+        if (rollingAudioSource != null)
+        {
+            rollingAudioSource.Stop();
+        }
+
         HealthSystem health = player.GetComponent<HealthSystem>();
         if (health != null) health.TakeDamage(2);
 

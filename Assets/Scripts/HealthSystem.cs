@@ -17,6 +17,11 @@ public class HealthSystem : MonoBehaviour
 
     [Header("Invincibility (I-Frames)")]
     public float invincibilityDuration = 1.5f;
+    [Tooltip("Zeit (in Sekunden), die nach dem Tod gewartet wird, bevor die Szene neu lädt.")]
+    public float deathRestartDelay = 3.0f;
+    [Header("Effekte")]
+    [Tooltip("Soll beim Tod die Zoom-Animation gespielt werden?")]
+    public bool useDeathZoom = true;
     [Tooltip("Wie schnell das Blinken pulsiert (höher = schneller)")]
     public float blinkSpeed = 30f;
     [Tooltip("Soll das Spiel bei einem Treffer kurz einfrieren? (Sehr cooler Juice-Effekt)")]
@@ -114,13 +119,30 @@ public class HealthSystem : MonoBehaviour
         }
 
         // 3. Coole Kamera-Zoom Animation auf den Player starten
-        if (CameraShake.Instance != null)
+        if (useDeathZoom && CameraShake.Instance != null)
         {
             CameraShake.Instance.DoDeathZoom(this.transform);
         }
         
-        // Hier könnte man später noch einen UI Screen einblenden ("Game Over")
-        // oder die Scene nach 2 Sekunden neu laden.
+        // 4. Neustart nach 3 Sekunden vorbereiten
+        StartCoroutine(DeathRestartRoutine());
+    }
+
+    private System.Collections.IEnumerator DeathRestartRoutine()
+    {
+        // Wir warten die eingestellte Zeit. WICHTIG: Realtime nutzen, da der Kamera-Zoom die Zeit verlangsamt!
+        yield return new WaitForSecondsRealtime(deathRestartDelay);
+
+        // TransitionShowcase unsichtbar als reinen "Effekt-Manager" spawnen
+        GameObject transitionObj = new GameObject("DeathTransition");
+        TransitionShowcase ts = transitionObj.AddComponent<TransitionShowcase>();
+        ts.isShowcaseMode = false; // Keine Texte/Labels anzeigen!
+        
+        // Kurz warten, damit Unity das Skript initialisiert (Start() baut das Canvas auf)
+        yield return null; 
+        
+        // Zufälligen Effekt starten und Szene neuladen
+        ts.PlayRandomTransitionAndReloadScene();
     }
 
     private System.Collections.IEnumerator InvincibilitySequence()

@@ -26,10 +26,39 @@ public class SimplePlayerController : MonoBehaviour
         rb.freezeRotation = true; 
     }
 
+    private bool isAutoWalking = false;
+    private float autoWalkTargetX;
+    private System.Action onAutoWalkReached;
+
+    public void WalkTo(float targetX, System.Action onReached)
+    {
+        isAutoWalking = true;
+        autoWalkTargetX = targetX;
+        onAutoWalkReached = onReached;
+    }
+
     void Update()
     {
         horizontalInput = 0f;
-        if (Keyboard.current != null)
+
+        if (isAutoWalking)
+        {
+            float diff = autoWalkTargetX - transform.position.x;
+            if (Mathf.Abs(diff) < 0.1f)
+            {
+                // Ziel erreicht
+                isAutoWalking = false;
+                horizontalInput = 0f;
+                onAutoWalkReached?.Invoke();
+                onAutoWalkReached = null;
+            }
+            else
+            {
+                // In Richtung Ziel laufen
+                horizontalInput = Mathf.Sign(diff);
+            }
+        }
+        else if (Keyboard.current != null)
         {
             if (Keyboard.current.aKey.isPressed || Keyboard.current.leftArrowKey.isPressed)
                 horizontalInput = -1f;

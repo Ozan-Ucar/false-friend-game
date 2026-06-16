@@ -18,6 +18,12 @@ public class TransitionShowcase : MonoBehaviour
     [Tooltip("Die Farbe der Transition")]
     public Color transitionColor = Color.black;
 
+    [Tooltip("Wenn aktiv, werden die Texte (Labels) für das Showcase angezeigt.")]
+    public bool isShowcaseMode = true;
+
+    // Statische Variable, um sich den Effekt über den Szenen-Neustart hinweg zu merken!
+    public static int lastTransitionIndex = -1;
+
     // Internes
     private RawImage rawImage;
     private Texture2D tex;
@@ -46,17 +52,13 @@ public class TransitionShowcase : MonoBehaviour
         "12. Pixelate (Verpixeln)",
         "13. Rain Drip (Regen)",
         "14. Spiral (Spirale)",
-        "15. Star Wipe (Stern)",
-        "16. Heart Wipe (Herz)",
-        "17. TV Static (Rauschen)",
-        "18. Slide Left (Links schieben)",
-        "19. Slide Right (Rechts schieben)",
-        "20. Slide Down (Runter schieben)",
-        "21. Double Door (Doppeltür)",
-        "22. Matrix Rain (Matrix)",
-        "23. Wave Wipe (Welle)",
-        "24. Zigzag Wipe (Zickzack)",
-        "25. Mosaic (Mosaik)",
+        "15. TV Static (Rauschen)",
+        "16. Slide Left (Links schieben)",
+        "17. Slide Right (Rechts schieben)",
+        "18. Double Door (Doppeltür)",
+        "19. Wave Wipe (Welle)",
+        "20. Zigzag Wipe (Zickzack)",
+        "21. Mosaic (Mosaik)",
     };
 
     void Start()
@@ -83,6 +85,8 @@ public class TransitionShowcase : MonoBehaviour
         pixels = new Color[width * height];
         ClearPixels(Color.clear);
         rawImage.texture = tex;
+
+        if (!isShowcaseMode) return;
 
         // Label oben
         GameObject labelObj = new GameObject("TransitionLabel");
@@ -119,6 +123,7 @@ public class TransitionShowcase : MonoBehaviour
 
     void Update()
     {
+        if (!isShowcaseMode) return;
         if (isPlaying) return;
 
         if (Keyboard.current == null) return;
@@ -138,6 +143,70 @@ public class TransitionShowcase : MonoBehaviour
         {
             StartCoroutine(PlayTransition(currentIndex));
         }
+    }
+
+    // ==========================================
+    //  SPIEL-LOGIK (Für echten Neustart & Szenenwechsel)
+    // ==========================================
+
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+    static void InitializeSceneHook()
+    {
+        UnityEngine.SceneManagement.SceneManager.sceneLoaded += OnSceneLoadedHook;
+    }
+
+    static void OnSceneLoadedHook(UnityEngine.SceneManagement.Scene scene, UnityEngine.SceneManagement.LoadSceneMode mode)
+    {
+        if (lastTransitionIndex != -1)
+        {
+            GameObject transitionObj = new GameObject("RevealTransition");
+            TransitionShowcase ts = transitionObj.AddComponent<TransitionShowcase>();
+            ts.isShowcaseMode = false;
+            ts.PlayRevealTransition(lastTransitionIndex);
+        }
+    }
+
+    public void PlayRevealTransition(int index)
+    {
+        StartCoroutine(RevealSceneRoutine(index));
+    }
+
+    private IEnumerator RevealSceneRoutine(int index)
+    {
+        yield return null;
+        isPlaying = true;
+        ClearPixels(transitionColor);
+        ApplyTexture();
+
+        yield return StartCoroutine(RunTransition(index, true));
+
+        ClearPixels(Color.clear);
+        ApplyTexture();
+        isPlaying = false;
+        lastTransitionIndex = -1; 
+        Destroy(gameObject);
+    }
+
+    public void PlayRandomTransitionAndReloadScene()
+    {
+        int randomIndex = Random.Range(0, transitionNames.Length);
+        StartCoroutine(ReloadSceneRoutine(randomIndex));
+    }
+
+    private IEnumerator ReloadSceneRoutine(int index)
+    {
+        lastTransitionIndex = index;
+        isPlaying = true;
+        ClearPixels(Color.clear);
+        ApplyTexture();
+
+        yield return StartCoroutine(RunTransition(index, false));
+
+        yield return new WaitForSecondsRealtime(0.2f);
+        Time.timeScale = 1f;
+        Time.fixedDeltaTime = 0.02f;
+
+        UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
     }
 
     // ==========================================
@@ -180,17 +249,13 @@ public class TransitionShowcase : MonoBehaviour
             case 11: yield return Pixelate(reverse); break;
             case 12: yield return RainDrip(reverse); break;
             case 13: yield return Spiral(reverse); break;
-            case 14: yield return StarWipe(reverse); break;
-            case 15: yield return HeartWipe(reverse); break;
-            case 16: yield return TVStatic(reverse); break;
-            case 17: yield return SlideLeft(reverse); break;
-            case 18: yield return SlideRight(reverse); break;
-            case 19: yield return SlideDown(reverse); break;
-            case 20: yield return DoubleDoor(reverse); break;
-            case 21: yield return MatrixRain(reverse); break;
-            case 22: yield return WaveWipe(reverse); break;
-            case 23: yield return ZigzagWipe(reverse); break;
-            case 24: yield return Mosaic(reverse); break;
+            case 14: yield return TVStatic(reverse); break;
+            case 15: yield return SlideLeft(reverse); break;
+            case 16: yield return SlideRight(reverse); break;
+            case 17: yield return DoubleDoor(reverse); break;
+            case 18: yield return WaveWipe(reverse); break;
+            case 19: yield return ZigzagWipe(reverse); break;
+            case 20: yield return Mosaic(reverse); break;
         }
     }
 
@@ -284,24 +349,14 @@ public class TransitionShowcase : MonoBehaviour
         {
             elapsed += Time.deltaTime;
             float p = Mathf.Clamp01(elapsed / transitionDuration);
+            if (reverse) p = 1f - p;
             float radius = p * maxRadius;
 
             for (int y = 0; y < height; y++)
             for (int x = 0; x < width; x++)
             {
                 float dist = Mathf.Sqrt((x - cx) * (x - cx) + (y - cy) * (y - cy));
-                bool covered;
-
-                if (reverse)
-                {
-                    // Aufdecken: Schwarzer Kreis SCHRUMPFT von außen nach innen
-                    covered = dist < (maxRadius - radius);
-                }
-                else
-                {
-                    // Zudecken: Schwarzer Kreis WÄCHST von innen nach außen
-                    covered = dist < radius;
-                }
+                bool covered = dist < radius;
 
                 pixels[y * width + x] = covered ? transitionColor : Color.clear;
             }
@@ -322,15 +377,14 @@ public class TransitionShowcase : MonoBehaviour
         {
             elapsed += Time.deltaTime;
             float p = Mathf.Clamp01(elapsed / transitionDuration);
+            if (reverse) p = 1f - p;
             float threshold = p * maxDist;
 
             for (int y = 0; y < height; y++)
             for (int x = 0; x < width; x++)
             {
                 float dist = Mathf.Abs(x - cx) + Mathf.Abs(y - cy);
-                bool covered;
-                if (reverse) covered = dist > (maxDist - threshold);
-                else covered = dist < threshold;
+                bool covered = dist < threshold;
                 pixels[y * width + x] = covered ? transitionColor : Color.clear;
             }
             ApplyTexture();
@@ -466,15 +520,14 @@ public class TransitionShowcase : MonoBehaviour
         {
             elapsed += Time.deltaTime;
             float p = Mathf.Clamp01(elapsed / transitionDuration);
+            if (reverse) p = 1f - p;
             float threshold = p * maxDist;
 
             for (int y = 0; y < height; y++)
             for (int x = 0; x < width; x++)
             {
                 float dist = x + (height - y);
-                bool covered;
-                if (reverse) covered = dist > (maxDist - threshold);
-                else covered = dist < threshold;
+                bool covered = dist < threshold;
                 pixels[y * width + x] = covered ? transitionColor : Color.clear;
             }
             ApplyTexture();
@@ -493,6 +546,7 @@ public class TransitionShowcase : MonoBehaviour
         {
             elapsed += Time.deltaTime;
             float p = Mathf.Clamp01(elapsed / transitionDuration);
+            if (reverse) p = 1f - p;
             float targetAngle = p * 360f;
 
             for (int y = 0; y < height; y++)
@@ -500,9 +554,7 @@ public class TransitionShowcase : MonoBehaviour
             {
                 float angle = Mathf.Atan2(x - cx, cy - y) * Mathf.Rad2Deg;
                 if (angle < 0) angle += 360f;
-                bool covered;
-                if (reverse) covered = angle > (360f - targetAngle);
-                else covered = angle < targetAngle;
+                bool covered = angle < targetAngle;
                 pixels[y * width + x] = covered ? transitionColor : Color.clear;
             }
             ApplyTexture();
@@ -610,10 +662,11 @@ public class TransitionShowcase : MonoBehaviour
     // ==========================================
     private IEnumerator RainDrip(bool reverse)
     {
-        // Jede Spalte hat eine eigene zufällige Geschwindigkeit
-        float[] columnSpeed = new float[width];
+        // Jede Spalte hat eine eigene zufällige "Endzeit", bei der sie voll aufgefüllt ist.
+        // Das garantiert, dass am Ende des Effekts ALLE Spalten voll sind!
+        float[] columnEndTimes = new float[width];
         for (int x = 0; x < width; x++)
-            columnSpeed[x] = Random.Range(0.5f, 1.5f);
+            columnEndTimes[x] = Random.Range(0.6f, 1.0f);
 
         ClearPixels(reverse ? transitionColor : Color.clear);
 
@@ -622,17 +675,17 @@ public class TransitionShowcase : MonoBehaviour
         {
             elapsed += Time.deltaTime;
             float p = Mathf.Clamp01(elapsed / transitionDuration);
+            if (reverse) p = 1f - p;
 
             for (int x = 0; x < width; x++)
             {
-                float colP = Mathf.Clamp01(p * columnSpeed[x] * 1.5f);
+                // Sobald p die Endzeit der Spalte erreicht, ist colP 1.0!
+                float colP = Mathf.Clamp01(p / columnEndTimes[x]);
                 int fillHeight = (int)(colP * height);
 
                 for (int y = 0; y < height; y++)
                 {
-                    bool covered;
-                    if (reverse) covered = y < (height - fillHeight);
-                    else covered = y >= (height - fillHeight);
+                    bool covered = y >= (height - fillHeight);
                     pixels[y * width + x] = covered ? transitionColor : Color.clear;
                 }
             }
@@ -653,6 +706,7 @@ public class TransitionShowcase : MonoBehaviour
         {
             elapsed += Time.deltaTime;
             float p = Mathf.Clamp01(elapsed / transitionDuration);
+            if (reverse) p = 1f - p;
 
             for (int y = 0; y < height; y++)
             for (int x = 0; x < width; x++)
@@ -662,9 +716,7 @@ public class TransitionShowcase : MonoBehaviour
                 if (angle < 0) angle += 360f;
 
                 float spiralThreshold = (dist / maxRadius) + (angle / 360f) * 0.3f;
-                bool covered;
-                if (reverse) covered = spiralThreshold > (1f - p) * 1.3f;
-                else covered = spiralThreshold < p * 1.3f;
+                bool covered = spiralThreshold < p * 1.3f;
                 pixels[y * width + x] = covered ? transitionColor : Color.clear;
             }
             ApplyTexture();
@@ -685,6 +737,7 @@ public class TransitionShowcase : MonoBehaviour
         {
             elapsed += Time.deltaTime;
             float p = Mathf.Clamp01(elapsed / transitionDuration);
+            if (reverse) p = 1f - p;
             float radius = p * maxR;
 
             for (int y = 0; y < height; y++)
@@ -699,9 +752,7 @@ public class TransitionShowcase : MonoBehaviour
                 float starAngle = angle * points;
                 float starR = radius * (0.5f + 0.5f * Mathf.Cos(starAngle));
 
-                bool covered;
-                if (reverse) covered = dist > (maxR * (0.5f + 0.5f * Mathf.Cos(starAngle)) - radius + maxR * 0.5f);
-                else covered = dist < starR;
+                bool covered = dist < starR;
                 pixels[y * width + x] = covered ? transitionColor : Color.clear;
             }
             ApplyTexture();
@@ -721,6 +772,7 @@ public class TransitionShowcase : MonoBehaviour
         {
             elapsed += Time.deltaTime;
             float p = Mathf.Clamp01(elapsed / transitionDuration);
+            if (reverse) p = 1f - p;
             float scale = p * maxScale;
 
             for (int y = 0; y < height; y++)
@@ -733,9 +785,7 @@ public class TransitionShowcase : MonoBehaviour
                 float heart = (nx * nx + ny * ny - 1f);
                 heart = heart * heart * heart - nx * nx * ny * ny * ny;
 
-                bool covered;
-                if (reverse) covered = heart > 0;
-                else covered = heart < 0;
+                bool covered = heart < 0;
                 pixels[y * width + x] = covered ? transitionColor : Color.clear;
             }
             ApplyTexture();
@@ -902,14 +952,13 @@ public class TransitionShowcase : MonoBehaviour
             for (int x = 0; x < width; x++)
             {
                 float colP = Mathf.Clamp01((elapsed - columnDelay[x]) / (transitionDuration * 0.7f));
+                if (reverse) colP = 1f - colP;
                 int fillY = (int)(colP * height);
 
                 for (int y = 0; y < height; y++)
                 {
                     int fromTop = height - 1 - y;
-                    bool covered;
-                    if (reverse) covered = fromTop >= fillY;
-                    else covered = fromTop < fillY;
+                    bool covered = fromTop < fillY;
                     pixels[y * width + x] = covered ? transitionColor : Color.clear;
                 }
             }
@@ -928,6 +977,7 @@ public class TransitionShowcase : MonoBehaviour
         {
             elapsed += Time.deltaTime;
             float p = Mathf.Clamp01(elapsed / transitionDuration);
+            if (reverse) p = 1f - p;
 
             for (int y = 0; y < height; y++)
             {
@@ -936,9 +986,7 @@ public class TransitionShowcase : MonoBehaviour
 
                 for (int x = 0; x < width; x++)
                 {
-                    bool covered;
-                    if (reverse) covered = x > (width - threshold);
-                    else covered = x < threshold;
+                    bool covered = x < threshold;
                     pixels[y * width + x] = covered ? transitionColor : Color.clear;
                 }
             }
@@ -958,6 +1006,7 @@ public class TransitionShowcase : MonoBehaviour
         {
             elapsed += Time.deltaTime;
             float p = Mathf.Clamp01(elapsed / transitionDuration);
+            if (reverse) p = 1f - p;
 
             for (int y = 0; y < height; y++)
             {
@@ -967,9 +1016,7 @@ public class TransitionShowcase : MonoBehaviour
 
                 for (int x = 0; x < width; x++)
                 {
-                    bool covered;
-                    if (reverse) covered = x > (width - threshold);
-                    else covered = x < threshold;
+                    bool covered = x < threshold;
                     pixels[y * width + x] = covered ? transitionColor : Color.clear;
                 }
             }

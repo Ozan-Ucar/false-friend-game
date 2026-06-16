@@ -97,6 +97,17 @@ public class SandwormAttack : MonoBehaviour
         {
             anim.speed = 1f; // Lass ihn zubeißen!
             anim.Play(attackAnimationName, 0, 0f);
+
+            // --- NEU: Passenden Sound abspielen! ---
+            if (SceneSoundManager.Instance != null)
+            {
+                if (attackAnimationName.Contains("Mid"))
+                    SceneSoundManager.Instance.PlayAttackMid();
+                else if (attackAnimationName.Contains("High"))
+                    SceneSoundManager.Instance.PlayAttackHigh();
+                else
+                    SceneSoundManager.Instance.PlayAttackNormal();
+            }
         }
         
         StartCoroutine(AttackSequence());

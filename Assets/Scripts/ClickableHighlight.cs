@@ -6,8 +6,8 @@ public class ClickableHighlight : MonoBehaviour
 {
     [Header("Highlight Settings")]
     public Color highlightColor = new Color(1f, 0.9f, 0f, 1f);
-    [Range(0, 20)] public float normalWidth = 1.5f;
-    [Range(0, 20)] public float hoverWidth = 10.0f;
+    [Range(0, 100)] public float normalWidth = 1.5f;
+    [Range(0, 100)] public float hoverWidth = 10.0f;
     public float pulseSpeed = 3.0f;
     
     [Header("State")]
@@ -18,11 +18,13 @@ public class ClickableHighlight : MonoBehaviour
     private bool isHovering = false;
     private float currentWidth;
     private float currentPulse;
+    private SandwormManager swManager;
 
     private void OnEnable()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         propBlock = new MaterialPropertyBlock();
+        swManager = FindFirstObjectByType<SandwormManager>();
         UpdateHighlight();
     }
 
@@ -49,7 +51,13 @@ public class ClickableHighlight : MonoBehaviour
         float targetWidth;
         float targetPulseAmount;
 
-        if (isTriggered)
+        // Globale Sperre: Wenn wir in der Wüste sind und noch bauen, darf NIX leuchten!
+        if (swManager != null && !swManager.AllWormsPlaced)
+        {
+            targetWidth = 0;
+            targetPulseAmount = 0;
+        }
+        else if (isTriggered)
         {
             targetWidth = 0;
             targetPulseAmount = 0;
