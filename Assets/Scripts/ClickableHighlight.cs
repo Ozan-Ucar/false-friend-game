@@ -9,6 +9,8 @@ public class ClickableHighlight : MonoBehaviour
     [Range(0, 100)] public float normalWidth = 1.5f;
     [Range(0, 100)] public float hoverWidth = 10.0f;
     public float pulseSpeed = 3.0f;
+    [Range(0f, 1f)] public float innerGlowOpacity = 0.35f;
+    [Range(1f, 30f)] public float innerGlowSharpness = 8f;
     
     [Header("State")]
     public bool isTriggered = false; // Wenn wahr, wird das Highlight komplett deaktiviert
@@ -85,6 +87,8 @@ public class ClickableHighlight : MonoBehaviour
         propBlock.SetColor("_HighlightColor", highlightColor);
         propBlock.SetFloat("_PulseSpeed", pulseSpeed);
         propBlock.SetFloat("_PulseAmount", currentPulse);
+        propBlock.SetFloat("_InnerGlowMaxOpacity", innerGlowOpacity);
+        propBlock.SetFloat("_InnerGlowSharpness", innerGlowSharpness);
 
         spriteRenderer.SetPropertyBlock(propBlock);
     }

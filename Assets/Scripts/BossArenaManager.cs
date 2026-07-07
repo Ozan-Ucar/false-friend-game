@@ -273,8 +273,16 @@ public class BossArenaManager : MonoBehaviour
 
         yield return new WaitForSeconds(4f);
 
-        // Hier kannst du den Szenenwechsel einbauen!
-        // SceneManager.LoadScene("Sieges-Szene");
+        // Sucht den Spieler und startet seine Exit-Animation (die lädt dann die Cutscene!)
+        PortalTransition pt = FindAnyObjectByType<PortalTransition>();
+        if (pt != null)
+        {
+            pt.TriggerExit();
+        }
+        else
+        {
+            Debug.LogWarning("Boss besiegt, aber kein PortalTransition Skript in der Szene gefunden!");
+        }
     }
 
     // ==========================================

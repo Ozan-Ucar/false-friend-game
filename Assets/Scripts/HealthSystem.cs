@@ -28,9 +28,7 @@ public class HealthSystem : MonoBehaviour
     public bool useHitStop = true;
 
     [Header("Blink Style")]
-    [Tooltip("Transparent = Player wird durchsichtig. ColorFlash = Player leuchtet in einer Farbe auf.")]
-    public BlinkMode blinkMode = BlinkMode.ColorFlash;
-    [Tooltip("In welcher Farbe der Player leuchten soll (wenn ColorFlash ausgewählt ist)")]
+    [Tooltip("In welcher Farbe der Player kurz aufleuchtet, wenn er getroffen wird")]
     public Color flashColor = Color.white;
 
     [Header("Debug / Testing")]
@@ -91,7 +89,22 @@ public class HealthSystem : MonoBehaviour
         }
     }
 
-    private void Die()
+    public void InstantKill(bool skipZoom = false, float customDelay = -1f)
+    {
+        if (godMode || isDead) return;
+
+        currentHealth = 0;
+        UpdateHealthUI();
+        
+        if (CameraShake.Instance != null && !skipZoom)
+        {
+            CameraShake.Instance.ShakeHit();
+        }
+
+        Die(skipZoom, customDelay);
+    }
+
+    private void Die(bool skipZoom = false, float customDelay = -1f)
     {
         if (isDead) return;
         isDead = true;
@@ -119,19 +132,20 @@ public class HealthSystem : MonoBehaviour
         }
 
         // 3. Coole Kamera-Zoom Animation auf den Player starten
-        if (useDeathZoom && CameraShake.Instance != null)
+        if (useDeathZoom && !skipZoom && CameraShake.Instance != null)
         {
             CameraShake.Instance.DoDeathZoom(this.transform);
         }
         
-        // 4. Neustart nach 3 Sekunden vorbereiten
-        StartCoroutine(DeathRestartRoutine());
+        // 4. Neustart nach der eingestellten (oder modifizierten) Zeit vorbereiten
+        float finalDelay = customDelay >= 0f ? customDelay : deathRestartDelay;
+        StartCoroutine(DeathRestartRoutine(finalDelay));
     }
 
-    private System.Collections.IEnumerator DeathRestartRoutine()
+    private System.Collections.IEnumerator DeathRestartRoutine(float delay)
     {
         // Wir warten die eingestellte Zeit. WICHTIG: Realtime nutzen, da der Kamera-Zoom die Zeit verlangsamt!
-        yield return new WaitForSecondsRealtime(deathRestartDelay);
+        yield return new WaitForSecondsRealtime(delay);
 
         // TransitionShowcase unsichtbar als reinen "Effekt-Manager" spawnen
         GameObject transitionObj = new GameObject("DeathTransition");
@@ -157,92 +171,75 @@ public class HealthSystem : MonoBehaviour
             Time.timeScale = 1f;
         }
 
-        // Wir sammeln alle Sprites dynamisch (falls du während des Spiels Items aufhebst etc.)
+        // Wir sammeln alle Sprites dynamisch
         SpriteRenderer[] currentSprites = GetComponentsInChildren<SpriteRenderer>();
         Material[] originalMats = new Material[currentSprites.Length];
         for (int i = 0; i < currentSprites.Length; i++)
         {
-            // sharedMaterial verhindert, dass Unity versehentlich Kopien der Materialien anlegt
             originalMats[i] = currentSprites[i].sharedMaterial;
         }
 
+        // 2. Initialer Hit-Flash (kurz hart weiß/farbig aufleuchten)
+        Shader flashShader = Shader.Find("Custom/SpriteHitFlash");
         Material tempFlashMat = null;
-
-        // Wenn ColorFlash aktiv ist, laden wir unseren brandneuen Shader
-        if (blinkMode == BlinkMode.ColorFlash)
+        if (flashShader != null)
         {
-            Shader flashShader = Shader.Find("Custom/SpriteHitFlash");
-            if (flashShader != null)
+            tempFlashMat = new Material(flashShader);
+            tempFlashMat.SetColor("_FlashColor", flashColor);
+            tempFlashMat.SetFloat("_FlashAmount", 1f); // 100% Leuchten
+            
+            foreach (SpriteRenderer sr in currentSprites)
             {
-                tempFlashMat = new Material(flashShader);
-                tempFlashMat.SetColor("_FlashColor", flashColor);
-                
-                foreach (SpriteRenderer sr in currentSprites)
-                {
-                    if (sr != null) sr.sharedMaterial = tempFlashMat;
-                }
-            }
-            else
-            {
-                Debug.LogWarning("HealthSystem: Custom/SpriteHitFlash Shader wurde nicht gefunden! Fällt auf Transparent zurück.");
+                if (sr != null) sr.sharedMaterial = tempFlashMat;
             }
         }
 
-        // 2. Visuelles Blinken (I-Frames)
-        float elapsed = 0f;
+        // Warte für die Dauer des harten Aufleuchtens (0.1 Sekunden)
+        yield return new WaitForSeconds(0.1f);
+
+        // Materialien sofort wiederherstellen
+        for (int i = 0; i < currentSprites.Length; i++)
+        {
+            if (currentSprites[i] != null)
+            {
+                currentSprites[i].sharedMaterial = originalMats[i];
+            }
+        }
+        if (tempFlashMat != null) Destroy(tempFlashMat);
+
+        // 3. I-Frames Blinken (klassisch durchsichtig flackern) für den Rest der Zeit
+        float elapsed = 0.1f; // Wir starten bei 0.1, weil der Flash schon vorbei ist
         while (elapsed < invincibilityDuration)
         {
             elapsed += Time.deltaTime;
             
             // Weiche Cosinus-Welle zwischen 0 und 1
             float wave = (Mathf.Cos(elapsed * blinkSpeed) + 1f) / 2f;
-
-            if (blinkMode == BlinkMode.ColorFlash && tempFlashMat != null)
+            // Pulsieren der Transparenz (Alpha zwischen 0.2 und 1.0)
+            float alpha = Mathf.Lerp(0.2f, 1f, wave);
+            
+            foreach (SpriteRenderer sr in currentSprites)
             {
-                // Pulsieren der Leuchtfarbe
-                tempFlashMat.SetFloat("_FlashAmount", wave);
-            }
-            else
-            {
-                // Pulsieren der Transparenz (Alpha zwischen 0.2 und 1.0)
-                float alpha = Mathf.Lerp(0.2f, 1f, wave);
-                foreach (SpriteRenderer sr in currentSprites)
+                if (sr != null)
                 {
-                    if (sr != null)
-                    {
-                        Color c = sr.color;
-                        c.a = alpha;
-                        sr.color = c;
-                    }
+                    Color c = sr.color;
+                    c.a = alpha;
+                    sr.color = c;
                 }
             }
 
             yield return null;
         }
 
-        // 3. Am Ende wieder alles zurücksetzen
-        for (int i = 0; i < currentSprites.Length; i++)
+        // 4. Am Ende Alpha wieder auf 100% setzen
+        foreach (SpriteRenderer sr in currentSprites)
         {
-            if (currentSprites[i] != null)
+            if (sr != null)
             {
-                if (blinkMode == BlinkMode.ColorFlash && tempFlashMat != null)
-                {
-                    // Altes Material wiederherstellen
-                    currentSprites[i].sharedMaterial = originalMats[i];
-                }
-                else
-                {
-                    // Alpha wieder auf 1
-                    Color c = currentSprites[i].color;
-                    c.a = 1f;
-                    currentSprites[i].color = c;
-                }
+                Color c = sr.color;
+                c.a = 1f;
+                sr.color = c;
             }
-        }
-
-        if (tempFlashMat != null)
-        {
-            Destroy(tempFlashMat); // Material sauber aus dem Speicher entfernen
         }
 
         isInvincible = false;

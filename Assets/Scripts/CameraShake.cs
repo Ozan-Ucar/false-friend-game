@@ -24,7 +24,8 @@ public class CameraShake : MonoBehaviour
     public float deathSlowMoScale = 0.2f;
 
     private Camera cam;
-    private float originalOrthoSize;
+    private bool isShaking = false;
+    private Vector3 originalLocalPos;
 
     void Awake()
     {
@@ -35,7 +36,6 @@ public class CameraShake : MonoBehaviour
     {
         cam = GetComponent<Camera>();
         if (cam == null) cam = Camera.main;
-        if (cam != null) originalOrthoSize = cam.orthographicSize;
     }
 
     void Update()
@@ -49,27 +49,32 @@ public class CameraShake : MonoBehaviour
 
     public void ShakeHit()
     {
-        StopAllCoroutines(); // Alten Shake abbrechen
+        if (isTutorialZooming) return; // Keine Shakes während Cutscenes!
+        if (!isShaking && cam != null) originalLocalPos = cam.transform.localPosition;
+        StopAllCoroutines(); 
         StartCoroutine(DoShake(defaultDuration, defaultMagnitude));
     }
 
     public void ShakeCustom(float duration, float magnitude)
     {
+        if (isTutorialZooming) return; // Keine Shakes während Cutscenes!
+        if (!isShaking && cam != null) originalLocalPos = cam.transform.localPosition;
+        StopAllCoroutines();
         StartCoroutine(DoShake(duration, magnitude));
     }
 
     private IEnumerator DoShake(float duration, float magnitude)
     {
+        if (cam == null) yield break;
+        isShaking = true;
+
         float elapsed = 0.0f;
         
-        // Position merken, wo die Kamera war, als der Shake losging!
-        Vector3 basePos = transform.localPosition;
+        // WICHTIG: Wir nutzen die safe original position, damit sich das Bild nie permanent verschiebt!
+        Vector3 basePos = originalLocalPos;
         
-        // Den Shake an die Kamera-Größe (Zoom) anpassen!
-        // 5f ist ein guter Standardwert für 2D-Spiele. 
-        // Wenn die Kamera viel größer ist (rausgezoomt), muss der Wackler stärker sein, um gleich auszusehen.
         float zoomMultiplier = 1f;
-        if (cam != null && cam.orthographic)
+        if (cam.orthographic)
         {
             zoomMultiplier = cam.orthographicSize / 5f;
         }
@@ -86,14 +91,16 @@ public class CameraShake : MonoBehaviour
             float x = Random.Range(-1f, 1f) * currentMagnitude;
             float y = Random.Range(-1f, 1f) * currentMagnitude;
 
-            // WICHTIG: Die x und y Offsets müssen ZUR basePos addiert werden!
-            transform.localPosition = new Vector3(basePos.x + x, basePos.y + y, basePos.z);
-            elapsed += Time.deltaTime;
-
+            cam.transform.localPosition = new Vector3(basePos.x + x, basePos.y + y, basePos.z);
+            
+            // unscaledDeltaTime ist GANZ WICHTIG, da der HealthSystem den HitStop 
+            // (Time.timeScale = 0) nutzt! Sonst pausiert der Wackler.
+            elapsed += Time.unscaledDeltaTime; 
             yield return null;
         }
 
-        transform.localPosition = basePos;
+        cam.transform.localPosition = basePos;
+        isShaking = false;
     }
 
     public void DoDeathZoom(Transform targetTransform)
@@ -101,16 +108,17 @@ public class CameraShake : MonoBehaviour
         if (cam != null)
         {
             StopAllCoroutines();
-            // Wir überschreiben die Position komplett, also brauchen wir originalPos hier nicht mehr zu resetten
             StartCoroutine(DeathZoomCoroutine(targetTransform));
         }
     }
 
     private IEnumerator DeathZoomCoroutine(Transform target)
     {
+        if (cam == null) yield break;
+
         float elapsed = 0f;
         float startSize = cam.orthographicSize;
-        Vector3 startPos = transform.position;
+        Vector3 startPos = cam.transform.position;
 
         // Einstellbare Slow-Motion aktivieren
         Time.timeScale = deathSlowMoScale;
@@ -134,16 +142,105 @@ public class CameraShake : MonoBehaviour
             Vector3 newPos = Vector3.Lerp(startPos, targetPos, curveT);
             
             // Wir warten bis ans Ende des Frames. So stellen wir sicher, dass andere Kamera-Skripte 
-            // (wie ein CameraFollow) überschrieben werden und die Kamera nicht flackert!
+            // überschrieben werden und die Kamera nicht flackert!
             yield return new WaitForEndOfFrame();
             
             cam.orthographicSize = newSize;
-            transform.position = newPos;
+            cam.transform.position = newPos;
         }
         
         // Am Ende exakt setzen
         yield return new WaitForEndOfFrame();
         cam.orthographicSize = deathZoomTarget;
-        transform.position = new Vector3(target.position.x, target.position.y, startPos.z);
+        cam.transform.position = new Vector3(target.position.x, target.position.y, startPos.z);
+    }
+
+    // ==========================================
+    // TUTORIAL ZOOM (KEIN SLOW-MO, KEIN TOD)
+    // ==========================================
+    private float preTutorialSize;
+    private Vector3 preTutorialLocalPos;
+    private bool isTutorialZooming = false;
+
+    public void DoTutorialZoom(Transform targetTransform, float targetSize, float duration)
+    {
+        if (cam != null)
+        {
+            preTutorialSize = cam.orthographicSize;
+            preTutorialLocalPos = cam.transform.localPosition;
+            
+            isTutorialZooming = true;
+            StopAllCoroutines();
+            StartCoroutine(TutorialZoomCoroutine(targetTransform, targetSize, duration));
+        }
+    }
+
+    public void ResetTutorialZoom(float duration)
+    {
+        if (cam != null)
+        {
+            StopAllCoroutines();
+            // Nutze exakt die Größe, die die Kamera VOR dem Tutorial hatte!
+            StartCoroutine(TutorialZoomCoroutine(cam.transform, preTutorialSize, duration, true)); 
+        }
+    }
+
+    private IEnumerator TutorialZoomCoroutine(Transform target, float targetSize, float duration, bool resetToOrigin = false)
+    {
+        if (cam == null) yield break;
+
+        float elapsed = 0f;
+        float startSize = cam.orthographicSize;
+        Vector3 startPos = cam.transform.position;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.unscaledDeltaTime; 
+            float t = Mathf.Clamp01(elapsed / duration);
+            
+            // Clean Ease-In-Out (SmoothStep)
+            float curveT = t * t * (3f - 2f * t);
+            
+            float newSize = Mathf.Lerp(startSize, targetSize, curveT);
+            
+            Vector3 targetPos;
+            if (resetToOrigin)
+            {
+                // Wenn wir resetten, gehen wir exakt zur Position VOR dem Tutorial zurück
+                targetPos = new Vector3(preTutorialLocalPos.x, preTutorialLocalPos.y, startPos.z);
+            }
+            else
+            {
+                targetPos = new Vector3(target.position.x, target.position.y, startPos.z);
+            }
+            
+            Vector3 newPos = Vector3.Lerp(startPos, targetPos, curveT);
+            
+            yield return new WaitForEndOfFrame();
+            
+            cam.orthographicSize = newSize;
+            if (resetToOrigin)
+            {
+                cam.transform.localPosition = newPos;
+            }
+            else
+            {
+                cam.transform.position = newPos;
+            }
+        }
+        
+        yield return new WaitForEndOfFrame();
+        cam.orthographicSize = targetSize;
+        
+        if (resetToOrigin)
+        {
+            cam.transform.localPosition = new Vector3(preTutorialLocalPos.x, preTutorialLocalPos.y, startPos.z);
+        }
+        else
+        {
+            cam.transform.position = new Vector3(target.position.x, target.position.y, startPos.z);
+        }
+        
+        isTutorialZooming = false;
     }
 }

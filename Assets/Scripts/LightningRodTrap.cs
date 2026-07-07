@@ -192,15 +192,9 @@ public class LightningRodTrap : MonoBehaviour
 
     private void Strike()
     {
-        // 1. Visueller und Kamera-Effekt
+        // 1. Visueller Effekt
         StartCoroutine(LightningVisualRoutine());
         
-        if (CameraShake.Instance != null)
-        {
-            // Starker Shake für den Blitz!
-            CameraShake.Instance.ShakeCustom(0.4f, 0.3f);
-        }
-
         // 2. Schaden austeilen (Flächenschaden / AoE)
         Collider2D[] hitColliders = Physics2D.OverlapCircleAll(transform.position, damageRadius);
         foreach (Collider2D hit in hitColliders)
@@ -210,9 +204,22 @@ public class LightningRodTrap : MonoBehaviour
                 HealthSystem health = hit.GetComponent<HealthSystem>();
                 if (health != null)
                 {
+                    // Wenn der Blitz tödlich ist, wollen wir den fetten Shake sehen und nicht
+                    // sofort vom langsamen DeathZoom unterbrochen werden!
+                    health.useDeathZoom = false;
+                    if (health.deathRestartDelay > 1.5f) health.deathRestartDelay = 1.5f;
+                    
                     health.TakeDamage(damage);
                 }
             }
+        }
+
+        // 3. Kamera-Shake ganz am Ende aufrufen!
+        // Warum? Weil TakeDamage() intern auch einen kleinen Kamera-Shake oder Death-Zoom aufruft.
+        // Wenn wir diesen fetten Shake HIER GANZ AM ENDE aufrufen, hat er immer das letzte Wort!
+        if (CameraShake.Instance != null)
+        {
+            CameraShake.Instance.ShakeCustom(0.4f, 0.3f);
         }
     }
 

@@ -27,6 +27,7 @@ public class SandwormAttack : MonoBehaviour
     public bool destroyAfterAttack = false;
 
     private bool isReady = true;
+    private bool hasDamagedPlayerThisAttack = false;
 
     void Start()
     {
@@ -48,21 +49,23 @@ public class SandwormAttack : MonoBehaviour
 
     void Update()
     {
-        if (!isReady) return;
-
-        if (UnityEngine.InputSystem.Mouse.current != null && UnityEngine.InputSystem.Mouse.current.leftButton.wasPressedThisFrame)
+        // Klick-Logik nur ausführen, wenn der Wurm bereit ist
+        if (isReady)
         {
-            Vector2 mousePos = Camera.main.ScreenToWorldPoint(UnityEngine.InputSystem.Mouse.current.position.ReadValue());
-            Collider2D col = GetComponent<Collider2D>(); // Braucht einen BoxCollider2D zum Anklicken!
-
-            if (col != null && col.OverlapPoint(mousePos))
+            if (UnityEngine.InputSystem.Mouse.current != null && UnityEngine.InputSystem.Mouse.current.leftButton.wasPressedThisFrame)
             {
-                TriggerAttack();
+                Vector2 mousePos = Camera.main.ScreenToWorldPoint(UnityEngine.InputSystem.Mouse.current.position.ReadValue());
+                Collider2D col = GetComponent<Collider2D>(); // Braucht einen BoxCollider2D zum Anklicken!
+
+                if (col != null && col.OverlapPoint(mousePos))
+                {
+                    TriggerAttack();
+                }
             }
         }
 
-        // Schaden austeilen (wenn Damage aktiv ist)
-        if (damageCollider != null && damageCollider.enabled)
+        // Schaden austeilen (wenn Damage aktiv ist) - muss IMMER geprüft werden, auch wenn isReady false ist!
+        if (damageCollider != null && damageCollider.enabled && !hasDamagedPlayerThisAttack)
         {
             ContactFilter2D filter = new ContactFilter2D();
             filter.NoFilter();
@@ -77,6 +80,7 @@ public class SandwormAttack : MonoBehaviour
                     if (health != null)
                     {
                         health.TakeDamage(damage);
+                        hasDamagedPlayerThisAttack = true; // Verhindert, dass der gleiche Biss nochmal trifft!
                     }
                 }
             }
@@ -115,6 +119,8 @@ public class SandwormAttack : MonoBehaviour
 
     private System.Collections.IEnumerator AttackSequence()
     {
+        hasDamagedPlayerThisAttack = false;
+
         yield return new WaitForSeconds(damageStartDelay);
 
         if (damageCollider != null) damageCollider.enabled = true;

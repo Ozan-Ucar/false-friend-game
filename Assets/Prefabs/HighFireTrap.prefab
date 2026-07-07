@@ -182,9 +182,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ClickableHighlight
   highlightColor: {r: 1, g: 0.9, b: 0, a: 1}
-  normalWidth: 0.9
-  hoverWidth: 1.8
+  normalWidth: 0.7
+  hoverWidth: 1
   pulseSpeed: 3
+  innerGlowOpacity: 0.35
+  innerGlowSharpness: 8
   isTriggered: 0
 --- !u!61 &3719696818799667611
 BoxCollider2D:

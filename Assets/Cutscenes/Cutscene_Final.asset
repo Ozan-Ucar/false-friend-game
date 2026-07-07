@@ -1,0 +1,73 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73c97038bb3512e439aa6a23758c811d, type: 3}
+  m_Name: Cutscene_Final
+  m_EditorClassIdentifier: Assembly-CSharp::CutsceneData
+  slides:
+  - image: {fileID: 5340414473234927820, guid: 45800f2ffcd75a141ba76a0228ec285f, type: 3}
+    duration: 4
+    animation: 2
+    zoomIntensity: 0
+    panSpeed: 0
+    captionText: 
+    soundEffect: {fileID: 0}
+    allowSkip: 0
+    transitionToNext: 1
+    transitionDuration: 1
+  - image: {fileID: 4436907833237012789, guid: cd71e4a9f239bdb45af216e0e2ea04fd, type: 3}
+    duration: 4
+    animation: 2
+    zoomIntensity: 0
+    panSpeed: 0
+    captionText: 
+    soundEffect: {fileID: 0}
+    allowSkip: 0
+    transitionToNext: 0
+    transitionDuration: 1
+  - image: {fileID: 4343163989115954971, guid: e5c22171c30005b4e8f693e51a02be9e, type: 3}
+    duration: 4
+    animation: 2
+    zoomIntensity: 0
+    panSpeed: 0
+    captionText: 
+    soundEffect: {fileID: 0}
+    allowSkip: 0
+    transitionToNext: 0
+    transitionDuration: 1
+  - image: {fileID: -7253082220256206343, guid: 7b07bc95bf7d28b4ea7bf15330cc8102, type: 3}
+    duration: 4
+    animation: 2
+    zoomIntensity: 0
+    panSpeed: 0
+    captionText: 
+    soundEffect: {fileID: 0}
+    allowSkip: 0
+    transitionToNext: 0
+    transitionDuration: 1
+  - image: {fileID: 663835536012745690, guid: 38e0f0c561a325e46833095e61cc99d0, type: 3}
+    duration: 4
+    animation: 2
+    zoomIntensity: 0
+    panSpeed: 0
+    captionText: 
+    soundEffect: {fileID: 0}
+    allowSkip: 0
+    transitionToNext: 0
+    transitionDuration: 1
+  fadeInDuration: 1
+  fadeOutDuration: 0.8
+  pauseBetweenSlides: 0.3
+  showLetterbox: 1
+  letterboxSize: 0.08
+  showParticles: 1
+  backgroundMusic: {fileID: 0}
+  musicVolume: 0.5

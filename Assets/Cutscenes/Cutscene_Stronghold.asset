@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73c97038bb3512e439aa6a23758c811d, type: 3}
+  m_Name: Cutscene_Stronghold
+  m_EditorClassIdentifier: Assembly-CSharp::CutsceneData
+  slides:
+  - image: {fileID: 7108970837574213277, guid: 5df84235f78e4ee45bdca2bb1f563cd2, type: 3}
+    duration: 4
+    animation: 2
+    zoomIntensity: 0
+    panSpeed: 0
+    captionText: 
+    soundEffect: {fileID: 0}
+    allowSkip: 0
+  - image: {fileID: -7870448593884070919, guid: 0d061e30e07523f458a51f86cd4c03fe, type: 3}
+    duration: 4
+    animation: 2
+    zoomIntensity: 0
+    panSpeed: 0
+    captionText: 
+    soundEffect: {fileID: 0}
+    allowSkip: 0
+  - image: {fileID: 8448163547625638094, guid: a57e392d2f0fa1947b01832769b0d029, type: 3}
+    duration: 4
+    animation: 2
+    zoomIntensity: 0
+    panSpeed: 0
+    captionText: 
+    soundEffect: {fileID: 0}
+    allowSkip: 0
+  fadeInDuration: 1
+  fadeOutDuration: 0.8
+  pauseBetweenSlides: 0.3
+  showLetterbox: 1
+  letterboxSize: 0.08
+  showParticles: 1
+  backgroundMusic: {fileID: 0}
+  musicVolume: 0.5

@@ -17,11 +17,18 @@ public struct DialogLine
     [TextArea(3, 5)]
     public string text;
     
+    [Tooltip("Optional: Weitere Sätze für diesen Sprecher. Du musst das Bild nicht nochmal angeben!")]
+    [TextArea(3, 5)]
+    public string[] additionalTexts;
+    
     [Tooltip("Das Bild (Sprite) der Person")]
     public Sprite speakerSprite;
     
     [Tooltip("Soll die Person von links oder rechts ins Bild kommen?")]
     public SpeakerSide side;
+
+    [Tooltip("Optional: Die Größe des Portraits (1 = Normalgröße, 0.5 = Halb, 2 = Doppelt). Lass es auf 0 für die Standardgröße.")]
+    public float portraitScale;
 }
 
 public class DialogManager : MonoBehaviour
@@ -55,11 +62,16 @@ public class DialogManager : MonoBehaviour
     public Vector2 boxVisiblePosition = new Vector2(0f, 0f);
     [Tooltip("Wie weit links/rechts das Portrait im versteckten Zustand aus dem Bildschirm geschoben wird (positiver Wert).")]
     public float portraitHiddenOffsetX = 1200f; 
-    
+    [Header("Game Settings")]
+    [Tooltip("Soll das Spiel (Bewegung, Animationen) pausieren, solange der Dialog läuft?")]
+    public bool pauseGameDuringDialog = true;
+
     public bool IsDialogActive { get; private set; }
 
     private Queue<DialogLine> linesQueue;
+    private Queue<string> currentSentencesQueue;
     private DialogLine currentLine;
+    private string currentTypingText;
     private bool isTyping = false;
     private Coroutine typingCoroutine;
 
@@ -84,6 +96,7 @@ public class DialogManager : MonoBehaviour
         else Destroy(gameObject);
 
         linesQueue = new Queue<DialogLine>();
+        currentSentencesQueue = new Queue<string>();
 
         // AUTOMATISCHER FALLBACK: Falls die Pivot-Slots im Inspector leer gelassen wurden,
         // nutzen wir einfach direkt die RectTransforms der Bilder selbst!
@@ -153,7 +166,7 @@ public class DialogManager : MonoBehaviour
             {
                 // Typing überspringen und direkt ganzen Text anzeigen
                 StopCoroutine(typingCoroutine);
-                dialogText.text = currentLine.text;
+                dialogText.text = currentTypingText;
                 isTyping = false;
                 
                 // Sobald der ganze Text da ist, startet der 2-Sekunden-Cooldown
@@ -176,6 +189,7 @@ public class DialogManager : MonoBehaviour
 
         IsDialogActive = true;
         linesQueue.Clear();
+        currentSentencesQueue.Clear();
         foreach (var line in lines) linesQueue.Enqueue(line);
 
         // Vor dem Hochfahren: Text leeren und den ersten Sprechernamen anzeigen (kein Platzhalter!)
@@ -185,8 +199,10 @@ public class DialogManager : MonoBehaviour
             nameText.text = lines[0].speakerName;
         }
 
-        // Optional: Spiel pausieren während des Dialogs
-        // Time.timeScale = 0f;
+        if (pauseGameDuringDialog)
+        {
+            Time.timeScale = 0f;
+        }
 
         isBoxSliding = true; // Slide startet
         dialogBox.gameObject.SetActive(true);
@@ -206,6 +222,16 @@ public class DialogManager : MonoBehaviour
 
     private void DisplayNextLine()
     {
+        // Wenn noch Sätze vom aktuellen Sprecher übrig sind, nur den Text aktualisieren!
+        if (currentSentencesQueue != null && currentSentencesQueue.Count > 0)
+        {
+            string nextSentence = currentSentencesQueue.Dequeue();
+            currentTypingText = nextSentence;
+            if (typingCoroutine != null) StopCoroutine(typingCoroutine);
+            typingCoroutine = StartCoroutine(TypeSentence(nextSentence));
+            return;
+        }
+
         if (linesQueue.Count == 0)
         {
             EndDialog();
@@ -215,12 +241,25 @@ public class DialogManager : MonoBehaviour
         currentLine = linesQueue.Dequeue();
         nameText.text = currentLine.speakerName;
 
+        // Weitere Sätze für DIESEN Sprecher in die Text-Queue laden
+        if (currentLine.additionalTexts != null && currentLine.additionalTexts.Length > 0)
+        {
+            foreach (var t in currentLine.additionalTexts)
+            {
+                if (!string.IsNullOrEmpty(t)) 
+                    currentSentencesQueue.Enqueue(t);
+            }
+        }
+
         // Portraits animieren
         if (currentLine.side == SpeakerSide.Left)
         {
             if (currentLine.speakerSprite != null) 
             {
                 leftPortraitImage.sprite = currentLine.speakerSprite;
+                leftPortraitImage.preserveAspect = true; // Verhindert das Strecken (Stretching) des Bildes
+                float scale = currentLine.portraitScale <= 0f ? 1f : currentLine.portraitScale;
+                leftPortraitImage.rectTransform.localScale = new Vector3(scale, scale, 1f);
                 leftPortraitImage.gameObject.SetActive(true);
             }
             else
@@ -242,6 +281,9 @@ public class DialogManager : MonoBehaviour
             if (currentLine.speakerSprite != null) 
             {
                 rightPortraitImage.sprite = currentLine.speakerSprite;
+                rightPortraitImage.preserveAspect = true; // Verhindert das Strecken (Stretching) des Bildes
+                float scale = currentLine.portraitScale <= 0f ? 1f : currentLine.portraitScale;
+                rightPortraitImage.rectTransform.localScale = new Vector3(scale, scale, 1f);
                 rightPortraitImage.gameObject.SetActive(true);
             }
             else
@@ -260,8 +302,9 @@ public class DialogManager : MonoBehaviour
         }
 
         // Typewriter Effekt starten
+        currentTypingText = currentLine.text;
         if (typingCoroutine != null) StopCoroutine(typingCoroutine);
-        typingCoroutine = StartCoroutine(TypeSentence(currentLine.text));
+        typingCoroutine = StartCoroutine(TypeSentence(currentTypingText));
     }
 
     private IEnumerator TypeSentence(string sentence)
@@ -284,6 +327,11 @@ public class DialogManager : MonoBehaviour
 
     private void EndDialog()
     {
+        if (pauseGameDuringDialog)
+        {
+            Time.timeScale = 1f;
+        }
+
         isBoxSliding = true; // Box fährt runter, Eingabe sperren
 
         float offset = Mathf.Abs(portraitHiddenOffsetX);

@@ -255,7 +255,7 @@ public class SandwormManager : MonoBehaviour
                 // --- 2. SCHRITT: Prüfen, ob der Platz frei ist (Abstand zu anderen Würmern) ---
                 if (canPlace)
                 {
-                    SandwormGrave[] allGraves = FindObjectsOfType<SandwormGrave>();
+                    SandwormGrave[] allGraves = FindObjectsByType<SandwormGrave>(FindObjectsSortMode.None);
                     foreach (SandwormGrave g in allGraves)
                     {
                         if (g.gameObject != ghostWorm && Vector2.Distance(finalPos, g.transform.position) < minDistanceBetweenWorms)
@@ -268,7 +268,7 @@ public class SandwormManager : MonoBehaviour
 
                 if (canPlace)
                 {
-                    SandwormAttack[] allAttacks = FindObjectsOfType<SandwormAttack>();
+                    SandwormAttack[] allAttacks = FindObjectsByType<SandwormAttack>(FindObjectsSortMode.None);
                     foreach (SandwormAttack a in allAttacks)
                     {
                         if (a.gameObject != ghostWorm && Vector2.Distance(finalPos, a.transform.position) < minDistanceBetweenWorms)

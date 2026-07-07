@@ -9,6 +9,7 @@ public class PoisonMushroom : MonoBehaviour
     public float explosionScale = 1.5f; // Kurz größer werden beim Platzen
 
     private bool hasExploded = false;
+    public bool IsExploded { get { return hasExploded; } }
 
     // === SEQUENZ STARTEN ===
     private void OnMouseDown()

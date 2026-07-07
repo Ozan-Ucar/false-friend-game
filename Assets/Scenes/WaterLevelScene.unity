@@ -1034,6 +1034,7 @@ MonoBehaviour:
   boxHiddenPosition: {x: 0, y: -700}
   boxVisiblePosition: {x: 0, y: -350}
   portraitHiddenOffsetX: -500
+  pauseGameDuringDialog: 1
 --- !u!1 &1399010387
 GameObject:
   m_ObjectHideFlags: 0
@@ -1786,9 +1787,10 @@ MonoBehaviour:
   quarterHeart: {fileID: -5069819312074600136, guid: a7d1e71847469c54fbc77f9b316b463d, type: 3}
   emptyHeart: {fileID: 6649852557000031067, guid: a7d1e71847469c54fbc77f9b316b463d, type: 3}
   invincibilityDuration: 0.1
+  deathRestartDelay: 3
+  useDeathZoom: 1
   blinkSpeed: 30
   useHitStop: 1
-  blinkMode: 1
   flashColor: {r: 1, g: 1, b: 1, a: 1}
   godMode: 0
 --- !u!50 &791465040975977632
@@ -2105,6 +2107,7 @@ MonoBehaviour:
   spawnYOffset: 0
   sceneLoadDelay: 1
   nextSceneName: DungeonLevel
+  cutsceneBeforeNextScene: {fileID: 11400000, guid: 3dc0b1466a93ddf439df197032c99e71, type: 2}
   entrancePortal: {fileID: 1480195750}
   exitPortal: {fileID: 472298696}
 --- !u!1660057539 &9223372036854775807

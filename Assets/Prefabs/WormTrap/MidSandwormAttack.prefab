@@ -62,7 +62,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
@@ -227,9 +227,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36282e885a4982947a76373a322225af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ClickableHighlight
-  highlightColor: {r: 1, g: 0.9, b: 0, a: 1}
-  normalWidth: 0.7
-  hoverWidth: 1.2
+  highlightColor: {r: 1, g: 0, b: 0.05751407, a: 1}
+  normalWidth: 0.8
+  hoverWidth: 1.3
   pulseSpeed: 3
   isTriggered: 0
 --- !u!61 &645972617494349958

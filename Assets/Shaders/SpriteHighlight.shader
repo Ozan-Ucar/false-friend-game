@@ -8,6 +8,9 @@ Shader "Custom/SpriteHighlight"
         _OutlineWidth ("Outline Width", Range(0, 100)) = 2
         _PulseSpeed ("Pulse Speed", Float) = 2.0
         _PulseAmount ("Pulse Amount", Range(0, 1)) = 1.0 // 1 = Volles Pulsieren, 0 = Statisch
+        _OutlineMinAlpha ("Outline Min Alpha", Range(0, 1)) = 0.0
+        _InnerGlowMaxOpacity ("Inner Glow Max Opacity", Range(0, 1)) = 0.35
+        _InnerGlowSharpness ("Inner Glow Sharpness", Range(1, 30)) = 8.0
     }
 
     SubShader
@@ -46,6 +49,9 @@ Shader "Custom/SpriteHighlight"
             float _OutlineWidth;
             float _PulseSpeed;
             float _PulseAmount;
+            float _OutlineMinAlpha;
+            float _InnerGlowMaxOpacity;
+            float _InnerGlowSharpness;
 
             Varyings vert(Attributes input)
             {
@@ -75,13 +81,13 @@ Shader "Custom/SpriteHighlight"
                 // Basis Sinus-Welle (0.0 bis 1.0)
                 float rawSin = sin(_Time.y * _PulseSpeed) * 0.5 + 0.5;
 
-                // Outline-Logik: pulsiert sanft zwischen 40% und 100% (verschwindet nie ganz!)
-                float outlineWave = lerp(0.4, 1.0, rawSin);
+                // Outline-Logik: pulsiert zwischen dem eingestellten Minimum (jetzt 0%) und 100%
+                float outlineWave = lerp(_OutlineMinAlpha, 1.0, rawSin);
                 float finalOutlinePulse = lerp(1.0, outlineWave, _PulseAmount);
 
                 // Innere Füllung Logik: Bleibt fast immer 0 und "blinkt" nur ganz kurz auf
-                // Durch pow(..., 8.0) werden nur die absoluten Spitzenwerte der Welle sichtbar
-                float innerWave = pow(rawSin, 8.0);
+                // _InnerGlowSharpness: Höherer Wert = Kürzere Blinkzeit, längere Dunkelphase
+                float innerWave = pow(rawSin, _InnerGlowSharpness);
                 float finalInnerPulse = lerp(1.0, innerWave, _PulseAmount);
 
                 if (c.a < 0.1 && alpha > 0.1)
@@ -94,8 +100,8 @@ Shader "Custom/SpriteHighlight"
                     // Inneres des Sprites einfärben
                     float overlayFade = saturate(_OutlineWidth);
                     
-                    // 35% maximale Deckkraft, multipliziert mit dem kurzen Blink-Impuls
-                    float overlayIntensity = 0.35 * overlayFade * finalInnerPulse; 
+                    // _InnerGlowMaxOpacity bestimmt, wie deckend die Farbe im Peak ist
+                    float overlayIntensity = _InnerGlowMaxOpacity * overlayFade * finalInnerPulse; 
                     
                     c.rgb = lerp(c.rgb, _HighlightColor.rgb, overlayIntensity);
                     return c;

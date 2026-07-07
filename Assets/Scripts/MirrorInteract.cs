@@ -11,6 +11,10 @@ public class MirrorInteract : MonoBehaviour
     [Tooltip("Der exakte Name der Szene, in die der Spiegel führt.")]
     public string targetSceneName = "NameDerSzeneHierEintragen";
 
+    [Header("Cutscene (Optional)")]
+    [Tooltip("Ziehe hier ein CutsceneData-Asset rein, um zwischen den Szenen eine Cutscene abzuspielen. Leer lassen = keine Cutscene.")]
+    public CutsceneData cutsceneBeforeNextScene;
+
     [Header("Übergangs-Effekt (Transition)")]
     [Tooltip("Wie viele Sekunden der Pixel-Effekt dauert.")]
     public float transitionDuration = 1.2f;
@@ -106,6 +110,7 @@ public class MirrorInteract : MonoBehaviour
 
         // Farbe an das neue Level übergeben, falls du das Skript PixelSceneReveal benutzt
         PixelSceneReveal.globalTransitionColor = transitionColor;
+        PixelSceneReveal.useFadeToBlack = false; // Wir wollen hier den Pixel-Effekt!
 
         while (pixelsColored < totalPixels)
         {
@@ -135,6 +140,15 @@ public class MirrorInteract : MonoBehaviour
         }
 
         // In der exakt selben Millisekunde, in der der Bildschirm 100% schwarz ist, wechseln wir die Szene!
-        SceneManager.LoadScene(targetSceneName);
+        if (cutsceneBeforeNextScene != null && cutsceneBeforeNextScene.slides != null && cutsceneBeforeNextScene.slides.Count > 0)
+        {
+            CutscenePlayer.pendingCutscene = cutsceneBeforeNextScene;
+            CutscenePlayer.pendingTargetScene = targetSceneName;
+            CutscenePlayer.Play();
+        }
+        else
+        {
+            SceneManager.LoadScene(targetSceneName);
+        }
     }
 }

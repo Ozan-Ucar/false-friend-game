@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73c97038bb3512e439aa6a23758c811d, type: 3}
+  m_Name: CutSceneFactory
+  m_EditorClassIdentifier: Assembly-CSharp::CutsceneData
+  slides:
+  - image: {fileID: 5241747876629296923, guid: d7969ca286c230c418c1262b3f54cabf, type: 3}
+    duration: 4
+    animation: 2
+    zoomIntensity: 0
+    panSpeed: 0
+    captionText: 
+    soundEffect: {fileID: 0}
+    allowSkip: 0
+  - image: {fileID: 7181530956085801910, guid: c513e55acf2fd894985524e0d0b240ab, type: 3}
+    duration: 4
+    animation: 2
+    zoomIntensity: 0
+    panSpeed: 0
+    captionText: 
+    soundEffect: {fileID: 0}
+    allowSkip: 0
+  fadeInDuration: 1
+  fadeOutDuration: 0.8
+  pauseBetweenSlides: 0.3
+  showLetterbox: 1
+  letterboxSize: 0.08
+  showParticles: 1
+  backgroundMusic: {fileID: 0}
+  musicVolume: 0.5

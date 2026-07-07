@@ -40,12 +40,17 @@ public class WaterHandTrap : MonoBehaviour
     [Tooltip("Zeit (in Sekunden): Wie lange braucht die Hand, um sich wieder komplett nach unten zu ziehen?")]
     public float pullDownDuration = 1.0f;
     
+    [Header("Hitbox-Verzögerung")]
+    [Tooltip("Verzögert die Aktivierung der Hitbox (in Sekunden), NACHDEM die Hand anfängt hochzuschießen. Verhindert, dass man stirbt, obwohl die Hand noch unten ist.")]
+    public float colliderEnableDelay = 0.05f;
+    
     [Header("Zieh-Effekt (Juice)")]
     [Tooltip("Soll der Player beim Treffer physisch mit der Hand nach unten gezogen werden?")]
     public bool pullPlayerDown = true;
     
     private bool isGrabbing = false;
     private GameObject caughtPlayer = null;
+    private HealthSystem caughtPlayerHealth = null;
     
     private Vector3 startLocalPos;
     private Vector3 endLocalPos;
@@ -121,8 +126,8 @@ public class WaterHandTrap : MonoBehaviour
             // Hand jetzt erst sichtbar machen!
             handVisual.gameObject.SetActive(true);
             
-            isGrabbing = true;
-            if (grabCollider != null) grabCollider.enabled = true;
+            // Aktiviert den Collider erst nach dem eingestellten Delay
+            StartCoroutine(EnableColliderAfterDelay());
 
             // Die Hand bewegt sich anhand der coolen Animations-Kurve nach oben!
             float t = 0f;
@@ -194,12 +199,33 @@ public class WaterHandTrap : MonoBehaviour
         // Falls wir den Player noch haben, lassen wir ihn jetzt ganz tief im Wasser fallen
         ReleasePlayer();
 
+        // JETZT ERST töten wir den Spieler! 
+        // Vorher hätte er seine Todesanimation in der Luft abgespielt und sich nicht mehr bewegen lassen.
+        if (caughtPlayerHealth != null)
+        {
+            caughtPlayerHealth.godMode = false; // Unverwundbarkeit vom Greifen entfernen
+            caughtPlayerHealth.useDeathZoom = false; // Kein Zoom (Kamera bleibt wo sie ist)
+            caughtPlayerHealth.deathRestartDelay = 0.5f; // Schnell neuladen
+            caughtPlayerHealth.TakeDamage(999);
+        }
+
         // Lass die Falle noch kurz existieren, bevor sie gelöscht wird, damit der Spieler nicht 
         // plötzlich ruckelt, wenn die Physik wieder angeht
         yield return new WaitForSeconds(0.5f);
         
         // Falle räumt sich selbst auf
         Destroy(gameObject);
+    }
+
+    private IEnumerator EnableColliderAfterDelay()
+    {
+        if (colliderEnableDelay > 0f)
+        {
+            yield return new WaitForSeconds(colliderEnableDelay);
+        }
+        
+        isGrabbing = true;
+        if (grabCollider != null) grabCollider.enabled = true;
     }
 
     void Update()
@@ -220,12 +246,11 @@ public class WaterHandTrap : MonoBehaviour
                     
                     if (health != null)
                     {
-                        // Spezifisches Verhalten für die Hand-Falle: Insta-Kill, 1 Sekunde Restart, fetter Shake statt Zoom!
-                        health.useDeathZoom = false;
-                        health.deathRestartDelay = 1.0f;
+                        caughtPlayerHealth = health;
                         
-                        // Player bekommt unendlich Schaden (Insta-Kill)
-                        health.TakeDamage(999);
+                        // Solange die Hand ihn hat, machen wir ihn unverwundbar für ALLES andere.
+                        // So stirbt er nicht vorzeitig und spielt keine Todesanimation in der Luft ab!
+                        health.godMode = true; 
 
                         // Heftiger Kamera-Shake passend zum Runterziehen!
                         if (CameraShake.Instance != null)

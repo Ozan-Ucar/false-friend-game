@@ -26,6 +26,10 @@ public class PortalTransition : MonoBehaviour
     [Tooltip("Name der nächsten Szene (leer lassen, wenn nichts geladen werden soll)")]
     public string nextSceneName = "";
 
+    [Header("Cutscene (Optional)")]
+    [Tooltip("Ziehe hier ein CutsceneData-Asset rein, um zwischen den Szenen eine Cutscene abzuspielen. Leer lassen = keine Cutscene.")]
+    public CutsceneData cutsceneBeforeNextScene;
+
     [Header("Optional: Manuell zuweisen")]
     [Tooltip("Lass leer = wird automatisch gesucht")]
     public LevelPortal entrancePortal;
@@ -136,34 +140,32 @@ public class PortalTransition : MonoBehaviour
 
         // 2. Zielposition: rechts außerhalb des Bildschirms
         float targetX = exitPortal.transform.position.x + offscreenOffset;
-        float playerY = transform.position.y;
 
-        // 3. Schwerkraft aus, Geschwindigkeit stoppen
-        float originalGravity = rb.gravityScale;
-        rb.gravityScale = 0f;
-        rb.linearVelocity = Vector2.zero;
-
-        // 4. Walk-Animation an, Blickrichtung nach rechts (zum Ausgang)
-        if (anim != null) anim.SetBool("isWalking", true);
+        // 4. Blickrichtung nach rechts (zum Ausgang)
         if (sr != null) sr.flipX = false;
 
-        // 5. Sanft rauslaufen
+        // 5. Sanft rauslaufen (mit echter Physik, damit er runterfällt, falls er in der Luft ist!)
         while (transform.position.x < targetX)
         {
-            float newX = transform.position.x + walkSpeed * Time.deltaTime;
-            transform.position = new Vector3(newX, playerY, transform.position.z);
+            // Er läuft nach rechts, fällt aber ganz normal nach unten
+            rb.linearVelocity = new Vector2(walkSpeed, rb.linearVelocity.y);
             
             if (anim != null)
             {
-                anim.SetBool("isGrounded", true);
-                anim.SetBool("isWalking", true);
-                anim.SetFloat("yVelocity", 0f);
+                // Animation dynamisch anpassen: Wenn er in der Luft ist, spielt er die Fall-Animation, sonst Walk.
+                bool isGrounded = Mathf.Abs(rb.linearVelocity.y) < 0.05f;
+                anim.SetBool("isGrounded", isGrounded);
+                anim.SetBool("isWalking", isGrounded); // Nur Walk-Animation, wenn er auf dem Boden ist
+                anim.SetFloat("yVelocity", rb.linearVelocity.y);
                 anim.SetBool("isClimbing", false);
             }
-            yield return null;
+            
+            // Aufs Physik-Update warten, wenn wir Velocity setzen!
+            yield return new WaitForFixedUpdate();
         }
 
-        // 6. Animation stoppen
+        // 6. Stop
+        rb.linearVelocity = Vector2.zero;
         if (anim != null) anim.SetBool("isWalking", false);
 
         // 7. Stars anzeigen
@@ -220,85 +222,52 @@ public class PortalTransition : MonoBehaviour
     private IEnumerator PixelTransitionAndChangeScene()
     {
         // 1. Canvas für den Vollbild-Effekt erstellen
-        GameObject canvasObj = new GameObject("PixelTransitionCanvas");
+        GameObject canvasObj = new GameObject("FadeTransitionCanvas");
         Canvas canvas = canvasObj.AddComponent<Canvas>();
         canvas.renderMode = RenderMode.ScreenSpaceOverlay;
         canvas.sortingOrder = 999;
 
-        // 2. Ein RawImage für unsere generierte Pixel-Textur
-        GameObject rawImageObj = new GameObject("PixelScreen");
-        rawImageObj.transform.SetParent(canvasObj.transform, false);
-        RawImage rawImage = rawImageObj.AddComponent<RawImage>();
+        // 2. Ein normales Image für den Fade
+        GameObject imgObj = new GameObject("FadeScreen");
+        imgObj.transform.SetParent(canvasObj.transform, false);
+        Image image = imgObj.AddComponent<Image>();
+        image.color = new Color(0, 0, 0, 0); // Start transparent
         
-        RectTransform rect = rawImage.rectTransform;
+        RectTransform rect = image.rectTransform;
         rect.anchorMin = Vector2.zero;
         rect.anchorMax = Vector2.one;
         rect.sizeDelta = Vector2.zero;
 
-        // 3. Eine extrem niedrig auflösende 8-Bit Textur erstellen (z.B. 40x25 Pixel)
-        int width = 40;
-        int height = 25;
-        Texture2D tex = new Texture2D(width, height);
-        tex.filterMode = FilterMode.Point; // Wichtig: Macht die Pixel knackscharf!
-        
-        Color[] pixels = new Color[width * height];
-        for (int i = 0; i < pixels.Length; i++) pixels[i] = Color.clear;
-        tex.SetPixels(pixels);
-        tex.Apply();
-        
-        rawImage.texture = tex;
-
-        // 4. Wir erstellen eine Liste aller Pixel und mischen sie zufällig
-        System.Collections.Generic.List<int> pixelIndices = new System.Collections.Generic.List<int>();
-        for (int i = 0; i < pixels.Length; i++) pixelIndices.Add(i);
-        
-        for (int i = 0; i < pixelIndices.Count; i++)
-        {
-            int temp = pixelIndices[i];
-            int randomIndex = Random.Range(i, pixelIndices.Count);
-            pixelIndices[i] = pixelIndices[randomIndex];
-            pixelIndices[randomIndex] = temp;
-        }
-
-        // 5. Animation: Den Bildschirm langsam Pixel für Pixel schwärzen
+        // 3. Animation: Fade Out (Schwarz werden)
         float duration = 1.2f;
         float elapsed = 0f;
-        int totalPixels = pixels.Length;
-        int pixelsColored = 0;
 
-        // Farbe an das neue Level übergeben, damit es mit der gleichen Farbe startet!
+        // WICHTIG: Sag der neuen Szene, dass sie faden soll!
         PixelSceneReveal.globalTransitionColor = Color.black;
+        PixelSceneReveal.useFadeToBlack = true;
 
-        // Die Schleife läuft exakt so lange, bis wirklich jeder einzelne Pixel schwarz ist!
-        while (pixelsColored < totalPixels)
+        while (elapsed < duration)
         {
             elapsed += Time.deltaTime;
-            
             float linearProgress = Mathf.Clamp01(elapsed / duration);
-            // S-Kurve für weichen Verlauf
-            float curvedProgress = linearProgress * linearProgress * (3f - 2f * linearProgress); 
-
-            if (elapsed >= duration) curvedProgress = 1f;
-
-            int targetPixels = Mathf.RoundToInt(curvedProgress * totalPixels);
-
-            bool changed = false;
-            while (pixelsColored < targetPixels && pixelsColored < totalPixels)
-            {
-                pixels[pixelIndices[pixelsColored]] = Color.black;
-                pixelsColored++;
-                changed = true;
-            }
-
-            if (changed)
-            {
-                tex.SetPixels(pixels);
-                tex.Apply();
-            }
+            float curvedProgress = linearProgress * linearProgress * (3f - 2f * linearProgress);
+            image.color = new Color(0, 0, 0, curvedProgress);
             yield return null;
         }
 
-        // In der exakt selben Millisekunde, in der der Bildschirm 100% schwarz ist, wechseln wir die Szene!
-        UnityEngine.SceneManagement.SceneManager.LoadScene(nextSceneName);
+        image.color = Color.black;
+
+        // In der exakt selben Millisekunde, in der der Bildschirm 100% schwarz ist:
+        // Wenn eine Cutscene zugewiesen ist, spielen wir sie ab. Sonst direkt die Szene laden!
+        if (cutsceneBeforeNextScene != null && cutsceneBeforeNextScene.slides != null && cutsceneBeforeNextScene.slides.Count > 0)
+        {
+            CutscenePlayer.pendingCutscene = cutsceneBeforeNextScene;
+            CutscenePlayer.pendingTargetScene = nextSceneName;
+            CutscenePlayer.Play();
+        }
+        else
+        {
+            UnityEngine.SceneManagement.SceneManager.LoadScene(nextSceneName);
+        }
     }
 }

@@ -8,6 +8,7 @@ public class PixelSceneReveal : MonoBehaviour
 {
     // Merkt sich die Farbe der Tür, durch die wir gegangen sind
     public static Color globalTransitionColor = Color.black;
+    public static bool useFadeToBlack = true; // Standard ist ab jetzt Fade to Black!
 
     // Magie: Diese Funktion zwingt Unity dazu, dieses Skript bei JEDEM Laden einer Szene
     // vollautomatisch im Hintergrund auszuführen! Du musst das Skript nirgendwo draufziehen!
@@ -35,6 +36,14 @@ public class PixelSceneReveal : MonoBehaviour
 
     private IEnumerator RevealScene()
     {
+        if (useFadeToBlack)
+        {
+            yield return StartCoroutine(FadeReveal());
+            useFadeToBlack = true; // Wieder auf Standard (Fade) zurücksetzen
+            Destroy(gameObject);
+            yield break;
+        }
+
         // 1. Canvas erstellen
         GameObject canvasObj = new GameObject("PixelRevealCanvas");
         canvasObj.transform.SetParent(this.transform);
@@ -85,7 +94,10 @@ public class PixelSceneReveal : MonoBehaviour
 
         while (pixelsCleared < totalPixels)
         {
-            elapsed += Time.deltaTime;
+            // Verhindert, dass der "Lag" beim Laden der Szene die Animation sofort beendet
+            float dt = Mathf.Min(Time.deltaTime, 0.05f);
+            elapsed += dt;
+            
             float progress = Mathf.Clamp01(elapsed / duration);
             
             // Ein weicher Verlauf, damit es sich angenehm anfühlt
@@ -112,6 +124,42 @@ public class PixelSceneReveal : MonoBehaviour
         }
 
         // Sobald das Bild zu 100% freigelegt ist, zerstört sich dieses Skript selbst und räumt auf!
+        useFadeToBlack = true; // Wieder auf Standard (Fade) zurücksetzen für den Fall, dass die Szene im Editor neu gestartet wird
         Destroy(gameObject);
+    }
+
+    private IEnumerator FadeReveal()
+    {
+        GameObject canvasObj = new GameObject("FadeRevealCanvas");
+        canvasObj.transform.SetParent(this.transform);
+        Canvas canvas = canvasObj.AddComponent<Canvas>();
+        canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+        canvas.sortingOrder = 999;
+
+        GameObject imgObj = new GameObject("FadeScreen");
+        imgObj.transform.SetParent(canvasObj.transform, false);
+        Image image = imgObj.AddComponent<Image>();
+        image.color = globalTransitionColor;
+        
+        RectTransform rect = image.rectTransform;
+        rect.anchorMin = Vector2.zero;
+        rect.anchorMax = Vector2.one;
+        rect.sizeDelta = Vector2.zero;
+
+        float duration = 1.2f; // Exakt gleiche Dauer wie beim Fade Out (1.2 Sekunden)
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            // Verhindert, dass der "Lag" beim Laden der Szene die Animation sofort beendet
+            float dt = Mathf.Min(Time.deltaTime, 0.05f);
+            elapsed += dt;
+            
+            float t = Mathf.Clamp01(elapsed / duration);
+            // SmoothStep (gleiche Kurve wie beim Fade Out), damit es identisch wirkt
+            float curvedProgress = t * t * (3f - 2f * t); 
+            image.color = new Color(globalTransitionColor.r, globalTransitionColor.g, globalTransitionColor.b, 1f - curvedProgress);
+            yield return null;
+        }
     }
 }

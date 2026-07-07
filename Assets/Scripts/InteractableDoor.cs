@@ -22,6 +22,10 @@ public class InteractableDoor : MonoBehaviour
     [Tooltip("Der Name der Szene, in die diese Tür führt (exakte Schreibweise beachten!). Bleibt es leer, wird die aktuelle Szene neu geladen.")]
     public string targetSceneName = "";
 
+    [Header("Cutscene (Optional)")]
+    [Tooltip("Ziehe hier ein CutsceneData-Asset rein, um zwischen den Szenen eine Cutscene abzuspielen. Leer lassen = keine Cutscene.")]
+    public CutsceneData cutsceneBeforeNextScene;
+
     private bool isOpen = false;
     private bool isPlayerNear = false;
     private bool hasTransitionStarted = false;
@@ -228,6 +232,7 @@ public class InteractableDoor : MonoBehaviour
 
         // Farbe an das neue Level übergeben, damit es mit der gleichen Farbe startet!
         PixelSceneReveal.globalTransitionColor = transitionColor;
+        PixelSceneReveal.useFadeToBlack = false;
 
         // Die Schleife läuft exakt so lange, bis wirklich jeder einzelne Pixel schwarz ist!
         while (pixelsColored < totalPixels)
@@ -258,14 +263,21 @@ public class InteractableDoor : MonoBehaviour
             yield return null;
         }
 
-        // In der exakt selben Millisekunde, in der der Bildschirm 100% schwarz ist, wechseln wir die Szene!
-        if (!string.IsNullOrEmpty(targetSceneName))
+        // In der exakt selben Millisekunde, in der der Bildschirm 100% schwarz ist:
+        // Wenn eine Cutscene zugewiesen ist, spielen wir sie ab. Sonst direkt die Szene laden!
+        string sceneToLoad = !string.IsNullOrEmpty(targetSceneName)
+            ? targetSceneName
+            : SceneManager.GetActiveScene().name;
+
+        if (cutsceneBeforeNextScene != null && cutsceneBeforeNextScene.slides != null && cutsceneBeforeNextScene.slides.Count > 0)
         {
-            SceneManager.LoadScene(targetSceneName);
+            CutscenePlayer.pendingCutscene = cutsceneBeforeNextScene;
+            CutscenePlayer.pendingTargetScene = sceneToLoad;
+            CutscenePlayer.Play();
         }
         else
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            SceneManager.LoadScene(sceneToLoad);
         }
     }
 }
