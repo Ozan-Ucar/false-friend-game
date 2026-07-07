@@ -88,6 +88,9 @@ public class DialogManager : MonoBehaviour
     // Referenzen auf aktive Rutsch-Coroutinen (um Konflikte zu verhindern!)
     private Coroutine leftPortraitCoroutine;
     private Coroutine rightPortraitCoroutine;
+    
+    // Callback für wenn der Dialog fertig ist
+    private System.Action currentDialogCallback;
 
     private void Awake()
     {
@@ -156,6 +159,17 @@ public class DialogManager : MonoBehaviour
             skipCooldownTimer -= Time.unscaledDeltaTime;
         }
 
+        // Kompletter Dialog-Skip mit der Taste 'Z'
+        bool skipPressed = (Keyboard.current != null && Keyboard.current.zKey.wasPressedThisFrame);
+        if (skipPressed)
+        {
+            if (typingCoroutine != null) StopCoroutine(typingCoroutine);
+            linesQueue.Clear();
+            currentSentencesQueue.Clear();
+            EndDialog();
+            return;
+        }
+
         // Weiter per Klick oder Leertaste (Kompatibel mit dem neuen Input System)
         bool nextPressed = (Keyboard.current != null && Keyboard.current.spaceKey.wasPressedThisFrame) ||
                            (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame);
@@ -183,10 +197,11 @@ public class DialogManager : MonoBehaviour
         }
     }
 
-    public void StartDialog(List<DialogLine> lines)
+    public void StartDialog(List<DialogLine> lines, System.Action onComplete = null)
     {
         if (IsDialogActive) return;
 
+        currentDialogCallback = onComplete;
         IsDialogActive = true;
         linesQueue.Clear();
         currentSentencesQueue.Clear();
@@ -366,6 +381,13 @@ public class DialogManager : MonoBehaviour
 
         dialogBox.gameObject.SetActive(false);
         IsDialogActive = false;
+        
+        // Event auslösen! (z.B. Bosskampf starten)
+        if (currentDialogCallback != null)
+        {
+            currentDialogCallback.Invoke();
+            currentDialogCallback = null;
+        }
     }
 
     // --- Clean Animations (Cubic Ease-Out) ---

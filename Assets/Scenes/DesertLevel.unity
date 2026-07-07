@@ -3744,15 +3744,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4615987755201627399, guid: 1d23627a0852c2f41a6ff879861245da, type: 3}
       propertyPath: highlightColor.b
-      value: 0.031772893
+      value: 0.03137252
       objectReference: {fileID: 0}
     - target: {fileID: 4615987755201627399, guid: 1d23627a0852c2f41a6ff879861245da, type: 3}
       propertyPath: highlightColor.g
-      value: 0.9622642
+      value: 0.5854976
       objectReference: {fileID: 0}
     - target: {fileID: 4615987755201627399, guid: 1d23627a0852c2f41a6ff879861245da, type: 3}
       propertyPath: highlightColor.r
-      value: 0.37954888
+      value: 0.9607843
       objectReference: {fileID: 0}
     - target: {fileID: 5495728191779779402, guid: 1d23627a0852c2f41a6ff879861245da, type: 3}
       propertyPath: m_LocalScale.x
@@ -5358,7 +5358,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -763, y: 381}
+  m_AnchoredPosition: {x: -850, y: 420}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1482008916

@@ -34,6 +34,10 @@ public class BossCannonFightManager : MonoBehaviour
     [Tooltip("Mache hier im Play-Mode ein Häkchen, um sofort in die nächste Phase zu springen.")]
     public bool forceNextPhase = false;
 
+    [Header("Start Einstellungen")]
+    [Tooltip("Soll der Kampf direkt beim Laden der Szene starten? (Wenn false, musst du 'BeginBossFight()' z.B. per DialogTrigger aufrufen)")]
+    public bool startAutomatically = false;
+
     private int currentPhase = 0;
     private int collectedInCurrentPhase = 0;
 
@@ -54,8 +58,20 @@ public class BossCannonFightManager : MonoBehaviour
             phaseText.gameObject.SetActive(false);
         }
 
-        // Kampf starten mit der eingestellten Start-Phase
-        StartCoroutine(StartPhase(debugStartPhase));
+        if (startAutomatically)
+        {
+            // Kampf starten mit der eingestellten Start-Phase
+            StartCoroutine(StartPhase(debugStartPhase));
+        }
+    }
+
+    public void BeginBossFight()
+    {
+        // Verhindert, dass der Kampf versehentlich doppelt gestartet wird
+        if (currentPhase == 0)
+        {
+            StartCoroutine(StartPhase(debugStartPhase));
+        }
     }
 
     void Update()

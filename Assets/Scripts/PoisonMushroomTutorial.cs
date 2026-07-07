@@ -21,23 +21,16 @@ public class PoisonMushroomTutorial : MonoBehaviour
     [Tooltip("Wie lange wartet das Skript nach der Explosion des Pilzes, bevor das Level neustartet?")]
     public float delayAfterExplosion = 1.5f;
 
-    [Header("Debug")]
-    [Tooltip("Wenn aktiv, wird das Tutorial beim Testen im Editor IMMER abgespielt, auch wenn es schon gespeichert wurde.")]
-    public bool alwaysPlayInEditor = false;
-
     private bool hasTriggered = false;
-    private const string TUTORIAL_PREF_KEY = "MushroomTutorialDone";
+    
+    // STATIC bedeutet: Der Wert bleibt bestehen, wenn die Szene (beim Tod) neu lädt.
+    // Aber er wird gelöscht, sobald das ganze Spiel geschlossen wird!
+    private static bool sessionTutorialDone = false;
 
     void Start()
     {
-        bool isDone = PlayerPrefs.GetInt(TUTORIAL_PREF_KEY, 0) == 1;
-        
-        #if UNITY_EDITOR
-        if (alwaysPlayInEditor) isDone = false;
-        #endif
-
-        // Wenn das Tutorial schon mal erfolgreich gemacht wurde, direkt löschen
-        if (isDone)
+        // Wenn das Tutorial in dieser Sitzung schon gemacht wurde, direkt löschen
+        if (sessionTutorialDone)
         {
             Destroy(gameObject);
             return;
@@ -142,9 +135,8 @@ public class PoisonMushroomTutorial : MonoBehaviour
         if (pm != null) pm.enabled = true;
         if (anim != null) anim.speed = 1f;
 
-        // 8. Speichern, dass wir das Tutorial gesehen haben!
-        PlayerPrefs.SetInt(TUTORIAL_PREF_KEY, 1);
-        PlayerPrefs.Save();
+        // 8. Speichern, dass wir das Tutorial in dieser SPIELSITZUNG gesehen haben!
+        sessionTutorialDone = true;
 
         // 9. Tutorial beenden
         Destroy(gameObject);

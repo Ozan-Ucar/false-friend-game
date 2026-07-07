@@ -39,6 +39,10 @@ public class BossArenaManager : MonoBehaviour
     [Tooltip("...und setze dann diesen Haken, um sofort in diese Phase zu wechseln!")]
     public bool forcePhaseChange = false;
 
+    [Header("Start Einstellungen")]
+    [Tooltip("Soll der Kampf direkt beim Laden der Szene starten? (Wenn false, musst du 'BeginBossFight()' z.B. per DialogTrigger aufrufen)")]
+    public bool startAutomatically = false;
+
     // Zustand
     private int currentPhase = 0;
     private int leversActivated = 0;
@@ -54,8 +58,18 @@ public class BossArenaManager : MonoBehaviour
 
     void Start()
     {
-        // Kampf startet direkt mit Phase 1!
-        StartPhase(1);
+        if (startAutomatically)
+        {
+            StartPhase(1);
+        }
+    }
+
+    public void BeginBossFight()
+    {
+        if (!fightStarted)
+        {
+            StartPhase(1);
+        }
     }
 
     void Update()

@@ -836,6 +836,7 @@ GameObject:
   - component: {fileID: 591137310}
   - component: {fileID: 591137309}
   - component: {fileID: 591137308}
+  - component: {fileID: 591137311}
   m_Layer: 0
   m_Name: DialogTrigger
   m_TagString: Untagged
@@ -965,6 +966,23 @@ MonoBehaviour:
     side: 1
     portraitScale: 2.5
   playOnce: 1
+  saveProgress: 0
+  uniqueID: 
+  onDialogFinished:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1598601893}
+        m_TargetAssemblyTypeName: BossCannonFightManager, Assembly-CSharp
+        m_MethodName: BeginBossFight
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!61 &591137309
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1020,12 +1038,65 @@ Transform:
   m_GameObject: {fileID: 591137307}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.96, y: -7.83, z: 0}
+  m_LocalPosition: {x: -2.19, y: -7.99, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!60 &591137311
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 591137307}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0.6329298, y: -0.01711464}
+      - {x: -1.0795829, y: 3.2960885}
+      - {x: -1.090972, y: -0.8090161}
+      - {x: 5.563887, y: -0.84655166}
+      - {x: 5.586517, y: 3.4094949}
+      - {x: 3.8996012, y: -0.07665026}
+  m_UseDelaunayMesh: 1
 --- !u!1 &731200362
 GameObject:
   m_ObjectHideFlags: 0
@@ -2687,7 +2758,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3220559086477989639, guid: 69a219768a556f44b8a0a2610a915dab, type: 3}
       propertyPath: jumpForce
-      value: 15
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 6578918599705006285, guid: 69a219768a556f44b8a0a2610a915dab, type: 3}
       propertyPath: m_Name
@@ -3164,11 +3235,12 @@ MonoBehaviour:
   leftCannon: {fileID: 1071778463}
   laserCannon: {fileID: 1544559292}
   collectiblePrefab: {fileID: 561200365529238732, guid: e41f12e9d4c4a1c4fb74fdecd72fdb62, type: 3}
-  collectiblesPerPhase: 1
+  collectiblesPerPhase: 2
   endCutscene: {fileID: 11400000, guid: 87fd36db0a4977c4f89933a941859a71, type: 2}
-  nextSceneName: 
+  nextSceneName: CreditScene
   debugStartPhase: 1
   forceNextPhase: 0
+  startAutomatically: 0
 --- !u!1 &1610382887
 GameObject:
   m_ObjectHideFlags: 0

@@ -10,6 +10,13 @@ public class PixelSceneReveal : MonoBehaviour
     public static Color globalTransitionColor = Color.black;
     public static bool useFadeToBlack = true; // Standard ist ab jetzt Fade to Black!
 
+    private Canvas _canvas;
+    private Image _fadeImage;
+    private RawImage _pixelImage;
+    private Texture2D _pixelTex;
+    private Color[] _pixels;
+    private List<int> _pixelIndices;
+
     // Magie: Diese Funktion zwingt Unity dazu, dieses Skript bei JEDEM Laden einer Szene
     // vollautomatisch im Hintergrund auszuführen! Du musst das Skript nirgendwo draufziehen!
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
@@ -20,17 +27,73 @@ public class PixelSceneReveal : MonoBehaviour
 
     static void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        // Wenn gerade ein Neustart nach dem Tod stattfindet, überlassen wir dem TransitionShowcase die Arbeit!
         if (TransitionShowcase.lastTransitionIndex != -1) return;
 
-        // Spawnt das Skript in der neuen Szene
         GameObject go = new GameObject("AutoPixelSceneReveal");
         go.AddComponent<PixelSceneReveal>();
     }
 
+    void Awake()
+    {
+        // WICHTIG: Das Canvas muss in Awake() erstellt werden!
+        // Awake() läuft ab, BEVOR Unity den allerersten Frame der neuen Szene rendert.
+        // Das verhindert den "1-Frame-Flash", bei dem die Szene kurz hell aufblitzt!
+        GameObject canvasObj = new GameObject("PixelRevealCanvas");
+        canvasObj.transform.SetParent(this.transform);
+        _canvas = canvasObj.AddComponent<Canvas>();
+        _canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+        _canvas.sortingOrder = 999;
+
+        if (useFadeToBlack)
+        {
+            GameObject imgObj = new GameObject("FadeScreen");
+            imgObj.transform.SetParent(canvasObj.transform, false);
+            _fadeImage = imgObj.AddComponent<Image>();
+            _fadeImage.color = globalTransitionColor;
+            
+            RectTransform rect = _fadeImage.rectTransform;
+            rect.anchorMin = Vector2.zero;
+            rect.anchorMax = Vector2.one;
+            rect.sizeDelta = Vector2.zero;
+        }
+        else
+        {
+            GameObject rawImageObj = new GameObject("PixelScreen");
+            rawImageObj.transform.SetParent(canvasObj.transform, false);
+            _pixelImage = rawImageObj.AddComponent<RawImage>();
+            
+            RectTransform rect = _pixelImage.rectTransform;
+            rect.anchorMin = Vector2.zero;
+            rect.anchorMax = Vector2.one;
+            rect.sizeDelta = Vector2.zero;
+
+            int width = 40;
+            int height = 25;
+            _pixelTex = new Texture2D(width, height);
+            _pixelTex.filterMode = FilterMode.Point;
+            
+            _pixels = new Color[width * height];
+            for (int i = 0; i < _pixels.Length; i++) _pixels[i] = globalTransitionColor;
+            _pixelTex.SetPixels(_pixels);
+            _pixelTex.Apply();
+            
+            _pixelImage.texture = _pixelTex;
+
+            _pixelIndices = new List<int>();
+            for (int i = 0; i < _pixels.Length; i++) _pixelIndices.Add(i);
+            
+            for (int i = 0; i < _pixelIndices.Count; i++)
+            {
+                int temp = _pixelIndices[i];
+                int randomIndex = Random.Range(i, _pixelIndices.Count);
+                _pixelIndices[i] = _pixelIndices[randomIndex];
+                _pixelIndices[randomIndex] = temp;
+            }
+        }
+    }
+
     void Start()
     {
-        // Startet sofort die Aufdeck-Animation
         StartCoroutine(RevealScene());
     }
 
@@ -39,68 +102,22 @@ public class PixelSceneReveal : MonoBehaviour
         if (useFadeToBlack)
         {
             yield return StartCoroutine(FadeReveal());
-            useFadeToBlack = true; // Wieder auf Standard (Fade) zurücksetzen
+            useFadeToBlack = true;
             Destroy(gameObject);
             yield break;
         }
 
-        // 1. Canvas erstellen
-        GameObject canvasObj = new GameObject("PixelRevealCanvas");
-        canvasObj.transform.SetParent(this.transform);
-        Canvas canvas = canvasObj.AddComponent<Canvas>();
-        canvas.renderMode = RenderMode.ScreenSpaceOverlay;
-        canvas.sortingOrder = 999;
-
-        // 2. RawImage erstellen
-        GameObject rawImageObj = new GameObject("PixelScreen");
-        rawImageObj.transform.SetParent(canvasObj.transform, false);
-        RawImage rawImage = rawImageObj.AddComponent<RawImage>();
-        
-        RectTransform rect = rawImage.rectTransform;
-        rect.anchorMin = Vector2.zero;
-        rect.anchorMax = Vector2.one;
-        rect.sizeDelta = Vector2.zero;
-
-        // 3. Textur (Diesmal starten wir komplett schwarz!)
-        int width = 40;
-        int height = 25;
-        Texture2D tex = new Texture2D(width, height);
-        tex.filterMode = FilterMode.Point;
-        
-        Color[] pixels = new Color[width * height];
-        for (int i = 0; i < pixels.Length; i++) pixels[i] = globalTransitionColor;
-        tex.SetPixels(pixels);
-        tex.Apply();
-        
-        rawImage.texture = tex;
-
-        // 4. Pixel mischen
-        List<int> pixelIndices = new List<int>();
-        for (int i = 0; i < pixels.Length; i++) pixelIndices.Add(i);
-        
-        for (int i = 0; i < pixelIndices.Count; i++)
-        {
-            int temp = pixelIndices[i];
-            int randomIndex = Random.Range(i, pixelIndices.Count);
-            pixelIndices[i] = pixelIndices[randomIndex];
-            pixelIndices[randomIndex] = temp;
-        }
-
-        // 5. Animation: Den schwarzen Bildschirm rückgängig Pixel für Pixel aufdecken
-        float duration = 1.2f; // Die gleiche Zeit wie bei der Tür
+        float duration = 1.2f; 
         float elapsed = 0f;
-        int totalPixels = pixels.Length;
+        int totalPixels = _pixels.Length;
         int pixelsCleared = 0;
 
         while (pixelsCleared < totalPixels)
         {
-            // Verhindert, dass der "Lag" beim Laden der Szene die Animation sofort beendet
             float dt = Mathf.Min(Time.deltaTime, 0.05f);
             elapsed += dt;
             
             float progress = Mathf.Clamp01(elapsed / duration);
-            
-            // Ein weicher Verlauf, damit es sich angenehm anfühlt
             float curvedProgress = progress * (2f - progress); 
             if (elapsed >= duration) curvedProgress = 1f;
 
@@ -109,56 +126,37 @@ public class PixelSceneReveal : MonoBehaviour
             bool changed = false;
             while (pixelsCleared < targetPixels && pixelsCleared < totalPixels)
             {
-                // Hier ist der Trick: Wir setzen den schwarzen Pixel auf Color.clear (durchsichtig)!
-                pixels[pixelIndices[pixelsCleared]] = Color.clear;
+                _pixels[_pixelIndices[pixelsCleared]] = Color.clear;
                 pixelsCleared++;
                 changed = true;
             }
 
             if (changed)
             {
-                tex.SetPixels(pixels);
-                tex.Apply();
+                _pixelTex.SetPixels(_pixels);
+                _pixelTex.Apply();
             }
             yield return null;
         }
 
-        // Sobald das Bild zu 100% freigelegt ist, zerstört sich dieses Skript selbst und räumt auf!
-        useFadeToBlack = true; // Wieder auf Standard (Fade) zurücksetzen für den Fall, dass die Szene im Editor neu gestartet wird
+        useFadeToBlack = true;
         Destroy(gameObject);
     }
 
     private IEnumerator FadeReveal()
     {
-        GameObject canvasObj = new GameObject("FadeRevealCanvas");
-        canvasObj.transform.SetParent(this.transform);
-        Canvas canvas = canvasObj.AddComponent<Canvas>();
-        canvas.renderMode = RenderMode.ScreenSpaceOverlay;
-        canvas.sortingOrder = 999;
-
-        GameObject imgObj = new GameObject("FadeScreen");
-        imgObj.transform.SetParent(canvasObj.transform, false);
-        Image image = imgObj.AddComponent<Image>();
-        image.color = globalTransitionColor;
-        
-        RectTransform rect = image.rectTransform;
-        rect.anchorMin = Vector2.zero;
-        rect.anchorMax = Vector2.one;
-        rect.sizeDelta = Vector2.zero;
-
-        float duration = 1.2f; // Exakt gleiche Dauer wie beim Fade Out (1.2 Sekunden)
+        float duration = 1.2f; 
         float elapsed = 0f;
 
         while (elapsed < duration)
         {
-            // Verhindert, dass der "Lag" beim Laden der Szene die Animation sofort beendet
             float dt = Mathf.Min(Time.deltaTime, 0.05f);
             elapsed += dt;
             
             float t = Mathf.Clamp01(elapsed / duration);
-            // SmoothStep (gleiche Kurve wie beim Fade Out), damit es identisch wirkt
             float curvedProgress = t * t * (3f - 2f * t); 
-            image.color = new Color(globalTransitionColor.r, globalTransitionColor.g, globalTransitionColor.b, 1f - curvedProgress);
+            
+            _fadeImage.color = new Color(globalTransitionColor.r, globalTransitionColor.g, globalTransitionColor.b, 1f - curvedProgress);
             yield return null;
         }
     }
