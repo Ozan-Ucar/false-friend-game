@@ -82,7 +82,7 @@ public class SetupSceneSounds
         string name = activeScene.name;
         bool modified = false;
 
-        if (name.Contains("House"))
+        if (name.Contains("Living") || name.Contains("House") || name.Contains("Bath") || name.Contains("Home"))
         {
             if (ssm.backgroundMusic == null)
             {

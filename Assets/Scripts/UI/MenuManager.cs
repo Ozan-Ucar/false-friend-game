@@ -9,10 +9,22 @@ public class MenuManager : MonoBehaviour
     [SerializeField] GameObject creditsPanel;       // overlay
 
     [Header("Scene")]
-    [SerializeField] string firstLevelScene = "OzanScene";
+    [SerializeField] string firstLevelScene = "HouseLevel";
+
+    void Awake()
+    {
+        if (firstLevelScene == "OzanScene" || string.IsNullOrEmpty(firstLevelScene))
+        {
+            firstLevelScene = "HouseLevel";
+        }
+    }
 
     void Start()
     {
+        if (firstLevelScene == "OzanScene" || string.IsNullOrEmpty(firstLevelScene))
+        {
+            firstLevelScene = "HouseLevel";
+        }
         CloseAll();
     }
 
@@ -20,6 +32,12 @@ public class MenuManager : MonoBehaviour
 
     public void OnPlay()
     {
+        Time.timeScale = 1f;
+        if (firstLevelScene == "OzanScene" || string.IsNullOrEmpty(firstLevelScene))
+        {
+            firstLevelScene = "HouseLevel";
+        }
+        Debug.Log($"[MenuManager] OnPlay geklickt! Lade Szene: '{firstLevelScene}'");
         SceneManager.LoadScene(firstLevelScene);
     }
 

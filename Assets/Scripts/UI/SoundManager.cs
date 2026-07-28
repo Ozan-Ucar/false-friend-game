@@ -36,12 +36,42 @@ public class SoundManager : MonoBehaviour
         FallenVolume     = PlayerPrefs.GetFloat(KFallen, defaultVolume);
         PlayerAnimVolume = PlayerPrefs.GetFloat(KAnim,   defaultVolume);
 
+        if (backgroundMusic == null)
+        {
+            backgroundMusic = Resources.Load<AudioClip>("TittlescreenMusic");
+            if (backgroundMusic == null) backgroundMusic = Resources.Load<AudioClip>("menu_music");
+        }
+
         musicSource = gameObject.AddComponent<AudioSource>();
         musicSource.clip        = backgroundMusic;
         musicSource.loop        = true;
         musicSource.playOnAwake = false;
+        musicSource.spatialBlend = 0f; // 2D Stereo Sound!
         musicSource.volume      = MusicVolume;
-        if (backgroundMusic != null) musicSource.Play();
+        if (backgroundMusic != null)
+        {
+            musicSource.Play();
+            Debug.Log($"[SoundManager] Spiele Menü-Musik: '{backgroundMusic.name}' (Volume: {MusicVolume})");
+        }
+    }
+
+    public void StopMusic()
+    {
+        if (musicSource != null) musicSource.Stop();
+    }
+
+    public void PlayMusic()
+    {
+        if (musicSource != null)
+        {
+            musicSource.spatialBlend = 0f;
+            musicSource.volume = MusicVolume;
+            if (!musicSource.isPlaying)
+            {
+                musicSource.Play();
+                Debug.Log($"[SoundManager] Menü-Musik fortgesetzt: '{musicSource.clip?.name}'");
+            }
+        }
     }
 
     public void SetMusicVolume(float v)

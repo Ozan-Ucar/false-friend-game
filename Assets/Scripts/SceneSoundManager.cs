@@ -67,46 +67,139 @@ public class SceneSoundManager : MonoBehaviour
 
     void Awake()
     {
-        if (Instance == null)
-            Instance = this;
-        else
+        if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
             return;
         }
 
-        // Automatisches Finden & Laden von Musik & Kulisse passend zum aktuellen Level!
-        AutoResolveLevelAudio();
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
 
-        if (backgroundMusic != null)
-        {
-            musicSource = gameObject.AddComponent<AudioSource>();
-            musicSource.clip = backgroundMusic;
-            musicSource.volume = musicVolume;
-            musicSource.loop = true;
-            musicSource.Play();
-        }
+        musicSource = gameObject.AddComponent<AudioSource>();
+        musicSource.spatialBlend = 0f; // 2D Stereo Sound
+        musicSource.loop = true;
 
-        if (ambienceSound != null)
-        {
-            ambienceSource = gameObject.AddComponent<AudioSource>();
-            ambienceSource.clip = ambienceSound;
-            ambienceSource.volume = ambienceVolume;
-            ambienceSource.loop = true;
-            ambienceSource.Play();
-        }
+        ambienceSource = gameObject.AddComponent<AudioSource>();
+        ambienceSource.spatialBlend = 0f; // 2D Stereo Sound
+        ambienceSource.loop = true;
 
-        // Der Lautsprecher für alle kurzen SFX
         sfxSource = gameObject.AddComponent<AudioSource>();
+
+        UnityEngine.SceneManagement.SceneManager.sceneLoaded += OnSceneLoaded;
+
+        PlayMusicForScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
+    }
+
+    private void OnDestroy()
+    {
+        if (Instance == this)
+        {
+            UnityEngine.SceneManagement.SceneManager.sceneLoaded -= OnSceneLoaded;
+        }
+    }
+
+    private void OnSceneLoaded(UnityEngine.SceneManagement.Scene scene, UnityEngine.SceneManagement.LoadSceneMode mode)
+    {
+        PlayMusicForScene(scene.name);
+    }
+
+    public void PlayMusicForScene(string sceneName)
+    {
+        string sceneLower = sceneName.ToLower();
+
+        // Falls noch der alte SoundManager (mit der falschen menu_music) existiert, stoppen wir ihn
+        if (SoundManager.Instance != null)
+        {
+            SoundManager.Instance.StopMusic();
+        }
+
+        backgroundMusic = null;
+        ambienceSound = null;
+
+        AutoResolveLevelAudioForScene(sceneLower);
+
+        if (musicSource != null)
+        {
+            if (backgroundMusic != null)
+            {
+                if (musicSource.clip != backgroundMusic || !musicSource.isPlaying)
+                {
+                    musicSource.clip = backgroundMusic;
+                    musicSource.volume = musicVolume;
+                    musicSource.Play();
+                    Debug.Log($"[{sceneName}] SceneSoundManager: Spiele Hintergrundmusik '{backgroundMusic.name}'");
+                }
+            }
+            else
+            {
+                musicSource.Stop();
+            }
+        }
+
+        if (ambienceSource != null)
+        {
+            if (ambienceSound != null)
+            {
+                if (ambienceSource.clip != ambienceSound || !ambienceSource.isPlaying)
+                {
+                    ambienceSource.clip = ambienceSound;
+                    ambienceSource.volume = ambienceVolume;
+                    ambienceSource.Play();
+                }
+            }
+            else
+            {
+                ambienceSource.Stop();
+            }
+        }
+    }
+
+    public void FadeOutMusic(float duration = 0.5f)
+    {
+        StartCoroutine(FadeOutMusicRoutine(duration));
+    }
+
+    public void FadeInMusic(float duration = 0.5f)
+    {
+        StartCoroutine(FadeInMusicRoutine(duration));
+    }
+
+    private System.Collections.IEnumerator FadeOutMusicRoutine(float duration)
+    {
+        if (musicSource == null) yield break;
+        float startVol = musicSource.volume;
+        float timer = 0f;
+        while (timer < duration)
+        {
+            timer += Time.unscaledDeltaTime;
+            musicSource.volume = Mathf.Lerp(startVol, 0f, timer / duration);
+            yield return null;
+        }
+        musicSource.volume = 0f;
+        musicSource.Pause();
+    }
+
+    private System.Collections.IEnumerator FadeInMusicRoutine(float duration)
+    {
+        if (musicSource == null) yield break;
+        if (!musicSource.isPlaying) musicSource.UnPause();
+        float targetVol = musicVolume;
+        float startVol = musicSource.volume;
+        float timer = 0f;
+        while (timer < duration)
+        {
+            timer += Time.unscaledDeltaTime;
+            musicSource.volume = Mathf.Lerp(startVol, targetVol, timer / duration);
+            yield return null;
+        }
+        musicSource.volume = targetVol;
     }
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
     private static void AutoInit()
     {
-        if (Instance == null)
-        {
-            EnsureInstance();
-        }
+        EnsureInstance();
     }
 
     public static void EnsureInstance()
@@ -118,13 +211,11 @@ public class SceneSoundManager : MonoBehaviour
         }
     }
 
-    private void AutoResolveLevelAudio()
+    private void AutoResolveLevelAudioForScene(string sceneLower)
     {
-        string sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
-        string sceneLower = sceneName.ToLower();
 
-        // 0. House Level ONLY (HouseLevel)
-        if (sceneLower.Contains("house"))
+        // 0. Home Levels (LivingRoom, HouseLevel, BathroomLevel)
+        if (sceneLower.Contains("living") || sceneLower.Contains("house") || sceneLower.Contains("bath") || sceneLower.Contains("home"))
         {
             if (backgroundMusic == null) backgroundMusic = LoadResourceAudio("HomeBackgroundMusic");
         }
@@ -171,12 +262,12 @@ public class SceneSoundManager : MonoBehaviour
             if (backgroundMusic == null) backgroundMusic = LoadResourceAudio("CreditBackgroundmusic");
         }
         // 9. Title Screen (TittlescreenMusic)
-        else if (sceneLower.Contains("title") || sceneLower.Contains("main"))
+        else if (sceneLower.Contains("title") || sceneLower.Contains("main") || sceneLower.Contains("menu"))
         {
             if (backgroundMusic == null) backgroundMusic = LoadResourceAudio("TittlescreenMusic");
         }
 
-        Debug.Log($"[SceneSoundManager] Szene: '{sceneName}' | Musik: {(backgroundMusic != null ? backgroundMusic.name : "NICHT GEFUNDEN")} | Kulisse: {(ambienceSound != null ? ambienceSound.name : "NICHT GEFUNDEN")}");
+        Debug.Log($"[SceneSoundManager] Szene: '{UnityEngine.SceneManagement.SceneManager.GetActiveScene().name}' | Musik: {(backgroundMusic != null ? backgroundMusic.name : "NICHT GEFUNDEN")} | Kulisse: {(ambienceSound != null ? ambienceSound.name : "NICHT GEFUNDEN")}");
     }
 
     private AudioClip LoadResourceAudio(string resourceName)

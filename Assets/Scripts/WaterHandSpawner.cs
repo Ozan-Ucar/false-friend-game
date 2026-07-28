@@ -38,7 +38,7 @@ public class WaterHandSpawner : MonoBehaviour
             bool clickedWater = false;
             foreach (Collider2D col in clickColliders)
             {
-                if (col.OverlapPoint(mousePos))
+                if (col != null && col.OverlapPoint(mousePos))
                 {
                     clickedWater = true;
                     break;

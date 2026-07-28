@@ -334,6 +334,12 @@ public class CutscenePlayer : MonoBehaviour
     {
         isPlaying = true;
 
+        // Level-Hintergrundmusik sofort sanft ausblenden (wegfaden)
+        if (SceneSoundManager.Instance != null)
+        {
+            SceneSoundManager.Instance.FadeOutMusic(0.3f);
+        }
+
         // --- Musik starten (sanft einfaden) ---
         if (data.backgroundMusic != null)
         {

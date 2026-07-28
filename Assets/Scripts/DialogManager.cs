@@ -210,6 +210,12 @@ public class DialogManager : MonoBehaviour
     {
         if (IsDialogActive) return;
 
+        // Level-Hintergrundmusik während des Dialogs sanft ausblenden
+        if (SceneSoundManager.Instance != null)
+        {
+            SceneSoundManager.Instance.FadeOutMusic(0.3f);
+        }
+
         currentDialogCallback = onComplete;
         IsDialogActive = true;
         linesQueue.Clear();
@@ -376,6 +382,12 @@ public class DialogManager : MonoBehaviour
 
     private void EndDialog()
     {
+        // Level-Hintergrundmusik nach dem Dialog wieder sanft einfaden
+        if (SceneSoundManager.Instance != null)
+        {
+            SceneSoundManager.Instance.FadeInMusic(0.5f);
+        }
+
         if (pauseGameDuringDialog)
         {
             Time.timeScale = 1f;
