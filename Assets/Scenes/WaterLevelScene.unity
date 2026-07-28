@@ -1031,6 +1031,10 @@ MonoBehaviour:
   boxSlideDuration: 0.4
   portraitSlideDuration: 1
   typeSpeed: 0.05
+  wordPauseDelay: 0.06
+  sentencePauseDelay: 0.2
+  wordSpacing: 18
+  playDialogSound: 1
   boxHiddenPosition: {x: 0, y: -700}
   boxVisiblePosition: {x: 0, y: -350}
   portraitHiddenOffsetX: -500
@@ -1212,6 +1216,76 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef5f39a697ae7d6468c9f509504f7e53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LevelPortal
+--- !u!1 &1490441703
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1490441705}
+  - component: {fileID: 1490441704}
+  m_Layer: 0
+  m_Name: SceneSoundManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1490441704
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1490441703}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76141a6789c32a84d86e9cb0ebf83b07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SceneSoundManager
+  backgroundMusic: {fileID: 0}
+  musicVolume: 0.5
+  ambienceSound: {fileID: 8300000, guid: 955dadbd1c942a74496c48ca5b030239, type: 3}
+  ambienceVolume: 0.5
+  cageDropSound: {fileID: 0}
+  cageDropVolume: 1
+  cageDropOffset: 0
+  cageFadeSound: {fileID: 0}
+  cageFadeVolume: 1
+  footstepSound: {fileID: 0}
+  footstepVolume: 0.5
+  placeWormSound: {fileID: 0}
+  placeWormVolume: 1
+  attackNormalWormSound: {fileID: 0}
+  attackNormalWormVolume: 1
+  attackMidWormSound: {fileID: 0}
+  attackMidWormVolume: 1
+  attackHighWormSound: {fileID: 0}
+  attackHighWormVolume: 1
+  stoneRollSound: {fileID: 0}
+  stoneRollVolume: 1
+  stoneHitSound: {fileID: 0}
+  stoneHitVolume: 1
+  falconSound: {fileID: 0}
+  falconVolume: 0.5
+  falconInterval: 20
+--- !u!4 &1490441705
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1490441703}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1744218806
 GameObject:
   m_ObjectHideFlags: 0
@@ -1809,7 +1883,7 @@ Rigidbody2D:
   m_LinearDamping: 0
   m_AngularDamping: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 337e9082ea97f9a4fa7468236265ab69, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -2124,3 +2198,4 @@ SceneRoots:
   - {fileID: 864227819}
   - {fileID: 1080141181}
   - {fileID: 487474100}
+  - {fileID: 1490441705}

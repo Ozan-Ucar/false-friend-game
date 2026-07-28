@@ -75,6 +75,9 @@ public class SceneSoundManager : MonoBehaviour
             return;
         }
 
+        // Automatisches Finden & Laden von Musik & Kulisse passend zum aktuellen Level!
+        AutoResolveLevelAudio();
+
         if (backgroundMusic != null)
         {
             musicSource = gameObject.AddComponent<AudioSource>();
@@ -95,6 +98,119 @@ public class SceneSoundManager : MonoBehaviour
 
         // Der Lautsprecher für alle kurzen SFX
         sfxSource = gameObject.AddComponent<AudioSource>();
+    }
+
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
+    private static void AutoInit()
+    {
+        if (Instance == null)
+        {
+            EnsureInstance();
+        }
+    }
+
+    public static void EnsureInstance()
+    {
+        if (Instance == null)
+        {
+            GameObject go = new GameObject("SceneSoundManager");
+            Instance = go.AddComponent<SceneSoundManager>();
+        }
+    }
+
+    private void AutoResolveLevelAudio()
+    {
+        string sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+        string sceneLower = sceneName.ToLower();
+
+        // 0. House Level ONLY (HouseLevel)
+        if (sceneLower.Contains("house"))
+        {
+            if (backgroundMusic == null) backgroundMusic = LoadResourceAudio("HomeBackgroundMusic");
+        }
+        // 1. Forest Level (ForestBackgroundmusic + ForestKulisse)
+        else if (sceneLower.Contains("forest") || sceneLower.Contains("level01"))
+        {
+            if (backgroundMusic == null) backgroundMusic = LoadResourceAudio("ForestBackgroundmusic");
+            if (ambienceSound == null) ambienceSound = LoadResourceAudio("ForestKulisse");
+        }
+        // 2. Dungeon Level (DungeonBackgroundMusic)
+        else if (sceneLower.Contains("dungeon"))
+        {
+            if (backgroundMusic == null) backgroundMusic = LoadResourceAudio("DungeonBackgroundMusic");
+        }
+        // 3. Factory Level (FactoryBackground + FactoryKulisse)
+        else if (sceneLower.Contains("factory"))
+        {
+            if (backgroundMusic == null) backgroundMusic = LoadResourceAudio("FactoryBackground");
+            if (ambienceSound == null) ambienceSound = LoadResourceAudio("FactoryKulisse");
+        }
+        // 4. Stronghold Level (StrongholdBackgroundMusic)
+        else if (sceneLower.Contains("stronghold"))
+        {
+            if (backgroundMusic == null) backgroundMusic = LoadResourceAudio("StrongholdBackgroundMusic");
+        }
+        // 5. Desert Level (Sandstorm Kulisse)
+        else if (sceneLower.Contains("desert"))
+        {
+            if (ambienceSound == null) ambienceSound = LoadResourceAudio("sandstorm");
+        }
+        // 6. Water Level (WaterLevelKulisse)
+        else if (sceneLower.Contains("water"))
+        {
+            if (ambienceSound == null) ambienceSound = LoadResourceAudio("WaterLevelKulisse");
+        }
+        // 7. Boss Arena (BossRoomBackgroundMusic)
+        else if (sceneLower.Contains("boss"))
+        {
+            if (backgroundMusic == null) backgroundMusic = LoadResourceAudio("BossRoomBackgroundMusic");
+        }
+        // 8. Credit Scene (CreditBackgroundmusic)
+        else if (sceneLower.Contains("credit"))
+        {
+            if (backgroundMusic == null) backgroundMusic = LoadResourceAudio("CreditBackgroundmusic");
+        }
+        // 9. Title Screen (TittlescreenMusic)
+        else if (sceneLower.Contains("title") || sceneLower.Contains("main"))
+        {
+            if (backgroundMusic == null) backgroundMusic = LoadResourceAudio("TittlescreenMusic");
+        }
+
+        Debug.Log($"[SceneSoundManager] Szene: '{sceneName}' | Musik: {(backgroundMusic != null ? backgroundMusic.name : "NICHT GEFUNDEN")} | Kulisse: {(ambienceSound != null ? ambienceSound.name : "NICHT GEFUNDEN")}");
+    }
+
+    private AudioClip LoadResourceAudio(string resourceName)
+    {
+#if UNITY_EDITOR
+        string[] guids = UnityEditor.AssetDatabase.FindAssets("t:AudioClip");
+        foreach (string g in guids)
+        {
+            string path = UnityEditor.AssetDatabase.GUIDToAssetPath(g);
+            if (path.ToLower().Contains(resourceName.ToLower()))
+            {
+                AudioClip edClip = UnityEditor.AssetDatabase.LoadAssetAtPath<AudioClip>(path);
+                if (edClip != null) return edClip;
+            }
+        }
+#endif
+
+        // 1. Direkter Versuch
+        AudioClip clip = Resources.Load<AudioClip>(resourceName);
+        if (clip != null) return clip;
+
+        // 2. Alle Clips aus dem Resources-Ordner laden und nach Teilstück des Namens durchsuchen
+        AudioClip[] allClips = Resources.LoadAll<AudioClip>("");
+        if (allClips != null)
+        {
+            foreach (var c in allClips)
+            {
+                if (c != null && c.name.ToLower().Contains(resourceName.ToLower()))
+                {
+                    return c;
+                }
+            }
+        }
+        return null;
     }
 
     void Start()

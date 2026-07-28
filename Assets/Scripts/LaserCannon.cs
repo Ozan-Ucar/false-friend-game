@@ -205,6 +205,7 @@ public class LaserCannon : MonoBehaviour
     {
         if (UnityEngine.InputSystem.Mouse.current.leftButton.wasPressedThisFrame && Time.time >= nextFireTime && laserBeam != null)
         {
+            ProceduralTrapSFX.PlayLaserWarningSound();
             laserBeam.FireLaser(warningDuration, laserDuration);
             firingEndTime = Time.time + warningDuration + laserDuration;
             // Nächster Schuss erst, wenn der aktuelle komplett fertig ist + Cooldown

@@ -42,6 +42,8 @@ public class PoisonMushroom : MonoBehaviour
         // 2. PLATZEN (Kurzer visueller Effekt durch Skalierung)
         transform.localScale *= explosionScale;
 
+        ProceduralTrapSFX.PlayPoisonMushroomSound();
+
         // NEU: Kamera wackeln lassen
         if (CameraShake.Instance != null)
         {

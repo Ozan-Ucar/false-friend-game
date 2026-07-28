@@ -47,6 +47,7 @@ public class WaterHandSpawner : MonoBehaviour
 
             if (clickedWater)
             {
+                lastClickTime = Time.time; // Cooldown-Timer startet SOFORT im Klick-Frame!
                 SpawnHandTrap(mousePos.x);
             }
         }
@@ -59,8 +60,6 @@ public class WaterHandSpawner : MonoBehaviour
             // Wir spawnen das Prefab genau an der X-Position der Maus, aber immer auf der festen Y-Höhe!
             Vector3 spawnPos = new Vector3(spawnX, spawnYPosition, transform.position.z);
             Instantiate(handTrapPrefab, spawnPos, Quaternion.identity);
-            
-            lastClickTime = Time.time;
         }
         else
         {

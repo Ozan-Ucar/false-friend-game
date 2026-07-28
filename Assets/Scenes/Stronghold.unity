@@ -166,6 +166,76 @@ Transform:
   - {fileID: 1986547637}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &71818197
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 71818199}
+  - component: {fileID: 71818198}
+  m_Layer: 0
+  m_Name: SceneSoundManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &71818198
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 71818197}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76141a6789c32a84d86e9cb0ebf83b07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SceneSoundManager
+  backgroundMusic: {fileID: 8300000, guid: 65fd4e924c2fecf4bb4d87f95bf17694, type: 3}
+  musicVolume: 0.5
+  ambienceSound: {fileID: 0}
+  ambienceVolume: 0.5
+  cageDropSound: {fileID: 0}
+  cageDropVolume: 1
+  cageDropOffset: 0
+  cageFadeSound: {fileID: 0}
+  cageFadeVolume: 1
+  footstepSound: {fileID: 0}
+  footstepVolume: 0.5
+  placeWormSound: {fileID: 0}
+  placeWormVolume: 1
+  attackNormalWormSound: {fileID: 0}
+  attackNormalWormVolume: 1
+  attackMidWormSound: {fileID: 0}
+  attackMidWormVolume: 1
+  attackHighWormSound: {fileID: 0}
+  attackHighWormVolume: 1
+  stoneRollSound: {fileID: 0}
+  stoneRollVolume: 1
+  stoneHitSound: {fileID: 0}
+  stoneHitVolume: 1
+  falconSound: {fileID: 0}
+  falconVolume: 0.5
+  falconInterval: 20
+--- !u!4 &71818199
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 71818197}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &118716307
 GameObject:
   m_ObjectHideFlags: 0
@@ -1050,6 +1120,10 @@ MonoBehaviour:
   boxSlideDuration: 0.4
   portraitSlideDuration: 1
   typeSpeed: 0.05
+  wordPauseDelay: 0.06
+  sentencePauseDelay: 0.2
+  wordSpacing: 18
+  playDialogSound: 1
   boxHiddenPosition: {x: 0, y: -700}
   boxVisiblePosition: {x: 0, y: -350}
   portraitHiddenOffsetX: -500
@@ -4627,6 +4701,10 @@ PrefabInstance:
       propertyPath: 'heartImages.Array.data[0]'
       value: 
       objectReference: {fileID: 846654449}
+    - target: {fileID: 791465040794019101, guid: 69a219768a556f44b8a0a2610a915dab, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 6200000, guid: 337e9082ea97f9a4fa7468236265ab69, type: 2}
     - target: {fileID: 2224963082551483424, guid: 69a219768a556f44b8a0a2610a915dab, type: 3}
       propertyPath: m_LocalPosition.x
       value: 3.8124967
@@ -12075,3 +12153,4 @@ SceneRoots:
   - {fileID: 1250825257}
   - {fileID: 1774230619}
   - {fileID: 628653606}
+  - {fileID: 71818199}

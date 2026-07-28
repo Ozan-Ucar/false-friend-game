@@ -26,7 +26,7 @@ public class ClickableHighlight : MonoBehaviour
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         propBlock = new MaterialPropertyBlock();
-        swManager = FindFirstObjectByType<SandwormManager>();
+        swManager = FindAnyObjectByType<SandwormManager>();
         UpdateHighlight();
     }
 

@@ -2716,6 +2716,10 @@ PrefabInstance:
       propertyPath: 'heartImages.Array.data[1]'
       value: 
       objectReference: {fileID: 557521244}
+    - target: {fileID: 791465040794019101, guid: 69a219768a556f44b8a0a2610a915dab, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 6200000, guid: 337e9082ea97f9a4fa7468236265ab69, type: 2}
     - target: {fileID: 2224963082551483424, guid: 69a219768a556f44b8a0a2610a915dab, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.09
@@ -2904,6 +2908,10 @@ MonoBehaviour:
   boxSlideDuration: 0.2
   portraitSlideDuration: 0.9
   typeSpeed: 0.01
+  wordPauseDelay: 0.06
+  sentencePauseDelay: 0.2
+  wordSpacing: 18
+  playDialogSound: 1
   boxHiddenPosition: {x: 0, y: -700}
   boxVisiblePosition: {x: 0, y: -350}
   portraitHiddenOffsetX: -500

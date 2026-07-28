@@ -1,5 +1,9 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
+using System.Collections;
+using System.Collections.Generic;
+using TMPro;
 
 public class SandwormManager : MonoBehaviour
 {
@@ -36,6 +40,16 @@ public class SandwormManager : MonoBehaviour
 
     [Tooltip("Wie lange dauert es, bis der Käfig den Boden erreicht? (in Sekunden)")]
     public float birdCageDropDuration = 0.8f;
+
+    [Header("Tutorial & Extra Fallen")]
+    [Tooltip("Optional: Pfeil-Prefab (wie bei TutorialTrap). Wenn LEER, wird arrowSprite oder prozeduraler Pfeil verwendet.")]
+    public GameObject arrowPrefab;
+    [Tooltip("Optional: Pfeil-Sprite für das Tutorial.")]
+    public Sprite arrowSprite;
+    [Tooltip("Abstand / Y-Höhe des Pfeils über den Fallen.")]
+    public Vector3 arrowOffset = new Vector3(0f, 1.8f, 0f);
+    [Tooltip("Zusätzliche Fallen im Level (z.B. RollingStone), die NACH den Sandwürmern auch getestet werden sollen.")]
+    public List<GameObject> extraTrapsToTest = new List<GameObject>();
     
     private GameObject activeBirdCage;
 
@@ -340,6 +354,7 @@ public class SandwormManager : MonoBehaviour
         }
 
         // --- NEU: Soundeffekt für das Platzieren abspielen ---
+        ProceduralTrapSFX.PlayPlaceWormSound();
         if (SceneSoundManager.Instance != null)
         {
             SceneSoundManager.Instance.PlayPlaceWorm();
@@ -361,9 +376,171 @@ public class SandwormManager : MonoBehaviour
 
     void EndPlacementPhase()
     {
-        Debug.Log("Alle Würmer platziert! Action-Phase beginnt!");
-        
-        StartCoroutine(OutroSequence());
+        Debug.Log("Alle Würmer platziert! Test-Phase beginnt!");
+        StartCoroutine(SandwormTestingSequence());
+    }
+
+    private IEnumerator SandwormTestingSequence()
+    {
+        // 1. Warten, bis die Gräber sich in SandwormAttacks verwandelt haben (~1.2s)
+        yield return new WaitForSeconds(1.2f);
+
+        List<GameObject> allTraps = new List<GameObject>();
+
+        // 1a. Alle platzierte Sandwürmer erfassen
+        SandwormAttack[] sandworms = FindObjectsByType<SandwormAttack>(FindObjectsSortMode.None);
+        if (sandworms != null)
+        {
+            foreach (var sw in sandworms)
+            {
+                if (sw != null && !allTraps.Contains(sw.gameObject))
+                {
+                    allTraps.Add(sw.gameObject);
+                }
+            }
+        }
+
+        // 1b. Zusätzliche Fallen (z.B. RollingStone) hinzufügen
+        if (extraTrapsToTest != null)
+        {
+            foreach (var extra in extraTrapsToTest)
+            {
+                if (extra != null && !allTraps.Contains(extra))
+                {
+                    allTraps.Add(extra);
+                }
+            }
+        }
+
+        if (allTraps.Count == 0)
+        {
+            StartCoroutine(OutroSequence());
+            yield break;
+        }
+
+        // 2. Bouncing Pfeil erstellen (Prefab, Custom Sprite oder Arrow.png)
+        GameObject arrowObj = null;
+        if (arrowPrefab != null)
+        {
+            arrowObj = Instantiate(arrowPrefab);
+        }
+        else
+        {
+            arrowObj = new GameObject("SandwormTutorialArrow");
+            SpriteRenderer sr = arrowObj.AddComponent<SpriteRenderer>();
+
+            Sprite spr = arrowSprite;
+            if (spr == null)
+            {
+                Sprite[] allSprites = Resources.FindObjectsOfTypeAll<Sprite>();
+                foreach (var s in allSprites)
+                {
+                    if (s != null && (s.name.Equals("Arrow", System.StringComparison.OrdinalIgnoreCase) || s.name.StartsWith("Arrow_")))
+                    {
+                        spr = s;
+                        break;
+                    }
+                }
+            }
+
+            sr.sprite = (spr != null) ? spr : CreateProceduralArrowSprite();
+            sr.sortingOrder = 100;
+            arrowObj.transform.localScale = new Vector3(1.2f, 1.2f, 1f);
+        }
+
+        // 3. Durch alle Fallen gehen (Sandwürmer + RollingStone etc.)
+        for (int i = 0; i < allTraps.Count; i++)
+        {
+            GameObject activeTrap = allTraps[i];
+            if (activeTrap == null) continue;
+
+            // Highlight-Fokus setzen (NUR die aktive Falle leuchtet)
+            foreach (var t in allTraps)
+            {
+                if (t != null)
+                {
+                    ClickableHighlight hl = t.GetComponent<ClickableHighlight>();
+                    if (hl != null)
+                    {
+                        hl.isTriggered = (t != activeTrap);
+                        hl.UpdateHighlight();
+                    }
+                }
+            }
+
+            // Warten bis diese Falle geklickt/ausgelöst wurde + Pfeil hüpfen lassen
+            bool tested = false;
+            while (!tested)
+            {
+                if (activeTrap == null) break;
+
+                // Sanfte Hüpf-Animation des Pfeils (wie bei TutorialTrap)
+                float bounce = Mathf.Sin(Time.time * 4.5f) * 0.2f;
+                if (arrowObj != null)
+                {
+                    arrowObj.transform.position = activeTrap.transform.position + arrowOffset + new Vector3(0f, bounce, 0f);
+                }
+
+                if (WasTrapTriggered(activeTrap))
+                {
+                    tested = true;
+                }
+                yield return null;
+            }
+
+            // Warten, bis die Falle (Animation/Effekt) fertig ist
+            yield return new WaitForSeconds(1.4f);
+        }
+
+        // 4. Pfeil aufräumen & Highlights zurücksetzen
+        if (arrowObj != null) Destroy(arrowObj);
+        foreach (var t in allTraps)
+        {
+            if (t != null)
+            {
+                ClickableHighlight hl = t.GetComponent<ClickableHighlight>();
+                if (hl != null)
+                {
+                    hl.isTriggered = false;
+                    hl.UpdateHighlight();
+                }
+            }
+        }
+
+        // 5. Orangefarbenen Bereit-Button anzeigen & auf Klick warten
+        yield return StartCoroutine(ShowReadyButtonAndWait());
+
+        // 6. Erst NACH dem Bereit-Button verschwindet der Käfig!
+        yield return StartCoroutine(OutroSequence());
+    }
+
+    private bool WasTrapTriggered(GameObject trap)
+    {
+        if (trap == null) return true;
+
+        // 1. ClickableHighlight Check
+        ClickableHighlight hl = trap.GetComponent<ClickableHighlight>();
+        if (hl != null && hl.isTriggered) return true;
+
+        // 2. SandwormAttack Check
+        SandwormAttack swa = trap.GetComponent<SandwormAttack>();
+        if (swa != null && !swa.IsReady) return true;
+
+        // 3. Mausklick-Check auf Collider der Falle
+        if (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
+        {
+            Vector2 mouseWorldPos = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
+            Collider2D[] colliders = trap.GetComponentsInChildren<Collider2D>();
+            foreach (var col in colliders)
+            {
+                if (col != null && col.enabled && col.OverlapPoint(mouseWorldPos))
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     private System.Collections.IEnumerator OutroSequence()
@@ -417,5 +594,275 @@ public class SandwormManager : MonoBehaviour
             }
         }
         return new RaycastHit2D(); // Nichts gefunden
+    }
+
+    private IEnumerator ShowReadyButtonAndWait()
+    {
+        bool readyClicked = false;
+        GameObject createdCanvasObj = null;
+        RectTransform btnRect = null;
+
+        if (UnityEngine.EventSystems.EventSystem.current == null && FindAnyObjectByType<UnityEngine.EventSystems.EventSystem>() == null)
+        {
+            GameObject esObj = new GameObject("EventSystem");
+            esObj.AddComponent<UnityEngine.EventSystems.EventSystem>();
+            esObj.AddComponent<UnityEngine.InputSystem.UI.InputSystemUIInputModule>();
+        }
+
+        createdCanvasObj = new GameObject("ReadyButtonCanvas");
+        Canvas canvas = createdCanvasObj.AddComponent<Canvas>();
+        canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+        canvas.sortingOrder = 999;
+        createdCanvasObj.AddComponent<CanvasScaler>();
+        createdCanvasObj.AddComponent<GraphicRaycaster>();
+
+        Sprite roundedSprite = CreateRoundedRectangleSprite(64, 64, 14f);
+
+        // 1. Dunkler Schatten-Hintergrund für 3D-Tiefe
+        GameObject shadowObj = new GameObject("ReadyButtonShadow");
+        shadowObj.transform.SetParent(createdCanvasObj.transform, false);
+        Image shadowImg = shadowObj.AddComponent<Image>();
+        shadowImg.sprite = roundedSprite;
+        shadowImg.type = Image.Type.Sliced;
+        shadowImg.color = new Color(0.4f, 0.12f, 0.01f, 0.85f);
+
+        RectTransform shadowRect = shadowObj.GetComponent<RectTransform>();
+        shadowRect.anchorMin = new Vector2(0.5f, 0f);
+        shadowRect.anchorMax = new Vector2(0.5f, 0f);
+        shadowRect.pivot = new Vector2(0.5f, 0f);
+        shadowRect.anchoredPosition = new Vector2(0f, 40f);
+        shadowRect.sizeDelta = new Vector2(358f, 98f);
+
+        // 2. Haupt-Button in leuchtendem Orange (unten mittig)
+        GameObject btnObj = new GameObject("ReadyButton");
+        btnObj.transform.SetParent(createdCanvasObj.transform, false);
+
+        Image btnImg = btnObj.AddComponent<Image>();
+        btnImg.sprite = roundedSprite;
+        btnImg.type = Image.Type.Sliced;
+        btnImg.color = new Color(1f, 0.46f, 0.05f, 1f);
+
+        Button btn = btnObj.AddComponent<Button>();
+        ColorBlock cb = btn.colors;
+        cb.normalColor = new Color(1f, 0.46f, 0.05f, 1f);
+        cb.highlightedColor = new Color(1f, 0.68f, 0.15f, 1f);
+        cb.pressedColor = new Color(0.8f, 0.28f, 0.02f, 1f);
+        cb.colorMultiplier = 1f;
+        cb.fadeDuration = 0.08f;
+        btn.colors = cb;
+
+        btnRect = btnObj.GetComponent<RectTransform>();
+        btnRect.anchorMin = new Vector2(0.5f, 0f);
+        btnRect.anchorMax = new Vector2(0.5f, 0f);
+        btnRect.pivot = new Vector2(0.5f, 0f);
+        btnRect.anchoredPosition = new Vector2(0f, 48f);
+        btnRect.sizeDelta = new Vector2(350f, 90f);
+
+        // 3. Text ("Bereit")
+        GameObject textObj = new GameObject("Text");
+        textObj.transform.SetParent(btnObj.transform, false);
+        TextMeshProUGUI tmp = textObj.AddComponent<TextMeshProUGUI>();
+
+        TMP_FontAsset arcadeFont = null;
+        TMP_FontAsset[] allFonts = Resources.FindObjectsOfTypeAll<TMP_FontAsset>();
+        foreach (var f in allFonts)
+        {
+            if (f != null && (f.name.Contains("ARCADECLASSIC") || f.name.Contains("Arcade")))
+            {
+                arcadeFont = f;
+                break;
+            }
+        }
+        if (arcadeFont != null) tmp.font = arcadeFont;
+
+        tmp.text = "Bereit";
+        tmp.fontSize = 46;
+        tmp.alignment = TextAlignmentOptions.Center;
+        tmp.color = Color.white;
+        tmp.fontStyle = FontStyles.Bold;
+        tmp.outlineColor = new Color(0.35f, 0.08f, 0.01f, 1f);
+        tmp.outlineWidth = 0.22f;
+
+        RectTransform textRect = textObj.GetComponent<RectTransform>();
+        textRect.anchorMin = Vector2.zero;
+        textRect.anchorMax = Vector2.one;
+        textRect.sizeDelta = Vector2.zero;
+        textRect.anchoredPosition = Vector2.zero;
+        textRect.pivot = new Vector2(0.5f, 0.5f);
+
+        btn.onClick.AddListener(() => readyClicked = true);
+
+        // === EXTREM COOLER SLIDE-IN EFFEKT VON UNTEN NACH OBEN (Mit Overshoot Bounce) ===
+        if (btnRect != null)
+        {
+            Vector2 targetBtnPos = new Vector2(0f, 48f);
+            Vector2 startBtnPos = new Vector2(0f, -180f);
+
+            Vector2 targetShadowPos = new Vector2(0f, 40f);
+            Vector2 startShadowPos = new Vector2(0f, -188f);
+
+            btnRect.anchoredPosition = startBtnPos;
+            if (shadowRect != null) shadowRect.anchoredPosition = startShadowPos;
+            btnRect.localScale = new Vector3(0.6f, 0.6f, 1f);
+
+            float slideTime = 0f;
+            float slideDuration = 0.45f;
+
+            while (slideTime < slideDuration)
+            {
+                slideTime += Time.unscaledDeltaTime;
+                float progress = Mathf.Clamp01(slideTime / slideDuration);
+
+                // EaseOutBack Formel für einen extrem coolen Overshoot / Swish-Effekt!
+                float c1 = 1.70158f;
+                float c3 = c1 + 1f;
+                float ease = 1f + c3 * Mathf.Pow(progress - 1f, 3f) + c1 * Mathf.Pow(progress - 1f, 2f);
+
+                btnRect.anchoredPosition = Vector2.LerpUnclamped(startBtnPos, targetBtnPos, ease);
+                if (shadowRect != null) shadowRect.anchoredPosition = Vector2.LerpUnclamped(startShadowPos, targetShadowPos, ease);
+
+                float slideScale = Mathf.LerpUnclamped(0.6f, 1f, ease);
+                btnRect.localScale = new Vector3(slideScale, slideScale, 1f);
+
+                yield return null;
+            }
+
+            btnRect.anchoredPosition = targetBtnPos;
+            if (shadowRect != null) shadowRect.anchoredPosition = targetShadowPos;
+            btnRect.localScale = Vector3.one;
+        }
+
+        // Hover-Animation & Klick-Erkennung
+        float currentScale = 1f;
+        while (!readyClicked)
+        {
+            if (Mouse.current != null)
+            {
+                Vector2 mousePos = Mouse.current.position.ReadValue();
+                bool isHovering = (btnRect != null && RectTransformUtility.RectangleContainsScreenPoint(btnRect, mousePos, null));
+
+                float targetScale = isHovering ? 1.06f : 1.0f;
+                currentScale = Mathf.Lerp(currentScale, targetScale, Time.unscaledDeltaTime * 12f);
+
+                if (btnRect != null)
+                {
+                    btnRect.localScale = new Vector3(currentScale, currentScale, 1f);
+                }
+
+                if (isHovering && Mouse.current.leftButton.wasPressedThisFrame)
+                {
+                    readyClicked = true;
+                }
+            }
+
+            if (Keyboard.current != null && (Keyboard.current.spaceKey.wasPressedThisFrame || Keyboard.current.enterKey.wasPressedThisFrame))
+            {
+                readyClicked = true;
+            }
+
+            yield return null;
+        }
+
+        // Klick-Effekt
+        if (btnRect != null)
+        {
+            btnRect.localScale = new Vector3(0.92f, 0.92f, 1f);
+            yield return new WaitForSecondsRealtime(0.08f);
+            btnRect.localScale = new Vector3(1.02f, 1.02f, 1f);
+            yield return new WaitForSecondsRealtime(0.06f);
+        }
+
+        if (SceneSoundManager.Instance != null && SceneSoundManager.Instance.stoneHitSound != null)
+        {
+            SceneSoundManager.Instance.PlaySFX(SceneSoundManager.Instance.stoneHitSound);
+        }
+
+        yield return new WaitForSecondsRealtime(0.1f);
+
+        if (createdCanvasObj != null) Destroy(createdCanvasObj);
+    }
+
+    private Sprite CreateRoundedRectangleSprite(int width, int height, float cornerRadius)
+    {
+        Texture2D tex = new Texture2D(width, height, TextureFormat.RGBA32, false);
+        tex.filterMode = FilterMode.Bilinear;
+
+        Color transparent = new Color(0, 0, 0, 0);
+        Color white = Color.white;
+
+        float r = cornerRadius;
+
+        for (int y = 0; y < height; y++)
+        {
+            for (int x = 0; x < width; x++)
+            {
+                float cx = x < r ? r : (x > width - r ? width - r : x);
+                float cy = y < r ? r : (y > height - r ? height - r : y);
+
+                float dx = x - cx;
+                float dy = y - cy;
+                float distSq = dx * dx + dy * dy;
+
+                if (distSq > r * r)
+                {
+                    float dist = Mathf.Sqrt(distSq);
+                    float alpha = Mathf.Clamp01(1f - (dist - r));
+                    tex.SetPixel(x, y, new Color(1, 1, 1, alpha));
+                }
+                else
+                {
+                    tex.SetPixel(x, y, white);
+                }
+            }
+        }
+
+        tex.Apply();
+        Vector4 border = new Vector4(r, r, r, r);
+        return Sprite.Create(tex, new Rect(0, 0, width, height), new Vector2(0.5f, 0.5f), 100f, 0, SpriteMeshType.FullRect, border);
+    }
+
+    private Sprite CreateProceduralArrowSprite()
+    {
+        int size = 32;
+        Texture2D tex = new Texture2D(size, size, TextureFormat.RGBA32, false);
+        tex.filterMode = FilterMode.Point;
+
+        Color transparent = new Color(0, 0, 0, 0);
+        Color border = new Color(0.1f, 0.1f, 0.1f, 1f);
+        Color fill = new Color(1f, 0.85f, 0.1f, 1f);
+
+        for (int y = 0; y < size; y++)
+        {
+            for (int x = 0; x < size; x++)
+            {
+                tex.SetPixel(x, y, transparent);
+            }
+        }
+
+        for (int y = 14; y <= 30; y++)
+        {
+            for (int x = 11; x <= 20; x++)
+            {
+                bool isEdge = (x == 11 || x == 20 || y == 30);
+                tex.SetPixel(x, y, isEdge ? border : fill);
+            }
+        }
+
+        for (int y = 2; y <= 13; y++)
+        {
+            int halfWidth = y + 1;
+            int centerX = 15;
+            for (int x = centerX - halfWidth; x <= centerX + halfWidth + 1; x++)
+            {
+                if (x >= 0 && x < size)
+                {
+                    bool isEdge = (x == centerX - halfWidth || x == centerX + halfWidth + 1 || y == 2);
+                    tex.SetPixel(x, y, isEdge ? border : fill);
+                }
+            }
+        }
+
+        tex.Apply();
+        return Sprite.Create(tex, new Rect(0, 0, size, size), new Vector2(0.5f, 0.5f), 16f);
     }
 }

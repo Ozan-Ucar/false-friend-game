@@ -154,6 +154,8 @@ MonoBehaviour:
   normalWidth: 0.7
   hoverWidth: 0.7
   pulseSpeed: 3
+  innerGlowOpacity: 0.35
+  innerGlowSharpness: 8
   isTriggered: 0
 --- !u!61 &95482324
 BoxCollider2D:
@@ -2771,7 +2773,7 @@ Transform:
   m_GameObject: {fileID: 440557251}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 17.26, y: 4.66908, z: 0}
+  m_LocalPosition: {x: -5.75, y: 4.43, z: 0}
   m_LocalScale: {x: 10, y: 10, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3140,6 +3142,50 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!1 &997436339
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 997436341}
+  - component: {fileID: 997436340}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &997436340
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 997436339}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0abf84ba6445d942bcc94096fe616b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ProceduralTrapSFX
+--- !u!4 &997436341
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 997436339}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 9.561, y: 5.14824, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1045489844
 GameObject:
   m_ObjectHideFlags: 0
@@ -7343,7 +7389,8 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   transitionColor: {r: 0, g: 0, b: 0, a: 1}
-  targetSceneName: BathroomLevel
+  targetSceneName: HouseLevel
+  cutsceneBeforeNextScene: {fileID: 0}
 --- !u!4 &1111179475
 Transform:
   m_ObjectHideFlags: 0
@@ -8010,6 +8057,8 @@ MonoBehaviour:
   normalWidth: 0.7
   hoverWidth: 0.7
   pulseSpeed: 3
+  innerGlowOpacity: 0.35
+  innerGlowSharpness: 8
   isTriggered: 0
 --- !u!1 &1818845550
 GameObject:
@@ -8069,7 +8118,8 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   transitionColor: {r: 0, g: 0, b: 0, a: 1}
-  targetSceneName: HouseLevel
+  targetSceneName: BathroomLevel
+  cutsceneBeforeNextScene: {fileID: 0}
 --- !u!4 &1818845552
 Transform:
   m_ObjectHideFlags: 0
@@ -8605,7 +8655,7 @@ Transform:
   m_GameObject: {fileID: 2034182982}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 17.96, y: 4.7, z: 0}
+  m_LocalPosition: {x: -5.58, y: 4.64, z: 0}
   m_LocalScale: {x: 20, y: 20, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -8713,3 +8763,4 @@ SceneRoots:
   - {fileID: 1364297110}
   - {fileID: 623434593}
   - {fileID: 440557257}
+  - {fileID: 997436341}

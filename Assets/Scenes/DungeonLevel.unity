@@ -4860,6 +4860,11 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!1 &1005204880 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1316460221842081829, guid: 7b9ae7e8c542dc44f8e06a312f8ab813, type: 3}
+  m_PrefabInstance: {fileID: 1044400107}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1034744731
 GameObject:
   m_ObjectHideFlags: 0
@@ -5704,6 +5709,73 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1048523412
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1048523414}
+  - component: {fileID: 1048523413}
+  m_Layer: 0
+  m_Name: TrapTutorial
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1048523413
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1048523412}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82f18b54175c4d749b78aa5e849b0ab7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LevelTrapTutorial
+  trapsToTest:
+  - {fileID: 265702757}
+  - {fileID: 1005204880}
+  - {fileID: 1107371474}
+  - {fileID: 1123755280}
+  - {fileID: 498484579}
+  arrowPrefab: {fileID: 5081977898372233773, guid: aeb513f4a1260e94ea7532fabf1daebd, type: 3}
+  arrowSprite: {fileID: 0}
+  arrowOffset: {x: 0, y: 1.5, z: 0}
+  animateArrowBounce: 1
+  bounceSpeed: 4
+  bounceAmount: 0.25
+  freezePlayerDuringTutorial: 1
+  zoomCameraToTraps: 0
+  cameraZoomSize: 3.5
+  promptText: {fileID: 0}
+  promptPrefix: Klicke die markierte Falle!
+  readyButton: {fileID: 0}
+  readyButtonText: Bereit!
+  buttonFont: {fileID: 0}
+  delayBetweenTraps: 0.3
+  startOnLevelStart: 1
+  playOncePerSession: 1
+--- !u!4 &1048523414
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1048523412}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.39576, y: -3.40476, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1086805983
 GameObject:
   m_ObjectHideFlags: 0
@@ -5762,6 +5834,10 @@ PrefabInstance:
       propertyPath: 'heartImages.Array.data[0]'
       value: 
       objectReference: {fileID: 874295828}
+    - target: {fileID: 791465040794019101, guid: 69a219768a556f44b8a0a2610a915dab, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 6200000, guid: 337e9082ea97f9a4fa7468236265ab69, type: 2}
     - target: {fileID: 791465040794019101, guid: 69a219768a556f44b8a0a2610a915dab, type: 3}
       propertyPath: m_GravityScale
       value: 2
@@ -5854,6 +5930,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 610287230}
   m_SourcePrefab: {fileID: 100100000, guid: 69a219768a556f44b8a0a2610a915dab, type: 3}
+--- !u!1 &1107371474 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6412106034873555444, guid: 230b54dfcd898f54c92584ddcc1e537f, type: 3}
+  m_PrefabInstance: {fileID: 142648932}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1123755280
 GameObject:
   m_ObjectHideFlags: 0
@@ -6060,6 +6141,76 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.3372034, y: 0.16378355}
   m_EdgeRadius: 0
+--- !u!1 &1142172927
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1142172929}
+  - component: {fileID: 1142172928}
+  m_Layer: 0
+  m_Name: SceneSoundManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1142172928
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1142172927}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76141a6789c32a84d86e9cb0ebf83b07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SceneSoundManager
+  backgroundMusic: {fileID: 8300000, guid: 7be5ac237a33c00488836d7e715c59bd, type: 3}
+  musicVolume: 0.5
+  ambienceSound: {fileID: 0}
+  ambienceVolume: 0.5
+  cageDropSound: {fileID: 0}
+  cageDropVolume: 1
+  cageDropOffset: 0
+  cageFadeSound: {fileID: 0}
+  cageFadeVolume: 1
+  footstepSound: {fileID: 0}
+  footstepVolume: 0.5
+  placeWormSound: {fileID: 0}
+  placeWormVolume: 1
+  attackNormalWormSound: {fileID: 0}
+  attackNormalWormVolume: 1
+  attackMidWormSound: {fileID: 0}
+  attackMidWormVolume: 1
+  attackHighWormSound: {fileID: 0}
+  attackHighWormVolume: 1
+  stoneRollSound: {fileID: 0}
+  stoneRollVolume: 1
+  stoneHitSound: {fileID: 0}
+  stoneHitVolume: 1
+  falconSound: {fileID: 0}
+  falconVolume: 0.5
+  falconInterval: 20
+--- !u!4 &1142172929
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1142172927}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1143386300 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5890905320224841338, guid: 7f08de139659cb749b4cfdca95cc2bf7, type: 3}
@@ -6637,6 +6788,10 @@ MonoBehaviour:
   boxSlideDuration: 0.4
   portraitSlideDuration: 1
   typeSpeed: 0.05
+  wordPauseDelay: 0.06
+  sentencePauseDelay: 0.2
+  wordSpacing: 18
+  playDialogSound: 1
   boxHiddenPosition: {x: 0, y: -700}
   boxVisiblePosition: {x: 0, y: -350}
   portraitHiddenOffsetX: -500
@@ -11103,3 +11258,5 @@ SceneRoots:
   - {fileID: 727372920}
   - {fileID: 1670840170}
   - {fileID: 694009374}
+  - {fileID: 1048523414}
+  - {fileID: 1142172929}

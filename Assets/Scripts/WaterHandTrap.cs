@@ -44,6 +44,10 @@ public class WaterHandTrap : MonoBehaviour
     [Tooltip("Verzögert die Aktivierung der Hitbox (in Sekunden), NACHDEM die Hand anfängt hochzuschießen. Verhindert, dass man stirbt, obwohl die Hand noch unten ist.")]
     public float colliderEnableDelay = 0.05f;
     
+    [Header("Audio Settings")]
+    [Tooltip("Wie viele Sekunden NACH DEM KLICK soll der Sound abgespielt werden? (0 = sofort beim Klick, 0.5 = 0.5s nach Klick)")]
+    public float soundDelayAfterClick = 0.2f;
+
     [Header("Zieh-Effekt (Juice)")]
     [Tooltip("Soll der Player beim Treffer physisch mit der Hand nach unten gezogen werden?")]
     public bool pullPlayerDown = true;
@@ -77,8 +81,20 @@ public class WaterHandTrap : MonoBehaviour
             handVisual.gameObject.SetActive(false);
         }
         
+        // Sound-Routine starten (zählt DIREKT AB DEM KLICK runter!)
+        StartCoroutine(PlaySoundRoutine());
+
         // Falle startet automatisch, sobald sie vom Spawner gesetzt wurde
         StartCoroutine(TrapSequence());
+    }
+
+    private IEnumerator PlaySoundRoutine()
+    {
+        if (soundDelayAfterClick > 0f)
+        {
+            yield return new WaitForSeconds(soundDelayAfterClick);
+        }
+        ProceduralTrapSFX.PlayWaterHandTrapSound();
     }
 
     private IEnumerator TrapSequence()

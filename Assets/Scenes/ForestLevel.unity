@@ -962,6 +962,9 @@ MonoBehaviour:
   playOnce: 1
   saveProgress: 1
   uniqueID: 
+  onDialogFinished:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!61 &164352834
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1674,6 +1677,10 @@ PrefabInstance:
       propertyPath: 'heartImages.Array.data[0]'
       value: 
       objectReference: {fileID: 718865300}
+    - target: {fileID: 791465040794019101, guid: 69a219768a556f44b8a0a2610a915dab, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 6200000, guid: 337e9082ea97f9a4fa7468236265ab69, type: 2}
     - target: {fileID: 2224963082551483424, guid: 69a219768a556f44b8a0a2610a915dab, type: 3}
       propertyPath: m_LocalScale.x
       value: 3
@@ -1742,6 +1749,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1808777514}
   m_SourcePrefab: {fileID: 100100000, guid: 69a219768a556f44b8a0a2610a915dab, type: 3}
+--- !u!1 &342320705 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6412106034873555444, guid: 230b54dfcd898f54c92584ddcc1e537f, type: 3}
+  m_PrefabInstance: {fileID: 1806596575}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &349686490
 GameObject:
   m_ObjectHideFlags: 0
@@ -2183,7 +2195,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 813588898459724468, guid: 496719e5da83b76488890d51f3711549, type: 3}
   m_PrefabInstance: {fileID: 34495877}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 399411134}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bdfe81f717671504db07b9885d047c8f, type: 3}
@@ -2247,6 +2259,10 @@ MonoBehaviour:
   boxSlideDuration: 0.2
   portraitSlideDuration: 0.9
   typeSpeed: 0.01
+  wordPauseDelay: 0.06
+  sentencePauseDelay: 0.2
+  wordSpacing: 18
+  playDialogSound: 1
   boxHiddenPosition: {x: 0, y: -700}
   boxVisiblePosition: {x: 0, y: -350}
   portraitHiddenOffsetX: -500
@@ -2285,6 +2301,11 @@ Transform:
   - {fileID: 300222961}
   m_Father: {fileID: 1917974399}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &399411134 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8776808322799147122, guid: 496719e5da83b76488890d51f3711549, type: 3}
+  m_PrefabInstance: {fileID: 34495877}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &500579149
 GameObject:
   m_ObjectHideFlags: 0
@@ -2469,6 +2490,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1383519244}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &515616749 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1074710822313617856, guid: 3ec15837816a9624eaa1626b0c4b26f2, type: 3}
+  m_PrefabInstance: {fileID: 966157443}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &520813929
 GameObject:
   m_ObjectHideFlags: 0
@@ -2594,6 +2620,72 @@ Transform:
   - {fileID: 1084883667}
   - {fileID: 20919585}
   m_Father: {fileID: 1401135758}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &567030868
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 567030870}
+  - component: {fileID: 567030869}
+  m_Layer: 0
+  m_Name: TrapTutorial
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &567030869
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 567030868}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82f18b54175c4d749b78aa5e849b0ab7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LevelTrapTutorial
+  trapsToTest:
+  - {fileID: 399411134}
+  - {fileID: 342320705}
+  - {fileID: 1733587574}
+  - {fileID: 515616749}
+  arrowPrefab: {fileID: 5081977898372233773, guid: aeb513f4a1260e94ea7532fabf1daebd, type: 3}
+  arrowSprite: {fileID: 0}
+  arrowOffset: {x: 0, y: 1.5, z: 0}
+  animateArrowBounce: 1
+  bounceSpeed: 4
+  bounceAmount: 0.25
+  freezePlayerDuringTutorial: 1
+  zoomCameraToTraps: 0
+  cameraZoomSize: 3.5
+  promptText: {fileID: 0}
+  promptPrefix: Klicke die markierte Falle!
+  readyButton: {fileID: 0}
+  readyButtonText: Bereit!
+  buttonFont: {fileID: 0}
+  delayBetweenTraps: 0.3
+  startOnLevelStart: 1
+  playOncePerSession: 1
+--- !u!4 &567030870
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 567030868}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.39576, y: -3.40476, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &583287502
 GameObject:
@@ -4665,6 +4757,76 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3c5d91a9861c4214683ee5b6b4db088c, type: 3}
+--- !u!1 &1018337691
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1018337693}
+  - component: {fileID: 1018337692}
+  m_Layer: 0
+  m_Name: SceneSoundManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1018337692
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1018337691}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76141a6789c32a84d86e9cb0ebf83b07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SceneSoundManager
+  backgroundMusic: {fileID: 8300000, guid: b6e933dccb7f41a4eb1ff8cf140077d0, type: 3}
+  musicVolume: 0.5
+  ambienceSound: {fileID: 8300000, guid: 2103365e836204641ab956b26ee97175, type: 3}
+  ambienceVolume: 0.5
+  cageDropSound: {fileID: 0}
+  cageDropVolume: 1
+  cageDropOffset: 0
+  cageFadeSound: {fileID: 0}
+  cageFadeVolume: 1
+  footstepSound: {fileID: 0}
+  footstepVolume: 0.5
+  placeWormSound: {fileID: 0}
+  placeWormVolume: 1
+  attackNormalWormSound: {fileID: 0}
+  attackNormalWormVolume: 1
+  attackMidWormSound: {fileID: 0}
+  attackMidWormVolume: 1
+  attackHighWormSound: {fileID: 0}
+  attackHighWormVolume: 1
+  stoneRollSound: {fileID: 0}
+  stoneRollVolume: 1
+  stoneHitSound: {fileID: 0}
+  stoneHitVolume: 1
+  falconSound: {fileID: 0}
+  falconVolume: 0.5
+  falconInterval: 20
+--- !u!4 &1018337693
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1018337691}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1042132310
 GameObject:
   m_ObjectHideFlags: 0
@@ -8503,6 +8665,50 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!1 &1503573120
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1503573122}
+  - component: {fileID: 1503573121}
+  m_Layer: 0
+  m_Name: SFX Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1503573121
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1503573120}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0abf84ba6445d942bcc94096fe616b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ProceduralTrapSFX
+--- !u!4 &1503573122
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1503573120}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 14.89069, y: -3.16468, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1531704747
 GameObject:
   m_ObjectHideFlags: 0
@@ -9416,6 +9622,11 @@ MonoBehaviour:
   player: {fileID: 0}
   parallaxFactor: 0.1
   horizontalOnly: 1
+--- !u!1 &1733587574 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5962872011323726562, guid: 1d23627a0852c2f41a6ff879861245da, type: 3}
+  m_PrefabInstance: {fileID: 1302795281}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1742926078
 GameObject:
   m_ObjectHideFlags: 0
@@ -10258,7 +10469,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &2089416716
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10276,7 +10487,6 @@ MonoBehaviour:
   zoomSize: 3.5
   zoomDuration: 1
   delayAfterExplosion: 1.5
-  alwaysPlayInEditor: 1
 --- !u!61 &2089416717
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -15414,3 +15624,6 @@ SceneRoots:
   - {fileID: 1583484413}
   - {fileID: 164352835}
   - {fileID: 2089416718}
+  - {fileID: 567030870}
+  - {fileID: 1503573122}
+  - {fileID: 1018337693}

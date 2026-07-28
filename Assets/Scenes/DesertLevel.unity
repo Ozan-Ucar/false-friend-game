@@ -468,6 +468,10 @@ PrefabInstance:
       propertyPath: 'heartImages.Array.data[0]'
       value: 
       objectReference: {fileID: 1482008916}
+    - target: {fileID: 791465040794019101, guid: 69a219768a556f44b8a0a2610a915dab, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 6200000, guid: 337e9082ea97f9a4fa7468236265ab69, type: 2}
     - target: {fileID: 2224963082551483424, guid: 69a219768a556f44b8a0a2610a915dab, type: 3}
       propertyPath: m_LocalPosition.x
       value: -11.233211
@@ -826,6 +830,10 @@ MonoBehaviour:
   boxSlideDuration: 0.4
   portraitSlideDuration: 1
   typeSpeed: 0.05
+  wordPauseDelay: 0.06
+  sentencePauseDelay: 0.2
+  wordSpacing: 18
+  playDialogSound: 1
   boxHiddenPosition: {x: 0, y: -700}
   boxVisiblePosition: {x: 0, y: -350}
   portraitHiddenOffsetX: -500
@@ -5127,6 +5135,10 @@ MonoBehaviour:
   birdCageScale: {x: 2.5, y: 2.5}
   birdCageDropYOffset: 0.5
   birdCageDropDuration: 0.8
+  arrowPrefab: {fileID: 5081977898372233773, guid: aeb513f4a1260e94ea7532fabf1daebd, type: 3}
+  arrowSprite: {fileID: 0}
+  arrowOffset: {x: 0, y: 0.7, z: 0}
+  extraTrapsToTest: []
 --- !u!4 &1393464457
 Transform:
   m_ObjectHideFlags: 0

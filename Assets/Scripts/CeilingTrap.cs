@@ -86,9 +86,23 @@ public class CeilingTrap : MonoBehaviour
         }
     }
 
+    private void OnEnable()
+    {
+        if (anim == null) anim = GetComponent<Animator>();
+        if (anim != null && !isFiring)
+        {
+            anim.speed = 0;
+            int stateHash = Animator.StringToHash(CurrentAnimationName);
+            if (anim.HasState(0, stateHash))
+            {
+                anim.Play(CurrentAnimationName, 0, 0f);
+            }
+        }
+    }
+
     private void Start()
     {
-        if (anim != null)
+        if (anim != null && !isFiring)
         {
             anim.speed = 0; // Immer einfrieren!
             
@@ -186,6 +200,8 @@ public class CeilingTrap : MonoBehaviour
 
         if (preFireDelay > 0) yield return new WaitForSeconds(preFireDelay);
 
+        ProceduralTrapSFX.PlayCeilingFallSound();
+
         ClickableHighlight highlight = GetComponent<ClickableHighlight>();
         if (highlight != null) highlight.isTriggered = true;
 
@@ -233,6 +249,7 @@ public class CeilingTrap : MonoBehaviour
             // Schaden AKTIVIEREN, wenn der Delay erreicht ist
             if (!damageStarted && timeElapsed >= damageStartDelay)
             {
+                ProceduralTrapSFX.PlayCeilingTrapSound(); // EXAKTER AUFPRALL AM BODEN!
                 if (damageCollider != null) damageCollider.enabled = true;
                 isDamageActive = true;
                 damageTimer = 0f;

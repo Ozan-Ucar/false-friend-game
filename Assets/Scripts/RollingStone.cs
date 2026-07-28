@@ -73,6 +73,8 @@ public class RollingStone : MonoBehaviour
                 if (highlight != null) highlight.isTriggered = true;
 
                 // --- NEU: Rolling Sound (Loop) starten ---
+                ProceduralTrapSFX.ResetStoneRollState();
+                ProceduralTrapSFX.StartStoneRollLoop(0.1f);
                 if (SceneSoundManager.Instance != null && SceneSoundManager.Instance.stoneRollSound != null)
                 {
                     rollingAudioSource = gameObject.AddComponent<AudioSource>();
@@ -95,6 +97,7 @@ public class RollingStone : MonoBehaviour
             rb.angularVelocity = -currentDirection * currentTargetSpeed * 50f;
 
             // --- NEU: Pitch an die Roll-Geschwindigkeit anpassen ---
+            ProceduralTrapSFX.StartStoneRollLoop(currentTargetSpeed / maxSpeed);
             if (rollingAudioSource != null)
             {
                 rollingAudioSource.pitch = Mathf.Lerp(0.5f, 1.5f, currentTargetSpeed / maxSpeed);
@@ -109,6 +112,7 @@ public class RollingStone : MonoBehaviour
         // PRÜFUNG: Wer wurde getroffen?
         if (collision.gameObject.CompareTag("Player"))
         {
+            ProceduralTrapSFX.PlayRollingStoneSound();
             if (SceneSoundManager.Instance != null) SceneSoundManager.Instance.PlayStoneHit();
             StartCoroutine(BreakSequence(collision.gameObject));
         }
@@ -119,6 +123,7 @@ public class RollingStone : MonoBehaviour
             {
                 if (Mathf.Abs(contact.normal.x) > 0.5f)
                 {
+                    ProceduralTrapSFX.PlayRollingStoneSound();
                     if (SceneSoundManager.Instance != null) SceneSoundManager.Instance.PlayStoneHit();
                     ReverseDirection();
                     break;
@@ -132,6 +137,7 @@ public class RollingStone : MonoBehaviour
         isBreaking = true;
         
         // --- NEU: Rollen Sound stoppen ---
+        ProceduralTrapSFX.StopStoneRollLoop();
         if (rollingAudioSource != null)
         {
             rollingAudioSource.Stop();

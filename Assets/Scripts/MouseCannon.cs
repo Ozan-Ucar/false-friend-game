@@ -218,6 +218,7 @@ public class MouseCannon : MonoBehaviour
         Transform origin = firePoint != null ? firePoint : transform;
 
         // Sound abspielen
+        ProceduralTrapSFX.PlayCannonSound();
         if (shootSound != null && SceneSoundManager.Instance != null)
         {
             SceneSoundManager.Instance.PlaySFX(shootSound);

@@ -71,6 +71,8 @@ public class LaserBeam : MonoBehaviour
         }
 
         // 2. Schussphase (Beide an, pulsierend)
+        ProceduralTrapSFX.PlayLaserSound();
+
         if (glowLine != null)
         {
             glowLine.enabled = true;

@@ -27,6 +27,7 @@ public class SandwormAttack : MonoBehaviour
     public bool destroyAfterAttack = false;
 
     private bool isReady = true;
+    public bool IsReady => isReady;
     private bool hasDamagedPlayerThisAttack = false;
 
     void Start()
@@ -91,6 +92,8 @@ public class SandwormAttack : MonoBehaviour
     {
         if (!isReady) return;
         isReady = false;
+
+        ProceduralTrapSFX.PlaySandwormAttackSound();
 
         // Highlight aus
         ClickableHighlight highlight = GetComponent<ClickableHighlight>();

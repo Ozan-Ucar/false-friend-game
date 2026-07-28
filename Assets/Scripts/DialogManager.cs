@@ -53,7 +53,16 @@ public class DialogManager : MonoBehaviour
     [Header("Animation Settings")]
     public float boxSlideDuration = 0.8f; // Verlangsamt für kinomatischen Look (vorher 0.4f)
     public float portraitSlideDuration = 1.2f; // Verlangsamt für kinomatischen Look (vorher 0.7f)
+    [Header("Text & Audio Settings")]
     public float typeSpeed = 0.02f;
+    [Tooltip("Zusätzliche Pause (in Sekunden) bei jedem Leerzeichen für rhythmischen Lesefluss")]
+    public float wordPauseDelay = 0.06f;
+    [Tooltip("Zusätzliche Pause bei Satzzeichen (. ! ?)")]
+    public float sentencePauseDelay = 0.2f;
+    [Tooltip("Optischer Abstand zwischen den Wörtern (Word Spacing in TextMeshPro)")]
+    public float wordSpacing = 18f;
+    [Tooltip("Soll bei jedem Buchstaben der typische 2D-Retro Dialog Sound ertönen?")]
+    public bool playDialogSound = true;
 
     [Header("Positions")]
     [Tooltip("Die genaue Position der Dialogbox, wenn sie versteckt (ausgeblendet) ist.")]
@@ -327,11 +336,36 @@ public class DialogManager : MonoBehaviour
         dialogText.text = "";
         isTyping = true;
         
-        // unscaledDeltaTime bzw. WaitForSecondsRealtime, falls das Spiel pausiert ist
-        foreach (char letter in sentence.ToCharArray())
+        if (dialogText != null)
         {
+            dialogText.wordSpacing = wordSpacing;
+        }
+
+        char[] chars = sentence.ToCharArray();
+        for (int i = 0; i < chars.Length; i++)
+        {
+            char letter = chars[i];
             dialogText.text += letter;
-            yield return new WaitForSecondsRealtime(typeSpeed);
+
+            // 2D Retro Dialog Sound (bei Buchstaben, nicht bei Leerzeichen)
+            if (playDialogSound && !char.IsWhiteSpace(letter) && i % 2 == 0)
+            {
+                ProceduralTrapSFX.PlayDialogBlipSound();
+            }
+
+            // Pausen-Steuerung: Mehr Abstand & Atempause zwischen Wörtern & Sätzen
+            if (letter == ' ')
+            {
+                yield return new WaitForSecondsRealtime(typeSpeed + wordPauseDelay);
+            }
+            else if (letter == '.' || letter == '!' || letter == '?')
+            {
+                yield return new WaitForSecondsRealtime(typeSpeed + sentencePauseDelay);
+            }
+            else
+            {
+                yield return new WaitForSecondsRealtime(typeSpeed);
+            }
         }
 
         isTyping = false;

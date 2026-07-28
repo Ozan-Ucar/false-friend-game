@@ -41,6 +41,7 @@ public class LightningRodTrap : MonoBehaviour
     private Material chargeMaterial;
     private Collider2D myCollider;
     private bool isDragging = false;
+    public bool HasBeenShot { get; set; } = false;
     private LineRenderer aimLine;
 
     void Awake()
@@ -123,6 +124,7 @@ public class LightningRodTrap : MonoBehaviour
                 if (isDragging)
                 {
                     isDragging = false;
+                    HasBeenShot = true; // Für Tutorial-Erkennung!
                     if (aimLine != null) aimLine.enabled = false;
                     
                     if (rb != null)
@@ -192,6 +194,8 @@ public class LightningRodTrap : MonoBehaviour
 
     private void Strike()
     {
+        ProceduralTrapSFX.PlayLightningSound();
+
         // 1. Visueller Effekt
         StartCoroutine(LightningVisualRoutine());
         

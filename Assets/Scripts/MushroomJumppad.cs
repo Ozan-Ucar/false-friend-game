@@ -17,6 +17,8 @@ public class MushroomJumppad : MonoBehaviour
                 // launch player
                 rb.linearVelocity = new Vector2(rb.linearVelocity.x, bounceForce);
                 
+                ProceduralTrapSFX.PlayBounceSound();
+                
                 // play animation
                 if (animator != null)
                 {

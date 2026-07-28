@@ -20,6 +20,8 @@ public class PoisonCloud : MonoBehaviour
         cloudCollider = GetComponent<CircleCollider2D>();
         if (cloudCollider != null) cloudCollider.radius = 0f; 
 
+        ProceduralTrapSFX.PlayPoisonGasSound();
+
         StartCoroutine(Sequence_CloudLifeCycle());
     }
 

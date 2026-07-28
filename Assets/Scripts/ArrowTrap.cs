@@ -33,9 +33,19 @@ public class ArrowTrap : MonoBehaviour
         myCollider = GetComponent<Collider2D>();
     }
 
+    private void OnEnable()
+    {
+        if (anim == null) anim = GetComponent<Animator>();
+        if (anim != null && !isFiring)
+        {
+            anim.speed = 0;
+            anim.Play(animationName, 0, 0f);
+        }
+    }
+
     private void Start()
     {
-        if (anim != null)
+        if (anim != null && !isFiring)
         {
             anim.speed = 0;
             anim.Play(animationName, 0, 0f);
@@ -72,6 +82,8 @@ public class ArrowTrap : MonoBehaviour
 
         yield return new WaitForSeconds(spawnDelay);
         
+        ProceduralTrapSFX.PlayArrowTrapSound();
+
         if (arrowPrefab != null)
         {
             // Spawn an Position + Offset

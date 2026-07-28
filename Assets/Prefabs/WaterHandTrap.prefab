@@ -138,7 +138,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b84fd35ca1a5cb48bb887e3f7d02d3b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WaterHandTrap
-  warningDelay: 0.1
+  warningDelay: 1
   attackDuration: 0.1
   damage: 1
   warningSprite: {fileID: 656113486721738739}
@@ -192,6 +192,7 @@ MonoBehaviour:
   delayBeforeRise: 0.1
   pullDownDuration: 0.72
   colliderEnableDelay: 0.7
+  soundEarlyOffset: 0
   pullPlayerDown: 1
 --- !u!61 &4206449868763880840
 BoxCollider2D:

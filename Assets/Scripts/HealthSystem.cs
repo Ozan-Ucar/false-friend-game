@@ -72,7 +72,8 @@ public class HealthSystem : MonoBehaviour
             UpdateHealthUI();
         }
 
-        // Effekte (Kamera-Wackeln) passieren IMMER, auch im God Mode
+        // Effekte (Kamera-Wackeln & Sound) passieren IMMER, auch im God Mode
+        ProceduralTrapSFX.PlayPlayerHurtSound();
         if (CameraShake.Instance != null)
         {
             CameraShake.Instance.ShakeHit();
@@ -108,6 +109,8 @@ public class HealthSystem : MonoBehaviour
     {
         if (isDead) return;
         isDead = true;
+
+        ProceduralTrapSFX.PlayPlayerDeathSound();
 
         // 1. Spielerbewegung und Physik einfrieren/ausschalten
         PlayerMovement pm = GetComponent<PlayerMovement>();

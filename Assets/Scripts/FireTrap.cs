@@ -85,9 +85,19 @@ public class FireTrap : MonoBehaviour
         }
     }
 
+    private void OnEnable()
+    {
+        if (anim == null) anim = GetComponent<Animator>();
+        if (anim != null && !isFiring)
+        {
+            anim.speed = 0;
+            anim.Play(CurrentAnimationName, 0, 0f);
+        }
+    }
+
     private void Start()
     {
-        if (anim != null)
+        if (anim != null && !isFiring)
         {
             anim.speed = 0;
             anim.Play(CurrentAnimationName, 0, 0f);
@@ -174,6 +184,8 @@ public class FireTrap : MonoBehaviour
         isFiring = true;
 
         if (preFireDelay > 0) yield return new WaitForSeconds(preFireDelay);
+
+        ProceduralTrapSFX.PlayFireTrapSound();
 
         ClickableHighlight highlight = GetComponent<ClickableHighlight>();
         if (highlight != null) highlight.isTriggered = true;
