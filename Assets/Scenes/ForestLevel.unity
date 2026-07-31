@@ -4639,6 +4639,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Frog
       objectReference: {fileID: 0}
+    - target: {fileID: 4423095001060225942, guid: 3ec15837816a9624eaa1626b0c4b26f2, type: 3}
+      propertyPath: damageAmount
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6274811161636139987, guid: 3ec15837816a9624eaa1626b0c4b26f2, type: 3}
       propertyPath: m_LocalScale.x
       value: 6

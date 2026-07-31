@@ -210,8 +210,9 @@ public class DialogManager : MonoBehaviour
     {
         if (IsDialogActive) return;
 
-        // Level-Hintergrundmusik während des Dialogs sanft ausblenden
-        if (SceneSoundManager.Instance != null)
+        // Level-Hintergrundmusik während des Dialogs sanft ausblenden (außer in Boss-Szenen!)
+        string activeScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name.ToLower();
+        if (SceneSoundManager.Instance != null && !activeScene.Contains("boss"))
         {
             SceneSoundManager.Instance.FadeOutMusic(0.3f);
         }
@@ -382,8 +383,9 @@ public class DialogManager : MonoBehaviour
 
     private void EndDialog()
     {
-        // Level-Hintergrundmusik nach dem Dialog wieder sanft einfaden
-        if (SceneSoundManager.Instance != null)
+        // Level-Hintergrundmusik nach dem Dialog wieder sanft einfaden (außer in Boss-Szenen)
+        string activeScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name.ToLower();
+        if (SceneSoundManager.Instance != null && !activeScene.Contains("boss"))
         {
             SceneSoundManager.Instance.FadeInMusic(0.5f);
         }

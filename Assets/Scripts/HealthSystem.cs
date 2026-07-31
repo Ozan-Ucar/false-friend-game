@@ -110,6 +110,11 @@ public class HealthSystem : MonoBehaviour
         if (isDead) return;
         isDead = true;
 
+        if (LevelScoreManager.Instance != null)
+        {
+            LevelScoreManager.Instance.OnPlayerDeath();
+        }
+
         ProceduralTrapSFX.PlayPlayerDeathSound();
 
         // 1. Spielerbewegung und Physik einfrieren/ausschalten

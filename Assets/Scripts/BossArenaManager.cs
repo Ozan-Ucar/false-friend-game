@@ -194,6 +194,11 @@ public class BossArenaManager : MonoBehaviour
         phaseText.gameObject.SetActive(true);
         phaseText.alpha = 0f;
 
+        if (SceneSoundManager.Instance != null)
+        {
+            SceneSoundManager.Instance.PlayPhaseSound();
+        }
+
         // Einblenden
         float t = 0;
         while (t < 1f)
@@ -275,7 +280,13 @@ public class BossArenaManager : MonoBehaviour
             kappaBossSprite.gameObject.SetActive(false);
         }
 
-        // Sieges-Text
+        // Sieges-Text & Musik fade + Victory SFX
+        if (SceneSoundManager.Instance != null)
+        {
+            SceneSoundManager.Instance.FadeOutMusic(0.5f);
+            SceneSoundManager.Instance.PlayVictorySound();
+        }
+
         if (phaseText != null)
         {
             phaseText.text = "KAPPA BESIEGT!";

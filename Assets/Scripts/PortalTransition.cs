@@ -257,6 +257,11 @@ public class PortalTransition : MonoBehaviour
 
         image.color = Color.black;
 
+        if (LevelScoreManager.Instance != null)
+        {
+            LevelScoreManager.Instance.OnLevelCompleted(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
+        }
+
         // In der exakt selben Millisekunde, in der der Bildschirm 100% schwarz ist:
         // Wenn eine Cutscene zugewiesen ist, spielen wir sie ab. Sonst direkt die Szene laden!
         if (cutsceneBeforeNextScene != null && cutsceneBeforeNextScene.slides != null && cutsceneBeforeNextScene.slides.Count > 0)

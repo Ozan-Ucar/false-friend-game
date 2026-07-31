@@ -85,6 +85,7 @@ public class SceneSoundManager : MonoBehaviour
         ambienceSource.loop = true;
 
         sfxSource = gameObject.AddComponent<AudioSource>();
+        sfxSource.spatialBlend = 0f; // 2D Stereo Sound
 
         UnityEngine.SceneManagement.SceneManager.sceneLoaded += OnSceneLoaded;
 
@@ -104,8 +105,16 @@ public class SceneSoundManager : MonoBehaviour
         PlayMusicForScene(scene.name);
     }
 
+    private Coroutine musicFadeCoroutine;
+
     public void PlayMusicForScene(string sceneName)
     {
+        if (musicFadeCoroutine != null)
+        {
+            StopCoroutine(musicFadeCoroutine);
+            musicFadeCoroutine = null;
+        }
+
         string sceneLower = sceneName.ToLower();
 
         // Falls noch der alte SoundManager (mit der falschen menu_music) existiert, stoppen wir ihn
@@ -121,14 +130,17 @@ public class SceneSoundManager : MonoBehaviour
 
         if (musicSource != null)
         {
+            float targetVol = musicVolume > 0f ? musicVolume : 1f;
+            musicSource.volume = targetVol;
+
             if (backgroundMusic != null)
             {
                 if (musicSource.clip != backgroundMusic || !musicSource.isPlaying)
                 {
                     musicSource.clip = backgroundMusic;
-                    musicSource.volume = musicVolume;
+                    musicSource.Stop();
                     musicSource.Play();
-                    Debug.Log($"[{sceneName}] SceneSoundManager: Spiele Hintergrundmusik '{backgroundMusic.name}'");
+                    Debug.Log($"[{sceneName}] SceneSoundManager: Spiele Hintergrundmusik '{backgroundMusic.name}' (Volume: {targetVol})");
                 }
             }
             else
@@ -139,12 +151,15 @@ public class SceneSoundManager : MonoBehaviour
 
         if (ambienceSource != null)
         {
+            float targetAmb = ambienceVolume > 0f ? ambienceVolume : 1f;
+            ambienceSource.volume = targetAmb;
+
             if (ambienceSound != null)
             {
                 if (ambienceSource.clip != ambienceSound || !ambienceSource.isPlaying)
                 {
                     ambienceSource.clip = ambienceSound;
-                    ambienceSource.volume = ambienceVolume;
+                    ambienceSource.Stop();
                     ambienceSource.Play();
                 }
             }
@@ -157,12 +172,14 @@ public class SceneSoundManager : MonoBehaviour
 
     public void FadeOutMusic(float duration = 0.5f)
     {
-        StartCoroutine(FadeOutMusicRoutine(duration));
+        if (musicFadeCoroutine != null) StopCoroutine(musicFadeCoroutine);
+        musicFadeCoroutine = StartCoroutine(FadeOutMusicRoutine(duration));
     }
 
     public void FadeInMusic(float duration = 0.5f)
     {
-        StartCoroutine(FadeInMusicRoutine(duration));
+        if (musicFadeCoroutine != null) StopCoroutine(musicFadeCoroutine);
+        musicFadeCoroutine = StartCoroutine(FadeInMusicRoutine(duration));
     }
 
     private System.Collections.IEnumerator FadeOutMusicRoutine(float duration)
@@ -262,7 +279,7 @@ public class SceneSoundManager : MonoBehaviour
             if (backgroundMusic == null) backgroundMusic = LoadResourceAudio("CreditBackgroundmusic");
         }
         // 9. Title Screen (TittlescreenMusic)
-        else if (sceneLower.Contains("title") || sceneLower.Contains("main") || sceneLower.Contains("menu"))
+        else if (sceneLower.Contains("title") || sceneLower.Contains("main") || sceneLower.Contains("menu") || sceneLower.Contains("menue"))
         {
             if (backgroundMusic == null) backgroundMusic = LoadResourceAudio("TittlescreenMusic");
         }
@@ -349,7 +366,7 @@ public class SceneSoundManager : MonoBehaviour
 
     public void PlayCageDrop(float dropDuration)
     {
-        // Wir berechnen die genaue Zeit: Falldauer + deine manuelle Verschiebung im Inspector
+        if (cageDropSound == null) cageDropSound = LoadResourceAudio("CageDrop");
         float exactDelay = dropDuration + cageDropOffset;
         if (exactDelay < 0f) exactDelay = 0f; // Darf nicht negativ in die Zukunft gehen
 
@@ -358,7 +375,37 @@ public class SceneSoundManager : MonoBehaviour
 
     public void PlayCageFade()
     {
+        if (cageFadeSound == null) cageFadeSound = LoadResourceAudio("CageDrop");
         PlaySFX(cageFadeSound, cageFadeVolume, true);
+    }
+
+    public void PlayVictorySound()
+    {
+        AudioClip victory = LoadResourceAudio("VictorySfx");
+        if (victory != null)
+        {
+            PlaySFX(victory, 1.0f, false);
+        }
+    }
+
+    public void PlayPhaseSound()
+    {
+        AudioClip phase = LoadResourceAudio("PhaseSfx");
+        if (phase != null)
+        {
+            if (sfxSource != null) sfxSource.spatialBlend = 0f;
+            PlaySFX(phase, 1.0f, false);
+            PlaySFX(phase, 1.0f, false); // Doppel-Play für kräftige Lautstärke (+6dB Boost)
+        }
+    }
+
+    public void PlayPlayerHurt()
+    {
+        AudioClip damageClip = LoadResourceAudio("PlayerDamageSfx");
+        if (damageClip != null)
+        {
+            PlaySFX(damageClip, 1.0f, true);
+        }
     }
 
     public void PlayFootstep()

@@ -265,9 +265,15 @@ public class InteractableDoor : MonoBehaviour
 
         // In der exakt selben Millisekunde, in der der Bildschirm 100% schwarz ist:
         // Wenn eine Cutscene zugewiesen ist, spielen wir sie ab. Sonst direkt die Szene laden!
+        string currentScene = SceneManager.GetActiveScene().name;
+        if (LevelScoreManager.Instance != null)
+        {
+            LevelScoreManager.Instance.OnLevelCompleted(currentScene);
+        }
+
         string sceneToLoad = !string.IsNullOrEmpty(targetSceneName)
             ? targetSceneName
-            : SceneManager.GetActiveScene().name;
+            : currentScene;
 
         if (cutsceneBeforeNextScene != null && cutsceneBeforeNextScene.slides != null && cutsceneBeforeNextScene.slides.Count > 0)
         {

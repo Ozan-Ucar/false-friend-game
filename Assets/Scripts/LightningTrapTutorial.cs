@@ -44,6 +44,12 @@ public class LightningTrapTutorial : MonoBehaviour
 
     private static HashSet<string> completedTutorials = new HashSet<string>();
 
+    public bool IsTutorialPendingOrActive()
+    {
+        if (playOncePerSession && !completedTutorials.Contains(tutorialID)) return true;
+        return false;
+    }
+
     private PlayerMovement player;
     private Animator playerAnim;
     private GameObject createdTopCanvasObj;

@@ -543,6 +543,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ArrowTrap
       objectReference: {fileID: 0}
+    - target: {fileID: 6934922908408758416, guid: 230b54dfcd898f54c92584ddcc1e537f, type: 3}
+      propertyPath: damage
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -834,7 +838,7 @@ MonoBehaviour:
   animLevel1: LowCeilingTrapAnim
   animLevel2: MidCeilingTrapAnim
   animLevel3: HighCeilingTrapAnim
-  damage: 1
+  damage: 2
   damageCollider: {fileID: 730385504}
   preFireDelay: 0
   damageStartDelay: 0.2
@@ -1560,7 +1564,7 @@ MonoBehaviour:
   animLevel1: LowCeilingTrapAnim
   animLevel2: MidCeilingTrapAnim
   animLevel3: HighCeilingTrapAnim
-  damage: 1
+  damage: 2
   damageCollider: {fileID: 729621257}
   preFireDelay: 0
   damageStartDelay: 0.4
@@ -5613,6 +5617,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: HighFireTrap
       objectReference: {fileID: 0}
+    - target: {fileID: 2782931463888701971, guid: 7b9ae7e8c542dc44f8e06a312f8ab813, type: 3}
+      propertyPath: damage
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5972,7 +5980,7 @@ MonoBehaviour:
   animLevel1: LowCeilingTrapAnim
   animLevel2: MidCeilingTrapAnim
   animLevel3: HighCeilingTrapAnim
-  damage: 1
+  damage: 2
   damageCollider: {fileID: 1147061003}
   preFireDelay: 0
   damageStartDelay: 0

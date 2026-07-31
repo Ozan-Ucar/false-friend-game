@@ -69,6 +69,13 @@ public class LevelTrapTutorial : MonoBehaviour
     private int currentIndex = 0;
     private GameObject currentArrowInstance;
     private bool isTutorialActive = false;
+
+    public bool IsTutorialPendingOrActive()
+    {
+        if (isTutorialActive) return true;
+        if (playOncePerSession && !completedTutorials.Contains(tutorialID)) return true;
+        return false;
+    }
     private PlayerMovement playerMovement;
     private PlayerInput playerInput;
     private Rigidbody2D playerRb;

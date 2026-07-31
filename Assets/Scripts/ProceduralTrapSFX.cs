@@ -28,8 +28,10 @@ public class ProceduralTrapSFX : MonoBehaviour
     private AudioClip laserClip;
     private AudioClip laserWarningClip;
     private AudioClip cannonClip;
+    private AudioClip lightningRod2FileClip;
     private AudioClip bounceClip;
     private AudioClip playerHurtClip;
+    private AudioClip playerDamageFileClip;
     private AudioClip playerDeathClip;
     private AudioClip dialogBlipClip;
     private AudioClip waterHandClip;
@@ -77,7 +79,7 @@ public class ProceduralTrapSFX : MonoBehaviour
         if (lightningClips == null || lightningClips.Length == 0)
         {
             System.Collections.Generic.List<AudioClip> lClips = new System.Collections.Generic.List<AudioClip>();
-            for (int i = 1; i <= 4; i++)
+            for (int i = 1; i <= 3; i++)
             {
                 AudioClip c = LoadResourceAudio("LightningRod" + i);
                 if (c != null) lClips.Add(c);
@@ -658,7 +660,12 @@ public class ProceduralTrapSFX : MonoBehaviour
     public static void PlayLaserSound()
     {
         EnsureInstance();
-        Instance.audioSource.PlayOneShot(Instance.laserClip, 0.9f);
+        if (Instance.lightningRod2FileClip == null) Instance.lightningRod2FileClip = LoadResourceAudio("LightningRod2");
+
+        if (Instance.lightningRod2FileClip != null)
+            Instance.audioSource.PlayOneShot(Instance.lightningRod2FileClip, 1.0f);
+        else if (Instance.laserClip != null)
+            Instance.audioSource.PlayOneShot(Instance.laserClip, 0.9f);
     }
 
     public static void PlayLaserWarningSound()
@@ -721,7 +728,12 @@ public class ProceduralTrapSFX : MonoBehaviour
     public static void PlayCannonSound()
     {
         EnsureInstance();
-        Instance.audioSource.PlayOneShot(Instance.cannonClip, 1.0f);
+        if (Instance.mushroomExplosionFileClip == null) Instance.mushroomExplosionFileClip = LoadResourceAudio("PilzExplosionSFX");
+
+        if (Instance.mushroomExplosionFileClip != null)
+            Instance.audioSource.PlayOneShot(Instance.mushroomExplosionFileClip, 1.0f);
+        else if (Instance.cannonClip != null)
+            Instance.audioSource.PlayOneShot(Instance.cannonClip, 1.0f);
     }
 
     private static AudioClip GenerateCannonClip()
@@ -790,7 +802,12 @@ public class ProceduralTrapSFX : MonoBehaviour
     public static void PlayPlayerHurtSound()
     {
         EnsureInstance();
-        Instance.audioSource.PlayOneShot(Instance.playerHurtClip, 0.85f);
+        if (Instance.playerDamageFileClip == null) Instance.playerDamageFileClip = LoadResourceAudio("PlayerDamageSfx");
+
+        if (Instance.playerDamageFileClip != null)
+            Instance.audioSource.PlayOneShot(Instance.playerDamageFileClip, 1.0f);
+        else if (Instance.playerHurtClip != null)
+            Instance.audioSource.PlayOneShot(Instance.playerHurtClip, 0.85f);
     }
 
     public static void PlayPlayerDeathSound()

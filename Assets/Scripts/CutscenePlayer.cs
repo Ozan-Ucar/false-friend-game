@@ -44,6 +44,7 @@ public class CutscenePlayer : MonoBehaviour
 
     // Input State
     private bool isPlaying = false;
+    public bool IsPlaying => isPlaying;
     private bool wantsSkip = false;
     private bool skipAll = false;
 

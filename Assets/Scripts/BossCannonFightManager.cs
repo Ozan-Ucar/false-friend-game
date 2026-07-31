@@ -132,9 +132,9 @@ public class BossCannonFightManager : MonoBehaviour
             }
 
             // Sound
-            if (SceneSoundManager.Instance != null && SceneSoundManager.Instance.stoneHitSound != null)
+            if (SceneSoundManager.Instance != null)
             {
-                SceneSoundManager.Instance.PlaySFX(SceneSoundManager.Instance.stoneHitSound);
+                SceneSoundManager.Instance.PlayPhaseSound();
             }
 
             yield return new WaitForSeconds(2f);
@@ -179,6 +179,12 @@ public class BossCannonFightManager : MonoBehaviour
         if (rightCannon != null) rightCannon.SetActive(false);
         if (leftCannon != null) leftCannon.SetActive(false);
         if (laserCannon != null) laserCannon.SetActive(false);
+
+        if (SceneSoundManager.Instance != null)
+        {
+            SceneSoundManager.Instance.FadeOutMusic(0.5f);
+            SceneSoundManager.Instance.PlayVictorySound();
+        }
 
         if (phaseText != null)
         {
